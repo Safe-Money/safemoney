@@ -39,7 +39,7 @@ Este projeto é licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE)
 
 ## Agradecimentos
 
-![Logo]()
+![Logo](./src/assets/icon2].png)
 
 
 Obrigado por escolher o Safe Money para o controle de suas finanças!
