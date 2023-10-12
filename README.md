@@ -28,7 +28,11 @@ Safe Money é uma aplicação projetada para ajudar os usuários a controlar e m
 
 3. Instale as dependências
 
+- npm install
+
 4. Inicie o aplicativo
+
+- npm run dev
 
 6. Abra o aplicativo em seu navegador em `http://localhost`.
 
@@ -38,8 +42,7 @@ Safe Money é uma aplicação projetada para ajudar os usuários a controlar e m
 Este projeto é licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para obter mais detalhes.
 
 ## Agradecimentos
-
-![Logo](./src/assets/icon2].png){:width="100px"}
-
-
 Obrigado por escolher o Safe Money para o controle de suas finanças!
+<div style="text-align:center;">
+  <img src="./src/assets/icon2].png" width="100px">
+</div>
