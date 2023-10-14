@@ -13,6 +13,7 @@ import { Icon } from "./funcoes/Icons";
 import { Oferecemos } from "./funcoes/Oferecemos";
 import { estilo, graficos } from "./funcoes/Graficos";
 
+
 const Section = styled.section`
     width: 90%;
     margin: auto;
