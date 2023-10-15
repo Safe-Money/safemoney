@@ -7,7 +7,7 @@ function Login() {
     <div className="container">
       <header className="header">
         <img className="loginImg" src={logo} alt="Logo" />
-        <span>Bem Vindo!</span>
+        <span>Bem Vindo</span>
       </header>
       <form>
         <div className="inputContainer">
@@ -19,7 +19,7 @@ function Login() {
           <input type="password" name="senha" id="senha" required="required" />
           <label htmlFor="senha">Senha</label>
         </div>
-        <span>
+        <span  className="forgot-password">
           Esqueceu a senha? <a href="/">Clique aqui</a>
         </span>
 
