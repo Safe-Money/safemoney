@@ -24,7 +24,7 @@
 }
 
 /* Estilos para o cabeçalho */
-.container .header {
+.header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -84,6 +84,7 @@
     border: 1px solid #08632D;
     background: #FDFDFD;
     transition: border-color 0.2s ease-in-out;
+    font-size: 16px;
 }
 
 /* Efeitos de entrada ao receber foco */
@@ -137,26 +138,6 @@
     font-weight: 500;
     line-height: 24px;
     letter-spacing: 0.8px;
-}
-
-/* Estilos para botões */
-.container form button {
-    display: flex;
-    width: 393px;
-    height: 52px;
-    padding: 25px;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 5px;
-    background: #08632D;
-    color: #FDFDFD;
-    font-family: Montserrat;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: 0.9px;
-    border: #08632D;
-    align-items: center;
 }
 
 /* Efeito de botão ao passar o mouse */
