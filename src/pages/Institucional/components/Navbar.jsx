@@ -5,12 +5,13 @@ import { Button } from '../../../components/ButtonNav';
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
-  margin: 0px 0% 0px 0%;
+  margin: auto;
   align-items: center;
   font-size: 13px;
   padding: 10px;
   color: #5F5F5F;
   font-weight:bold;
+  width: 85%;
 
   a {
     color: #5F5F5F;
@@ -49,7 +50,7 @@ const Bottoms = styled.div`
 
   a {
     font-size: 12px;
-    color: #399B53;
+    color: #08632D;
     font-weight: bold;
     text-decoration: none;
     margin-right: 20px;
@@ -77,7 +78,7 @@ function Navbar() {
       <Bottoms>
         <a href="#">Login</a>
 
-        <Button bg="#399B53" color="white">
+        <Button bg="#08632D" color="white">
           Cadastro
         </Button>
       </Bottoms>

@@ -19,7 +19,7 @@ const Divisoria = styled.div`
 const Title = styled.p`
     font-size: 50px;
     font-weight: bolder;
-    color: #399B53;
+    color: #08632D;
 `
 
 const Subtitle = styled.p`

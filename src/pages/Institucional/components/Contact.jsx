@@ -62,9 +62,9 @@ function Contact() {
                     </Subtitle>
 
                     <Bottoms>
-                        <Button bg="#399B53" color="white">Fale Conosco</Button>
-                        <Button bg="white" color="#399B53"
-                        borda="#399B53">Ligue</Button>
+                        <Button bg="#08632D" color="white">Fale Conosco</Button>
+                        <Button bg="white" color="#08632D"
+                        borda="#08632D">Ligue</Button>
                     </Bottoms>
                 </Column>
             </Flex>

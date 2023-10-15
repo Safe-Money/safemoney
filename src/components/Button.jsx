@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export const Button = styled.button`
     background-color: ${props => props.bg};
-    border: ${props => props.borda ? 'solid 1px #399B53': 'hidden'};
+    border: ${props => props.borda ? 'solid 1px #08632D': 'hidden'};
     color: ${props => props.color ? props.color : 'black'};
     height: 53px;
     width: 161px;

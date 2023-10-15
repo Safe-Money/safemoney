@@ -19,7 +19,7 @@ const Section = styled.section`
     margin: auto;
 
     a {
-        color: #399B53;
+        color: #08632D;
     }
 
     .subtitulo {
@@ -99,7 +99,7 @@ const Text = styled.div`
 
 const TxtAccess = styled.p`
     font-size: 16px;
-    color: #399B53;
+    color: #08632D;
     text-transform: uppercase;
     font-weight: bolder;
 `
@@ -151,11 +151,11 @@ function Index() {
                         </div>
 
                         <Bottoms className="scroll-reveal-element" >
-                            <Button bg='#399B53' color='white'className="scroll-reveal-element" >
+                            <Button bg='#08632D' color='white'className="scroll-reveal-element" >
                                 Cadastre-se
                             </Button>
 
-                            <Button bg='white' color='#399B53' borda="#399B53"className="scroll-reveal-element" >
+                            <Button bg='white' color='#08632D' borda="#08632D"className="scroll-reveal-element" >
                                 Saiba mais
                             </Button>
                         </Bottoms>

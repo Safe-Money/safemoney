@@ -66,7 +66,7 @@ font-weight: 400;
 `
 
 const Nome = styled.p`
-color: #399B53;
+color: #08632D;
 font-size: 16px;
 font-weight: 700;
 margin-left: 10px;

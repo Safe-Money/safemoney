@@ -40,7 +40,7 @@ const Icon = styled.div`
     display: flex;
     height: 8vh;
     width: 4vw;
-    background-color: #399B53;
+    background-color: #08632D;
 
     img{
         height: 28px;
@@ -49,7 +49,7 @@ const Icon = styled.div`
 `
 
 const Line = styled.div`
-    background-color: #399B53;
+    background-color: #08632D;
     height: 2px;
     border-radius: 5px;
     width: 20%
