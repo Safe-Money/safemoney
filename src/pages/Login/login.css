@@ -1,18 +1,8 @@
 /* Reset de estilos e configuração global */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-}
 
-/* Estilos globais para fontes */
-html, body {
-    font-family: 'Montserrat', sans-serif;
-}
 
 /* Estilos para imagens */
-img {
+.loginImg {
     width: 130px;
     height: 130px;
     flex-shrink: 0;
@@ -168,8 +158,7 @@ img {
 /* Estilos para o rodapé */
 .container form .footer {
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    align-items: center;
     gap: 5px;
 }
 

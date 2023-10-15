@@ -6,7 +6,7 @@ function Login() {
   return (
     <div className="container">
       <header className="header">
-        <img src={logo} alt="Logo" />
+        <img className="loginImg" src={logo} alt="Logo" />
         <span>Bem Vindo!</span>
       </header>
       <form>
