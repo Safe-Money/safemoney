@@ -9,7 +9,16 @@ import LateralHeader from "./Componentes/LateralHeader";
 const AllContainers = styled.div`
   display: flex;
   margin: 0;
+  height:100vh;
+  box-sizing: border-box;
+  overflow-y:hidden;
+
+  *{
+    box-sizing: border-box;
+  }
 `;
+
+
 
 const Social = styled.div`
 display:flex;
