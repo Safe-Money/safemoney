@@ -16,6 +16,9 @@ import positivoIcon from '../../../assets/positivo 2.svg';
 import transferenciaIcon from '../../../assets/transferencia.svg';
 import notificacaoIcon from '../../../assets/sino-de-notificacao 2.svg';
 import contasIcon from '../../../assets/ContasIcon.svg';
+import lazerIcon from '../../../assets/lazer.svg';
+import medicoIcon from '../../../assets/medico.svg';
+import comidaIcon from '../../../assets/comida.svg';
 
 
 const icons = {
@@ -36,7 +39,10 @@ const icons = {
     positivoIcon,
     transferenciaIcon,
     notificacaoIcon,
-    contasIcon
+    contasIcon,
+    lazerIcon,
+    medicoIcon,
+    comidaIcon
 }
 
 export const Icon = (icon) => {

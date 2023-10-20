@@ -34,7 +34,7 @@ flex-direction:column;
 
 .titulos-categoria{
     display:flex;
-    width:95%;
+    width:93%;
     height:25px;
     font-size:12px;
     font-weight:500;
@@ -42,6 +42,11 @@ flex-direction:column;
 .titulos-categoria .categoria{
     display:flex;
     width:20%;
+    justify-content:center;
+}
+.titulos-categoria .descricao{
+    display:flex;
+    width:25%;
     justify-content:center;
 }
 .titulos-categoria .valor{
@@ -58,7 +63,7 @@ flex-direction:column;
 }
 .titulos-categoria .parcelas{
     display:flex;
-    width:30%;
+    width:10%;
     justify-content:center;
 
 }
@@ -111,7 +116,13 @@ flex-direction:column;
 }
 .icone-lista img{
     border-radius:50%;
-    width:40%
+    width:40%;
+}
+.container-lista .descricao-lista{
+    width:25%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 .container-lista .valor-lista{
     width:20%;
@@ -126,7 +137,7 @@ flex-direction:column;
     align-items:center;
 }
 .container-lista .parcelas-lista{
-    width:30%;
+    width:10%;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -175,7 +186,10 @@ function UltimosGastos() {
                 <div className="conteudo-lista">
                     <div className="titulos-categoria">
                         <div className="categoria">
-                            categoria
+                            Categoria
+                        </div>
+                        <div className="descricao">
+                            Descrição
                         </div>
                         <div className="valor">
                             Valor
@@ -196,47 +210,52 @@ function UltimosGastos() {
 
                         <div className="container-lista">
                             <span className="icone-lista">
-                                <img src={Icon('bradescoIcon')} />
+                                <img src={Icon('lazerIcon')} />
                             </span>
+                            <span className="descricao-lista">Carrefour Express</span>
                             <span className="valor-lista">R$50,00</span>
                             <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista"></span>
+                            <span className="parcelas-lista">1/2</span>
                             <span className="conta-lista">Itaú</span>
                         </div>
                         <div className="container-lista">
                             <span className="icone-lista">
-                                <img src={Icon('bradescoIcon')} />
+                                <img src={Icon('comidaIcon')} />
                             </span>
+                            <span className="descricao-lista">Carrefour Express</span>
                             <span className="valor-lista">R$50,00</span>
                             <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista"></span>
+                            <span className="parcelas-lista">1/2</span>
                             <span className="conta-lista">Itaú</span>
                         </div>
                         <div className="container-lista">
                             <span className="icone-lista">
-                                <img src={Icon('bradescoIcon')} />
+                                <img src={Icon('comidaIcon')} />
                             </span>
+                            <span className="descricao-lista">Carrefour Express</span>
                             <span className="valor-lista">R$50,00</span>
                             <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista"></span>
+                            <span className="parcelas-lista">1/2</span>
                             <span className="conta-lista">Itaú</span>
                         </div>
                         <div className="container-lista">
                             <span className="icone-lista">
-                                <img src={Icon('bradescoIcon')} />
+                                <img src={Icon('medicoIcon')} />
                             </span>
+                            <span className="descricao-lista">Carrefour Express</span>
                             <span className="valor-lista">R$50,00</span>
                             <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista"></span>
+                            <span className="parcelas-lista">1/2</span>
                             <span className="conta-lista">Itaú</span>
                         </div>
                         <div className="container-lista">
                             <span className="icone-lista">
-                                <img src={Icon('bradescoIcon')} />
+                                <img src={Icon('lazerIcon')} />
                             </span>
+                            <span className="descricao-lista">Carrefour Express</span>
                             <span className="valor-lista">R$50,00</span>
                             <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista"></span>
+                            <span className="parcelas-lista">1/2</span>
                             <span className="conta-lista">Itaú</span>
                         </div>
                     </div>

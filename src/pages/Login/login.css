@@ -1,5 +1,6 @@
 *{
     text-decoration: none;
+    
 }
 
 
@@ -17,6 +18,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    height: 90vh;
 }
 
 /* Estilos para o cabeçalho */

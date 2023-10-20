@@ -1,15 +1,36 @@
 import React from 'react';
 import { Icon } from '../funcoes/icons';
 
-const CartaoContainer = ({ origem, categoria, valor }) => {
+function formatarValorMoeda(valor) {
+  if (typeof valor !== 'number') {
+    return '';
+  }
+
+  const valorFormatado = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(valor);
+
+  return valorFormatado;
+}
+
+
+const CartaoContainer = ({ origem, valor,bandeira,vencimento }) => {
+
+  console.log('Props no CartaoContainer:', { origem, valor, bandeira, vencimento });
+  const origemCartao = origem;
+
+  const origemAbreviada = origemCartao.slice(0, 4).charAt(0).toUpperCase() + origemCartao.slice(1, 4);
+
+
   return (
     <div className="containers">
       <div className="icon">
-        <img src={Icon(`${origem.toLowerCase()}Icon`)} alt={origem} />
+        <img src={Icon(`${bandeira.toLowerCase()}Icon`)} alt={bandeira} />
       </div>
-      <div className="nomeBanco">{categoria}<span>Vinculada a {categoria}</span></div>
-      <div className="vencimentoBanco">{origem}</div>
-      <div className="saldoBanco">R$ {valor}</div>
+      <div className="nomeBanco">Cartão-{origemAbreviada}<span>Vinculada a {origem}</span></div>
+      <div className="vencimentoBanco">{vencimento}</div>
+      <div className="saldoBanco">{formatarValorMoeda(parseFloat(valor))}</div>
     </div>
   );
 };

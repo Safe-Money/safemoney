@@ -12,7 +12,7 @@ function Login() {
         <Input type="text" name="email" id="email" label="E-mail" />
         <Input type="password" name="senha" id="senha" label="Senha" />
 
-        <span>Esqueceu a senha? <a href="/">Clique aqui</a></span>
+        <span className='esqueceuSenha'>Esqueceu a senha? <a href="/">Clique aqui</a></span>
 
         <Button bg="#08632D" color='white' width="100%">
           Entrar

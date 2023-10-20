@@ -42,7 +42,7 @@ background-color:#FDFDFD;
 .containerBancoScroll{
     overflow:scroll;
     overflow-x:hidden;
-    height:70%;
+    height:100%;
     width:100%;
 }
 
@@ -101,7 +101,7 @@ background-color:#FDFDFD;
     height:70px;
     width:50%;
     align-items:flex-start;
-    font-size:20px;
+    font-size:16px;
     justify-content:center;
     flex-direction:column;
 
@@ -170,15 +170,29 @@ function MinhasContas() {
     };
 
     const handleSalvarConta = (novaConta) => {
-        novaConta.saldo = parseFloat(novaConta.saldo);
+        const saldoString = novaConta.saldo.toString();
+
+            const saldoNumerico = parseFloat(saldoString.replace(/[^\d.-]/g, '')); // Remove caracteres não numéricos
+
+    // Verifica se o saldo é um número válido
+    if (!isNaN(saldoNumerico) && saldoNumerico >= 0) {
+      novaConta.saldo = saldoNumerico;
+      // Adiciona a nova conta ao estado
+        novaConta.banco = capitalizeFirstLetter(novaConta.banco); // Capitalizar a primeira letra do banco
         setContas([...contas, novaConta]);
         setNovaConta({
-            banco: '',
-            tipoConta: '',
-            saldo: ''
+          banco: '',
+          tipoConta: '',
+          saldo: ''
         });
         closeModal();
-    };
+    } else {
+        // Mostra uma mensagem de erro ou lida com o erro de outra forma
+        console.error('Saldo inválido');
+      }
+  
+      };
+      
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setNovaConta({
@@ -190,6 +204,12 @@ function MinhasContas() {
     const contasRenderizadas = contas.map((conta, index) => (
         <ContaContainer key={index} banco={conta.banco} tipoConta={conta.tipoConta} saldo={conta.saldo} />
     ));
+
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      };
+
+    
 
     return (
         <>

@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
 
 const Header = styled.div`
-border: solid 1px black;
 width: 14.4%;
 border-top-right-radius: 8px;
 border-bottom-right-radius: 8px;
 background-color:#08632D;
+padding: 5% 0 0 0;
 position:relative;
 `
 const PerfilNome = styled.div`
@@ -128,7 +128,7 @@ function LateralHeader() {
                         Bem Vindo!
                     </div>
                     <div className="nome">
-                        Nome
+                        Gabriel
                     </div>
 
                 </PerfilNome>

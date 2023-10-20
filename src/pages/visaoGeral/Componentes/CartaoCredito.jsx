@@ -41,7 +41,7 @@ background-color:#FDFDFD;
 .containerBancoScroll{
     overflow:scroll;
     overflow-x:hidden;
-    height:70%;
+    height:130%;
     width:100%;
 }
 
@@ -100,7 +100,7 @@ background-color:#FDFDFD;
     height:70px;
     width:30%;
     align-items:center;
-    font-size:20px
+    font-size:16px;
 
 }
 .containerBanco .containers .vencimentoBanco{
@@ -108,7 +108,7 @@ background-color:#FDFDFD;
     height:70px;
     width:30%;
     align-items:center;
-    font-size:20px;
+    font-size:16px;
     justify-content:center;
 
 }
@@ -118,7 +118,7 @@ background-color:#FDFDFD;
     width:30%;
     align-items:start;
     justify-content:center;
-    font-size:20px;
+    font-size:16px;
     flex-direction:column;
 
 }
@@ -185,8 +185,6 @@ background-color:#FDFDFD;
     justify-content:start;
 }
 
-
-
 `
 
 function CartaoCredito() {
@@ -194,9 +192,11 @@ function CartaoCredito() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [contas, setContas] = useState([]);
     const [novaConta, setNovaConta] = useState({
+        // categoria: '',
         valor: '',
-        categoria: '',
-        origem: ''
+        origem: '',
+        bandeira: '',
+        vencimento: ''
     })
     const openModal = () => {
         setIsModalOpen(true);
@@ -207,16 +207,30 @@ function CartaoCredito() {
         setIsModalOpen(false);
     };
 
+    
+
     const handleSalvarConta = (novaConta) => {
-        novaConta.saldo = parseFloat(novaConta.saldo);
+        console.log(novaConta)
+        const valorString = novaConta.valor.toString();
+        console.log(valorString)
+        
+        const valorNumerico = parseFloat(valorString.replace(/[^\d.-]/g, '')); // Remove caracteres não numéricos
+        console.log(valorNumerico)
+
+        novaConta.valor = parseFloat(valorNumerico);
         setContas([...contas, novaConta]);
         setNovaConta({
+            // categoria: '',
             valor: '',
-            categoria: '',
-            origem: ''
+            origem: '',
+            bandeira: '',
+            vencimento: ''
         });
         closeModal();
     };
+
+
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setNovaConta({
@@ -226,8 +240,15 @@ function CartaoCredito() {
     };
 
     const contasRenderizadas = contas.map((conta, index) => (
-        <CartaoContainer key={index} valor={conta.valor} categoria={conta.categoria} origem={conta.origem} />
-    ));
+        <CartaoContainer 
+          key={index} 
+          origem={conta.origem} 
+          valor={conta.valor} 
+          bandeira={conta.bandeira} 
+          vencimento={conta.vencimento} 
+        />
+      ));
+      
 
     return (
         <>
@@ -253,7 +274,7 @@ function CartaoCredito() {
                 <div className="containerBancoScroll">
 
                     <div className="containerBanco">
-                    {contasRenderizadas}
+                        {contasRenderizadas}
 
                         <div className="containers">
                             <div className="icon">
@@ -262,6 +283,7 @@ function CartaoCredito() {
                             </div>
                             <div className="nomeBanco">
                                 Cartão-Brad
+                                <span>Vinculada a Bradesco</span>
                             </div>
                             <div className="vencimentoBanco">
                                 01/10
@@ -278,6 +300,7 @@ function CartaoCredito() {
                             </div>
                             <div className="nomeBanco">
                                 Cartão-Itau
+                                <span>Vinculada a Itaú</span>
                             </div>
                             <div className="vencimentoBanco">
                                 01/10
@@ -293,6 +316,7 @@ function CartaoCredito() {
                             </div>
                             <div className="nomeBanco">
                                 Cartão-Sant
+                                <span>Vinculada a Santander</span>
                             </div>
                             <div className="vencimentoBanco">
                                 01/10
@@ -332,14 +356,3 @@ function CartaoCredito() {
 }
 
 export default CartaoCredito;
-
-
-// const ContainerCartaoCredito = styled.div`
-// display:flex;
-// height:47%;
-// width:100%;
-// border:solid 1px green;
-// border-radius:10px;
-
-// `
-

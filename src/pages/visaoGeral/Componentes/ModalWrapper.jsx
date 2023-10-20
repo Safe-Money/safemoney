@@ -129,28 +129,117 @@ box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
 `;
 
 const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
-  const [banco, setBanco] = useState('');
+  // const [banco, setBanco] = useState('');
   const [tipoConta, setTipoConta] = useState('');
   const [saldo, setSaldo] = useState('');
-  const [valor, setValor] = useState('');
   const [selectedBanco, setSelectedBanco] = useState('');
   const [selectedTipoConta, setSelectedTipoConta] = useState('');
-  
 
 
 
+  const [camposTocados, setCamposTocados] = useState({
+    banco: false,
+    tipoConta: false,
+    saldo: false
+  });
+
+  // Salvar os dados das inputs/select
   const handleSalvar = () => {
+    const camposNaoTocados = {
+      banco: !camposTocados.banco,
+      tipoConta: !camposTocados.tipoConta,
+      saldo: !camposTocados.saldo
+    };
+
+    setCamposTocados({
+      banco: camposTocados.banco || camposNaoTocados.banco,
+      tipoConta: camposTocados.tipoConta || camposNaoTocados.tipoConta,
+      saldo: camposTocados.saldo || camposNaoTocados.saldo
+    });
+
+    if (camposNaoTocados.banco || camposNaoTocados.tipoConta || camposNaoTocados.saldo) {
+      // Se nenhum campo foi tocado, mostra as bordas vermelhas
+      setCamposTocados({
+        banco: true,
+        tipoConta: true,
+        saldo: true
+      });
+      return;
+    }
+
+
+    if (!selectedBanco || !selectedTipoConta || !saldo) {
+      // Mostra uma mensagem de erro, você pode adicionar uma lógica aqui para lidar com a mensagem de erro
+      console.error('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
+    const saldoNumerico = parseFloat(saldo.replace(/[^\d,.-]/g, '').replace(',', '.'));
     const novaConta = {
       banco: selectedBanco,
-      tipoConta:selectedTipoConta,
-      saldo: parseFloat(saldo)
+      tipoConta: selectedTipoConta,
+      saldo: parseFloat(saldoNumerico)
     };
     onSave(novaConta);
     setTipoConta('');
     setSaldo('');
     setSelectedBanco('');
     onClose();
+    resetCamposTocados();
   };
+
+
+  //Resetar campos ao adicionar conta ou cancelar
+  const resetCamposTocados = () => {
+    setCamposTocados({
+      banco: false,
+      tipoConta: false,
+      saldo: false
+    });
+  };
+
+
+  //Resetar campos ao cancelar
+  const handleCancelarClick = () => {
+    onClose();
+    resetarCampos();
+  };
+
+
+  const [valorAmortizar, setValorAmortizar] = useState('');
+
+  const handleValorChange = (e) => {
+    const valorDigitado = e.target.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
+    setValorAmortizar(valorDigitado);
+    formatarValorNoInput(valorDigitado);
+  };
+
+
+
+  const formatarValorNoInput = (saldo) => {
+    const valorFormatado = formatarMoeda(saldo);
+    // // Atualize o valor no estado
+    setSaldo(valorFormatado);
+  };
+
+
+  const formatarMoeda = (saldo) => {
+    const valorNumerico = parseFloat(saldo) / 100; // Converte centavos para reais
+    const valorFormatado = valorNumerico.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+    return valorFormatado;
+  };
+
+  const resetarCampos = () => {
+    setSaldo('');
+    setSelectedBanco('');
+    setSelectedTipoConta('');
+    resetCamposTocados();
+  };
+
+
 
   if (!isOpen) return null;
 
@@ -166,42 +255,58 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
 
 
         <LabelInput>
-          <div class="label">Banco</div>
+          <div className="label">Banco</div>
           <BancoSelect
-          value={selectedBanco}
-          onChange={(e) => setSelectedBanco(e.target.value)}
-        >
-          <option value="">Selecione um banco</option>
-          <option value="bradesco">Bradesco</option>
-          <option value="itau">Itaú</option>
-          <option value="santander">Santander</option>
-        </BancoSelect>
+            id="select_banco"
+            value={selectedBanco}
+            onChange={(e) => {
+              setSelectedBanco(e.target.value);
+              setCamposTocados({ ...camposTocados, banco: true });
+            }}
+            style={{ borderColor: camposTocados.banco && !selectedBanco ? 'red' : '' }}
+          >
+            <option value="">Selecione um banco</option>
+            <option value="bradesco">Bradesco</option>
+            <option value="itau">Itaú</option>
+            <option value="santander">Santander</option>
+          </BancoSelect>
         </LabelInput>
         <LabelInput>
-          <div class="label">Tipo de Conta</div>
+          <div className="label">Tipo de Conta</div>
           <StyledSelect
+            id="select_tipoConta"
             value={selectedTipoConta}
-            onChange={(e) => setSelectedTipoConta(e.target.value)}
+            onChange={(e) => {
+              setSelectedTipoConta(e.target.value);
+              setCamposTocados({ ...camposTocados, tipoConta: true });
+            }}
+            style={{ borderColor: camposTocados.tipoConta && !selectedTipoConta ? 'red' : '' }}
           >
+
             <option value="">Selecione o tipo de conta</option>
             <option value="corrente">Conta Corrente</option>
             <option value="poupanca">Conta Poupança</option>
           </StyledSelect>
         </LabelInput>
         <LabelInput>
-          <div class="label">Saldo</div>
+        <div className="label">Saldo</div>
           <input
+            id="select_saldo"
             type="text"
             className="input-field"
             name="saldo"
             value={saldo}
-            onChange={(e) => setSaldo(e.target.value)}
+            onChange={(e) => {
+              handleValorChange(e);
+              setCamposTocados({ ...camposTocados, saldo: true });
+            }}
+            style={{ borderColor: camposTocados.saldo && !saldo ? 'red' : '' }}
           />
         </LabelInput>
 
 
         <Button>
-          <button onClick={onClose} className='cancelar'>Cancelar</button>
+          <button onClick={handleCancelarClick} className='cancelar'>Cancelar</button>
           <button className='adicionar-btn' onClick={handleSalvar} >Adicionar</button>
         </Button>
 
