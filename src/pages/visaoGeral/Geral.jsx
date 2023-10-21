@@ -23,6 +23,7 @@ const AllContainers = styled.div`
 const Social = styled.div`
 display:flex;
 width:95.6%;
+height:100%;
 padding:10px 20px;
 justify-content:space-between;
 background-color:#DBE7E0;
