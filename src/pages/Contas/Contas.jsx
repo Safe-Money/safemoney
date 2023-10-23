@@ -8,7 +8,6 @@ import SaldoProjetado from "./Componentes/SaldoProjetado"
 
 const AllContainers = styled.div`
   display: flex;
-  margin: 0;
   height:100vh;
   box-sizing: border-box;
   overflow-y:hidden;

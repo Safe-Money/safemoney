@@ -11,6 +11,7 @@ const Container = styled.div`
 `
 
 const Avaliacoes = styled.p`
+margin: 5% 0;
     color: #08632D;
     font-size: 14px;
     text-transform: uppercase;

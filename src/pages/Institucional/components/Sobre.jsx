@@ -14,6 +14,7 @@ const Cabecalho = styled.div`
 `
 
 const TitAccess = styled.p`
+    margin: 3% 0 3% 0;
     font-size: 40px;
     font-weight: bold;
 `
@@ -49,6 +50,7 @@ const Topico = styled.div`
     font-weight: bolder;
     align-items: center;
     width: 30vw;
+    margin: 4% 0;
     justify-content: space-between;
 
 
@@ -60,6 +62,7 @@ const Topico = styled.div`
 
 
 const TitSeg = styled.p`
+    margin-bottom: 5%;
     font-size: 25px;
     font-weight: bolder;
     width: 70%; 
@@ -71,6 +74,7 @@ const Text = styled.div`
     .text{
         color: #737373;
         font-weight: 500;
+        margin: 5% 0;
      
     }
 `

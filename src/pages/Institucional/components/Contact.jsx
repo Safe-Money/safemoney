@@ -6,6 +6,7 @@ const Container = styled.div`
     background-color: #E5F9F7;
     height: 65vh;
     padding: 10vh;
+    margin: 2% 0;
 `
 
 const Flex = styled.div`
@@ -30,6 +31,7 @@ const Subtitle = styled.p`
     color: #737373;
     font-size: 18px;
     font-weight: 400;
+    margin: 5% 0;
 `
 
 const Imagem = styled.div`

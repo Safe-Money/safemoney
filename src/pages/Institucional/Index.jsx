@@ -61,6 +61,10 @@ const Intro = styled.div`
     justify-content: space-between;
     margin: auto;
     margin-top: -5px;
+    
+    p{
+        margin: 15px 0;
+    }
 `
 
 const Bottoms = styled.div`
@@ -102,15 +106,18 @@ const TxtAccess = styled.p`
     color: #08632D;
     text-transform: uppercase;
     font-weight: bolder;
+    margin-bottom: 10px;
 `
 
 const Icone = styled.img`
     height: 48px;
     width: 48px;
+    margin-bottom: 10px;
 `
 
 const TitAccess = styled.h1`
     font-size: 36px;
+    margin-bottom: 5%;
 `
 
 const Charts = styled.div`

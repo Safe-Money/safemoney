@@ -25,7 +25,6 @@ const Title = styled.p`
 const Subtitle = styled.p`
     font-size: 16px;
     font-weight: bolder;
-    margin-top: -30px;
     margin-bottom: 100px;
 `
 
@@ -33,7 +32,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 10px;
-    margin-top: 80px;
+    margin-top: 15%;
     width: 100%;
 `
 

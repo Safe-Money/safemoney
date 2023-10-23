@@ -22,7 +22,7 @@ const Info = styled.div`
     padding: 12px;
 
     .titulo{
-        
+        margin: 10px 0;
         font-weight: 750;
         color: black;
     }
@@ -51,6 +51,7 @@ const Icon = styled.div`
 const Line = styled.div`
     background-color: #08632D;
     height: 2px;
+    margin-bottom: 10px;
     border-radius: 5px;
     width: 20%
 `
