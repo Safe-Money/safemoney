@@ -140,9 +140,9 @@ img{
 }
 `
 
-function LateralHeader() {
+function LateralHeader(props) {
     const [config, setConfig] = useState(false);
-    const [selecionado, setSelecionado] = useState("VisaoGeral");
+    const [selecionado, setSelecionado] = useState(props.selecionado);
     const navigate = useNavigate();
 
     const handleClick = (selecionado) => {
@@ -170,7 +170,10 @@ function LateralHeader() {
                 <NavbarLateral>
                     <Selecao
                         className={selecionado === "VisaoGeral" ? "selecionado" : "selecoes-texto"}
-                        onClick={() => handleClick("VisaoGeral")}
+                        onClick={() => {
+                            handleClick("VisaoGeral")
+                            navigate("/visao-geral")
+                        }}
                     >
                         <div className="selecoes-icone">
                             <img src={Icon("visaoIcon")} />
@@ -179,7 +182,7 @@ function LateralHeader() {
                     </Selecao>
 
                     <Selecao
-                        className={selecionado === "Lancamentos" ? "selecionado" : ""}
+                        className={selecionado === "Lancamentos" ? "selecionado" : "selecoes-texto"}
                         onClick={() => handleClick("Lancamentos")}
                     >
                         <div className="selecoes-icone">
@@ -189,7 +192,7 @@ function LateralHeader() {
                     </Selecao>
 
                     <Selecao
-                        className={selecionado === "Planejamentos" ? "selecionado" : ""}
+                        className={selecionado === "Planejamentos" ? "selecionado" : "selecoes-texto"}
                         onClick={() => handleClick("Planejamentos")}
                     >
                         <div className="selecoes-icone">
@@ -199,7 +202,7 @@ function LateralHeader() {
                     </Selecao>
 
                     <Selecao
-                        className={selecionado === "Objetivos" ? "selecionado" : ""}
+                        className={selecionado === "Objetivos" ? "selecionado" : "selecoes-texto"}
                         onClick={() => handleClick("Objetivos")}
                     >
                         <div className="selecoes-icone">
@@ -209,11 +212,11 @@ function LateralHeader() {
                     </Selecao>
 
                     <Selecao
-                        className={selecionado === "Configuracoes" ? "selecionado" : ""}
+                        className={selecionado === "Configuracoes" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("Configuracoes");
                             navigate("/configuracoes");
-                          }}
+                        }}
                     >
                         <div className="selecoes-icone">
                             <img src={Icon("configuracoesIcon")} />

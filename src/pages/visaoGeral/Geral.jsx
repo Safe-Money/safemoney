@@ -50,7 +50,7 @@ function Geral() {
     return (
 
         <AllContainers className="geral">
-            <LateralHeader />
+            <LateralHeader selecionado="VisaoGeral"/>
 
             <Social>
                 <div className="bloco1">
@@ -62,6 +62,7 @@ function Geral() {
                     </CartaoCredito>
 
                 </div>
+                
                 <div className="bloco2">
                     <AcessoRapido></AcessoRapido>
                     <UltimosGastos></UltimosGastos>
