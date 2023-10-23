@@ -1,6 +1,5 @@
 *{
     text-decoration: none;
-    
 }
 
 
@@ -19,6 +18,15 @@
     justify-content: center;
     flex-direction: column;
     height: 90vh;
+}
+
+#config{
+    margin: auto;
+}
+
+#config h1{
+    color: #08632D;
+    margin-bottom: 50px;
 }
 
 /* Estilos para o cabeçalho */

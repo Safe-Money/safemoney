@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Header = styled.div`
 width: 14.4%;
@@ -59,6 +61,31 @@ color:#FCFEFD;
 }
 `
 
+const Selecao = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  height: 35px;
+  width: 100%;
+  color: white;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+
+  .selecionado {
+    color: #08632D;
+    background-color: white;
+  }
+
+    .selecoes-icone {
+        
+        margin-right:10px;
+        color: #08632D;
+        }
+
+`;
+
 const NavbarLateral = styled.div`
 display:flex;
 box-sizing: border-box;
@@ -114,6 +141,14 @@ img{
 `
 
 function LateralHeader() {
+    const [config, setConfig] = useState(false);
+    const [selecionado, setSelecionado] = useState("VisaoGeral");
+    const navigate = useNavigate();
+
+    const handleClick = (selecionado) => {
+        setSelecionado(selecionado);
+    }
+
     return (
         <>
             <Header>
@@ -133,53 +168,60 @@ function LateralHeader() {
 
                 </PerfilNome>
                 <NavbarLateral>
-                    <div className="selecoes selecionado" >
+                    <Selecao
+                        className={selecionado === "VisaoGeral" ? "selecionado" : "selecoes-texto"}
+                        onClick={() => handleClick("VisaoGeral")}
+                    >
                         <div className="selecoes-icone">
-                            <img src={Icon('visaoIcon')} />
+                            <img src={Icon("visaoIcon")} />
                         </div>
-                        <div className="selecoes-texto selecionado">
-                            Visão Geral
-                        </div>
+                        <div className="selecoes-texto">Visão Geral</div>
+                    </Selecao>
 
-                    </div>
-                    <div className="selecoes" >
+                    <Selecao
+                        className={selecionado === "Lancamentos" ? "selecionado" : ""}
+                        onClick={() => handleClick("Lancamentos")}
+                    >
                         <div className="selecoes-icone">
-                            <img src={Icon('lancamentosIcon')} />
+                            <img src={Icon("lancamentosIcon")} />
                         </div>
-                        <div className="selecoes-texto ">
-                            Lancamentos
-                        </div>
+                        <div className="selecoes-texto">Lançamentos</div>
+                    </Selecao>
 
-                    </div>
-
-                    <div className="selecoes" >
+                    <Selecao
+                        className={selecionado === "Planejamentos" ? "selecionado" : ""}
+                        onClick={() => handleClick("Planejamentos")}
+                    >
                         <div className="selecoes-icone">
-                            <img src={Icon('planejamentosIcon')} />
+                            <img src={Icon("planejamentosIcon")} />
                         </div>
-                        <div className="selecoes-texto">
-                            Planejamentos
-                        </div>
+                        <div className="selecoes-texto">Planejamentos</div>
+                    </Selecao>
 
-                    </div>
-                    <div className="selecoes" >
+                    <Selecao
+                        className={selecionado === "Objetivos" ? "selecionado" : ""}
+                        onClick={() => handleClick("Objetivos")}
+                    >
                         <div className="selecoes-icone">
-                            <img src={Icon('objetivosIcon')} />
+                            <img src={Icon("objetivosIcon")} />
                         </div>
-                        <div className="selecoes-texto">
-                            Objetivos
-                        </div>
+                        <div className="selecoes-texto">Objetivos</div>
+                    </Selecao>
 
-                    </div>
-                    <div className="selecoes" >
+                    <Selecao
+                        className={selecionado === "Configuracoes" ? "selecionado" : ""}
+                        onClick={() => {
+                            handleClick("Configuracoes");
+                            navigate("/configuracoes");
+                          }}
+                    >
                         <div className="selecoes-icone">
-                            <img src={Icon('configuracoesIcon')} />
+                            <img src={Icon("configuracoesIcon")} />
                         </div>
-                        <div className="selecoes-texto">
-                            Configurações
-                        </div>
-
-                    </div>
+                        <div className="selecoes-texto">Configurações</div>
+                    </Selecao>
                 </NavbarLateral>
+
 
                 <Sair>
                     <img src={Icon('sairIcon')} />

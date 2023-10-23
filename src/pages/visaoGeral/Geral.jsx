@@ -5,13 +5,12 @@ import AcessoRapido from "./Componentes/AcessoRapido";
 import UltimosGastos from "./Componentes/UltimosGastos";
 import Previsao from "./Componentes/Previsao";
 import LateralHeader from "./Componentes/LateralHeader";
+import "./../../index.css"
 
 const AllContainers = styled.div`
   display: flex;
-  margin: 0;
   height:100vh;
-  box-sizing: border-box;
-  overflow-y:hidden;
+  overflow-y:none;
 
   *{
     box-sizing: border-box;
@@ -50,8 +49,8 @@ background-color:#DBE7E0;
 function Geral() {
     return (
 
-        <AllContainers>
-            <LateralHeader/>
+        <AllContainers className="geral">
+            <LateralHeader />
 
             <Social>
                 <div className="bloco1">
