@@ -4,6 +4,7 @@ import Cadastro from "./pages/Login/Cadastro";
 import Geral from "./pages/visaoGeral/Geral";
 import Config from "./pages/visaoGeral/Config";
 import Contas from "./pages/Contas/Contas";
+import LancGeral from "./pages/Lancamentos/Funcoes/LancGeral";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/visao-geral" element={<Geral/>} />
           <Route path="/configuracoes" element={<Config/>} />
           <Route path="/contas" element={<Contas/>} />
+          <Route path="/lancamentos" element={<LancGeral/>} />
         </Routes>
       </Router>
 

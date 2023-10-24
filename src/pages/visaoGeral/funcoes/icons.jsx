@@ -24,7 +24,10 @@ import visaoDesativa from '../../../assets/visaoDesactive.png'
 import lancamentosAtiva from '../../../assets/lancamentos-active.png';
 import objetivosAtiva from '../../../assets/objetivos-active.png';
 import configAtiva from '../../../assets/configuracoes-active.svg';
-
+import maisIcon from '../../../assets/Mais.png'
+import iconPrato from '../../../assets/iconPrato.png'
+import seta1 from '../../../assets/seta.png'
+import iconChart1 from '../../../assets/graficIcon.png'
 
 const icons = {
     visaoDesativa,
@@ -52,7 +55,11 @@ const icons = {
     contasIcon,
     lazerIcon,
     medicoIcon,
-    comidaIcon
+    comidaIcon,
+    maisIcon,
+    iconPrato,
+    seta1,
+    iconChart1
 }
 
 export const Icon = (icon) => {
