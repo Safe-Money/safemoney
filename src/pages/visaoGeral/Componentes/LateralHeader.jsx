@@ -176,8 +176,9 @@ function LateralHeader(props) {
                         }}
                     >
                         <div className="selecoes-icone">
-                            <img src={Icon("visaoIcon")} />
+                            {selecionado === "VisaoGeral" ? <img src={Icon("visaoIcon")} /> : <img src={Icon("visaoDesativa")} />}
                         </div>
+
                         <div className="selecoes-texto">Visão Geral</div>
                     </Selecao>
 
@@ -186,8 +187,9 @@ function LateralHeader(props) {
                         onClick={() => handleClick("Lancamentos")}
                     >
                         <div className="selecoes-icone">
-                            <img src={Icon("lancamentosIcon")} />
+                            {selecionado === "Lancamentos" ? <img src={Icon("lancamentosAtiva")} /> : <img src={Icon("lancamentosIcon")} />}
                         </div>
+
                         <div className="selecoes-texto">Lançamentos</div>
                     </Selecao>
 
@@ -196,7 +198,7 @@ function LateralHeader(props) {
                         onClick={() => handleClick("Planejamentos")}
                     >
                         <div className="selecoes-icone">
-                            <img src={Icon("planejamentosIcon")} />
+                            {selecionado === "Planejamentos" ? <img src={Icon("planejamentosAtiva")} /> : <img src={Icon("planejamentosIcon")} />}
                         </div>
                         <div className="selecoes-texto">Planejamentos</div>
                     </Selecao>
@@ -206,7 +208,7 @@ function LateralHeader(props) {
                         onClick={() => handleClick("Objetivos")}
                     >
                         <div className="selecoes-icone">
-                            <img src={Icon("objetivosIcon")} />
+                            {selecionado === "Objetivos" ? <img src={Icon("objetivosAtiva")} /> : <img src={Icon("objetivosIcon")} />}
                         </div>
                         <div className="selecoes-texto">Objetivos</div>
                     </Selecao>
@@ -219,7 +221,7 @@ function LateralHeader(props) {
                         }}
                     >
                         <div className="selecoes-icone">
-                            <img src={Icon("configuracoesIcon")} />
+                            {selecionado === "Configuracoes" ? <img src={Icon("configAtiva")} /> : <img src={Icon("configuracoesIcon")} />}
                         </div>
                         <div className="selecoes-texto">Configurações</div>
                     </Selecao>

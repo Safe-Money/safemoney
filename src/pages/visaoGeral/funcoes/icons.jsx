@@ -1,6 +1,7 @@
 import visaoIcon from '../../../assets/visaoGeral.svg'
 import lancamentosIcon from '../../../assets/lancamentos.svg'
 import planejamentosIcon from '../../../assets/planejamentos.svg'
+import planejamentosAtiva from '../../../assets/planejamentos-active.svg'
 import objetivosIcon from '../../../assets/objetivos.svg'
 import configuracoesIcon from '../../../assets/configuracoes.svg'
 import logo from '../../../assets/logo.svg';
@@ -19,9 +20,18 @@ import contasIcon from '../../../assets/ContasIcon.svg';
 import lazerIcon from '../../../assets/lazer.svg';
 import medicoIcon from '../../../assets/medico.svg';
 import comidaIcon from '../../../assets/comida.svg';
+import visaoDesativa from '../../../assets/visaoDesactive.png'
+import lancamentosAtiva from '../../../assets/lancamentos-active.png';
+import objetivosAtiva from '../../../assets/objetivos-active.png';
+import configAtiva from '../../../assets/configuracoes-active.svg';
 
 
 const icons = {
+    visaoDesativa,
+    lancamentosAtiva,
+    planejamentosAtiva,
+    objetivosAtiva,
+    configAtiva,
     visaoIcon,
     lancamentosIcon,
     planejamentosIcon,
