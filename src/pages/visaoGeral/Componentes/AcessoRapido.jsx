@@ -59,6 +59,10 @@ flex-direction:column;
     font-size:10px;
 }
 
+.box:hover{
+    transform:scale(1.2);
+}
+
 .box img{
     width:40%;
         margin-bottom:5px;

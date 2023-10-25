@@ -142,6 +142,10 @@ background-color:#FDFDFD;
     cursor:pointer;
 }
 
+.adicionaConta:hover{
+    opacity:0.8;
+}
+
 .adicionaConta svg{
     margin-right:5px;
 }

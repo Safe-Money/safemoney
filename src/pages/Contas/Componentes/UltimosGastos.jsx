@@ -21,7 +21,7 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     height:10%;
     width:100%;
     margin-bottom:5%;
-    font-size:24px;
+    font-size:18px;
 
 }
 .titulo-icone svg{

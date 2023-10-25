@@ -152,19 +152,6 @@ flex-direction:column;
 
 
 function UltimosGastos() {
-    const ouvido = [
-        {
-            nome: 'bruno',
-            idade: 20,
-            empresa: 'bradesco',
-            beleza: 10 / 10
-        },
-
-        {
-
-        }
-    ];
-
 
     return (
         <>
@@ -175,10 +162,10 @@ function UltimosGastos() {
 
                 <div className="titulo-icone">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="20" height="20" rx="8" fill="#2FED42" fill-opacity="0.3" />
-                        <path d="M6 7H14" stroke="#08632D" stroke-linecap="round" />
-                        <path d="M6 10H14" stroke="#08632D" stroke-linecap="round" />
-                        <path d="M6 13H14" stroke="#08632D" stroke-linecap="round" />
+                        <rect width="20" height="20" rx="8" fill="#2FED42" fillOpacity="0.3" />
+                        <path d="M6 7H14" stroke="#08632D" strokeLinecap="round" />
+                        <path d="M6 10H14" stroke="#08632D" strokeLinecap="round" />
+                        <path d="M6 13H14" stroke="#08632D" strokeLinecap="round" />
                     </svg>
                     Últimos gastos
                 </div>

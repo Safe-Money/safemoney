@@ -20,7 +20,7 @@ box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
     font-weight: 700;
     height: 30%;
     width: 100%;
-    font-size:24px;
+    font-size:18px;
     justify-content:space-between;
 
   }
@@ -31,7 +31,7 @@ box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
     font-weight: 700;
     height: 10%;
     width: 85%;
-    font-size:24px;
+    font-size:18px;
 
   }
 
@@ -69,7 +69,7 @@ width:20%;
 height:100%;
 flex-direction:column;
 justify-content:space-between;
-font-size:20px;
+font-size:16px;
 
 .numeros{
     font-weight:700;
@@ -91,9 +91,9 @@ function conta() {
                 </div>
                 <div className="removerConta">
                     <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M6 7.28767V3.71228" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6 7.28767V3.71228" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
 
                     Remover Conta
