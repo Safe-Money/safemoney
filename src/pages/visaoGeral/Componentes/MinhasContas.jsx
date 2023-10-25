@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Modal from "./ModalWrapper";
 import ContaContainer from './ContaContainer'; // Importa o novo componente
 import ModalWrapper from "./ModalWrapper";
@@ -159,6 +160,7 @@ background-color:#FDFDFD;
 function MinhasContas() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [contas, setContas] = useState([]);
+    const navigate = useNavigate();
     const [novaConta, setNovaConta] = useState({
         banco: '',
         tipoConta: '',
@@ -235,8 +237,8 @@ function MinhasContas() {
                                 <img src={Icon('bradescoIcon')} />
 
                             </div>
-                            <div className="nomeBanco">
-                                    Bradescos
+                            <div className="nomeBanco" onClick={()=>navigate("/contas")}>
+                                    Bradesco
                                 <span>Conta Corrente</span>
                             </div>
                             <div className="saldoBanco">

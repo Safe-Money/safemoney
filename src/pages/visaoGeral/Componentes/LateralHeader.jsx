@@ -184,7 +184,11 @@ function LateralHeader(props) {
 
                     <Selecao
                         className={selecionado === "Lancamentos" ? "selecionado" : "selecoes-texto"}
-                        onClick={() => handleClick("Lancamentos")}
+                        onClick={() => {
+                            handleClick("Lancamentos")
+                            navigate("/lancamentos")
+                        }
+                    }
                     >
                         <div className="selecoes-icone">
                             {selecionado === "Lancamentos" ? <img src={Icon("lancamentosAtiva")} /> : <img src={Icon("lancamentosIcon")} />}

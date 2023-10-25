@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Nav from "../components/Nav";
+import LateralHeader from "../../visaoGeral/Componentes/LateralHeader";
 import ContainerGeral from "../Components/Container";
 const AllContainers = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ function LancGeral() {
     return (
 
         <AllContainers>
-            <Nav/>
+            <LateralHeader selecionado='Lancamentos'/>
             <ContainerGeral></ContainerGeral>
          
         </AllContainers>
