@@ -1,4 +1,3 @@
-import LateralHeader from "./Componentes/LateralHeader";
 import Input from "../Login/components/Input";
 import styled from "styled-components";
 import "../Login/login.css";
@@ -9,9 +8,22 @@ const AllContainers = styled.div`
   display: flex;
   height:100vh;
   overflow-y:none;
+  justify-content:center;
+  align-items:center;
+
+  .container{
+    width: 80vw;
+  }
 
   *{
     box-sizing: border-box;
+  }
+
+  .footer{
+    display:flex;
+    justify-content:space-between;
+    margin: auto;
+    width: 23vw;
   }
 `
 
@@ -35,7 +47,6 @@ function Config() {
     return (
         <>
             <AllContainers>
-                <LateralHeader selecionado="Configuracoes"/>
 
                 <div className="container" id="config">
 
@@ -59,11 +70,11 @@ function Config() {
                         )}
 
                         <div className="footer">
-                            <Button bg="#08632D" color='white' width="50%" onClick={() => handleClick()}>
+                            <Button bg="#08632D" color='white'  width="45%" height="50px" onClick={() => handleClick()}>
                                 Alterar
                             </Button>
 
-                            <Button bg="#08632D" color='white' width="50%" onClick={() => handleSave()}>
+                            <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleSave()}>
                                 Salvar
                             </Button>
                         </div>
