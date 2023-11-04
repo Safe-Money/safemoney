@@ -140,8 +140,6 @@ img{
 function LateralHeader(props) {
     const [selecionado, setSelecionado] = useState(props.selecionado);
 
-// ...
-
 const handleClick = (selecionado) => {
     setSelecionado(selecionado);
     props.setSelecionado(selecionado);

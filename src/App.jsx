@@ -17,9 +17,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro/>} />
           <Route path="/visao-geral" element={<Painel/>} />
-          <Route path="/configuracoes" element={<Config/>} />
-          <Route path="/contas" element={<Contas/>} />
-          <Route path="/lancamentos" element={<LancGeral/>} />
         </Routes>
       </Router>
 

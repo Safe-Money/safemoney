@@ -4,6 +4,7 @@ import Geral from "../visaoGeral/Geral";
 import LancGeral from "../Lancamentos/Funcoes/LancGeral";
 import styled from "styled-components";
 import Config from "../visaoGeral/Config";
+import Objetivos from "../Objetivos/Objetivos";
 
 const AllContainers = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ function Painel() {
         {selecionado === "geral" && <Geral />}
         {selecionado === "lancamentos" && <LancGeral />}
         {selecionado === "config" && <Config />}
+        {selecionado === "objetivos" && <Objetivos data="10/10/2023" saldo="10.000.000"/>}
 
 
       </AllContainers>
