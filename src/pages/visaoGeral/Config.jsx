@@ -3,6 +3,7 @@ import styled from "styled-components";
 import "../Login/login.css";
 import { Button } from "../../components/Button";
 import { useState } from "react";
+import LateralHeader from "./Componentes/LateralHeader";
 
 const AllContainers = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const AllContainers = styled.div`
   align-items:center;
 
   .container{
-    width: 80vw;
+    width: 80%;
   }
 
   *{
@@ -47,6 +48,7 @@ function Config() {
     return (
         <>
             <AllContainers>
+                <LateralHeader selecionado="config"/>
 
                 <div className="container" id="config">
 

@@ -1,9 +1,16 @@
 import Header from './components/Header';
 import Input from './components/Input';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
 import './login.css';
 
 function Login() {
+  const navigate = useNavigate();
+
+  function logar () {
+    sessionStorage.setItem("nomeUsuario", "Nathanzinho")
+  }
+  
   return (
     <div className="container">
       <Header text="Bem Vindo!" />
@@ -14,13 +21,13 @@ function Login() {
 
         <span className='esqueceuSenha'>Esqueceu a senha? <a href="/">Clique aqui</a></span>
 
-        <Button bg="#08632D" color='white' width="100%">
+        <Button onClick={() => logar()} bg="#08632D" color='white' width="100%">
           Entrar
         </Button>
 
         <div className="footer">
           <p>Não tem uma conta?</p>
-          <a href="/">Inscreva-se</a>
+          <a onClick={() => navigate("/cadastro")}>Inscreva-se</a>
         </div>
 
       </form>

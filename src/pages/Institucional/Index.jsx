@@ -8,6 +8,7 @@ import Sobre from "./components/Sobre";
 import Feedback from "./components/Feedback";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { Icon } from "./funcoes/Icons";
 import { Oferecemos } from "./funcoes/Oferecemos";
@@ -126,6 +127,7 @@ const Charts = styled.div`
 
 function Index() {
     const vantagens = ['Tenha planos e objetivos claros;', 'Controle seu orçamento;', 'Lide melhor com o seu dinheiro;']
+    const navigate = useNavigate();
 
     useEffect(() => {
         
@@ -158,7 +160,7 @@ function Index() {
                         </div>
 
                         <Bottoms className="scroll-reveal-element" >
-                            <Button bg='#08632D' color='white'className="scroll-reveal-element" >
+                            <Button bg='#08632D' color='white'className="scroll-reveal-element" onClick={() => navigate("/cadastro")} >
                                 Cadastre-se
                             </Button>
 

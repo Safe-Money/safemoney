@@ -1,8 +1,10 @@
 import Header from './components/Header';
 import Input from './components/Input';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
 
 function Cadastro() {
+    const navigate = useNavigate()
     return (
         <div className="container">
             <Header text="Junte-se a nós!" />
@@ -19,7 +21,7 @@ function Cadastro() {
 
                 <div className="footer">
                     <p>já tem uma conta?</p>
-                    <a href="/">Clique aqui</a>
+                    <a onClick={() => navigate("/login")}>Clique aqui</a>
                 </div>
 
             </form>

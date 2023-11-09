@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import { PieChart, Pie, Tooltip, Legend, Cell } from 'recharts';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend as RechartsLegend } from 'recharts';
+import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 
 const Container = styled.div`
   position: relative;
@@ -257,6 +258,29 @@ const SelecionarOrdenacao = styled.select`
   color: #000;
 `;
 
+const AllContainers = styled.div`
+  display: flex;
+  height:100vh;
+  overflow-y:none;
+  justify-content:center;
+  align-items:center;
+
+  .container{
+    width: 80vw;
+  }
+
+  *{
+    box-sizing: border-box;
+  }
+
+  .footer{
+    display:flex;
+    justify-content:space-between;
+    margin: auto;
+    width: 23vw;
+  }
+`
+
 const dadosGrafico = [
   { valor: 300, cor: '#C568F6' },
   { valor: 300, cor: '#C568F6' },
@@ -427,7 +451,7 @@ const lineChartData = [
   { data: 'Abr', valor: 10 },
   { data: 'Mai', valor: 200 },
   { data: 'Jun', valor: 20 },
- 
+
 ];
 const itensPorPagina = 8;
 
@@ -460,129 +484,133 @@ function ContainerGeral() {
   };
 
   return (
-    <Container>
-      <Content>
-        <Image src={Icon('maisIcon')} />
-        <Text>Lançamentos</Text>
-        <Text className="filtro">
-          Ordenar por:{" "}
-          <SelecionarOrdenacao
-            value={opcaoSelecionada}
-            onChange={(e) => setOpcaoSelecionada(e.target.value)}
-          >
-            <option value="Valor">Valor</option>
-            <option value="Data">Data</option>
-            <option value="Categoria">Categoria</option>
-          </SelecionarOrdenacao>
-        </Text>
-      </Content>
-      <TableContainer>
-        <StyledTable id="machineTable">
-          <TableHeader>
-            <TableRow>
-              <th></th>
-              <th>Categoria</th>
-              <th>Valor</th>
-              <th>Data</th>
-              <th>Conta</th>
-            </TableRow>
-          </TableHeader>
-          <tbody>
-            {dadosExibidos.map((item, index) => (
-              <TableRow key={index}>
-                <th>
-                  <Icon name={item.icon} />
-                </th>
-                <td>{item.categoria}</td>
-                <td>{item.valor}</td>
-                <td>{item.data}</td>
-                <td>{item.conta}</td>
-              </TableRow>
-            ))}
-          </tbody>
-        </StyledTable>
-      </TableContainer>
-      <TableFooter>
-        <BotaoAnterior onClick={irParaPaginaAnterior}>&lt; </BotaoAnterior>
-        {Array.from({ length: totalPaginas }, (_, index) => {
-          const numeroPagina = index + 1;
-          const ePaginaAtual = paginaAtual === numeroPagina;
-          return (
-            <Button
-              key={index}
-              onClick={() => mudarPagina(numeroPagina)}
-              style={{
-                backgroundColor: ePaginaAtual ? '#08632D' : 'transparent',
-                color: ePaginaAtual ? 'white' : 'black',
-                borderRadius: '4px',
-              }}
+    <AllContainers>
+      <LateralHeader selecionado="lancamentos" />
+      
+      <Container>
+        <Content>
+          <Image src={Icon('maisIcon')} />
+          <Text>Lançamentos</Text>
+          <Text className="filtro">
+            Ordenar por:{" "}
+            <SelecionarOrdenacao
+              value={opcaoSelecionada}
+              onChange={(e) => setOpcaoSelecionada(e.target.value)}
             >
-              {numeroPagina}
-            </Button>
-          );
-        })}
-        <BotaoAnterior onClick={irParaProximaPagina}> &gt;</BotaoAnterior>
-      </TableFooter>
-      <ChartContainer1>
-        <IconChart src={Icon('iconChart1')} />
-        <ChartText>Gastos por categoria</ChartText>
-        <PieChart width={700} height={300} margin={{ right: 50, top: 20 }}>
-          <Pie
-            data={dadosGrafico}
-            dataKey="valor"
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            fill="#FF5733"
-            label
-          >
-            {dadosGrafico.map((entry, index) => (
-              <Cell key={index} fill={entry.cor} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend iconType="none" />
-        </PieChart>
-        <table>
-          <thead>
-            <tr>
-              <th colSpan="2" style={{ textAlign: "center" }}>TOP 5 Gastos</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data2.map((item, index) => (
-              <tr key={index}>
-                <td>{item.categoria}</td>
-                <td className='valor'>{item.valor}</td>
+              <option value="Valor">Valor</option>
+              <option value="Data">Data</option>
+              <option value="Categoria">Categoria</option>
+            </SelecionarOrdenacao>
+          </Text>
+        </Content>
+        <TableContainer>
+          <StyledTable id="machineTable">
+            <TableHeader>
+              <TableRow>
+                <th></th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Conta</th>
+              </TableRow>
+            </TableHeader>
+            <tbody>
+              {dadosExibidos.map((item, index) => (
+                <TableRow key={index}>
+                  <th>
+                    <Icon name={item.icon} />
+                  </th>
+                  <td>{item.categoria}</td>
+                  <td>{item.valor}</td>
+                  <td>{item.data}</td>
+                  <td>{item.conta}</td>
+                </TableRow>
+              ))}
+            </tbody>
+          </StyledTable>
+        </TableContainer>
+        <TableFooter>
+          <BotaoAnterior onClick={irParaPaginaAnterior}>&lt; </BotaoAnterior>
+          {Array.from({ length: totalPaginas }, (_, index) => {
+            const numeroPagina = index + 1;
+            const ePaginaAtual = paginaAtual === numeroPagina;
+            return (
+              <Button
+                key={index}
+                onClick={() => mudarPagina(numeroPagina)}
+                style={{
+                  backgroundColor: ePaginaAtual ? '#08632D' : 'transparent',
+                  color: ePaginaAtual ? 'white' : 'black',
+                  borderRadius: '4px',
+                }}
+              >
+                {numeroPagina}
+              </Button>
+            );
+          })}
+          <BotaoAnterior onClick={irParaProximaPagina}> &gt;</BotaoAnterior>
+        </TableFooter>
+        <ChartContainer1>
+          <IconChart src={Icon('iconChart1')} />
+          <ChartText>Gastos por categoria</ChartText>
+          <PieChart width={700} height={300} margin={{ right: 50, top: 20 }}>
+            <Pie
+              data={dadosGrafico}
+              dataKey="valor"
+              cx="50%"
+              cy="50%"
+              outerRadius={80}
+              fill="#FF5733"
+              label
+            >
+              {dadosGrafico.map((entry, index) => (
+                <Cell key={index} fill={entry.cor} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend iconType="none" />
+          </PieChart>
+          <table>
+            <thead>
+              <tr>
+                <th colSpan="2" style={{ textAlign: "center" }}>TOP 5 Gastos</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </ChartContainer1>
-      <ChartContainer2>
-        <IconChart src={Icon('iconChart1')} />
-        <ChartText>Evolução dos gastos com cartão de crédito</ChartText>
-        <LineChart width={350} height={250} data={lineChartData} margin={{ right: 50, top: 80 }}>
-          <CartesianGrid />
-          <XAxis dataKey="data" tick={false} />
-          <YAxis />
-          <Tooltip />
-          <Legend iconType="none" />
-          <Line type="linear" dataKey="valor" stroke="#08632D" />
-        </LineChart>
-        <div className="info">
-          <div className="info-box">
-            <p >Limite:<span className='limite'> R$ 300</span></p>
+            </thead>
+            <tbody>
+              {data2.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.categoria}</td>
+                  <td className='valor'>{item.valor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ChartContainer1>
+        <ChartContainer2>
+          <IconChart src={Icon('iconChart1')} />
+          <ChartText>Evolução dos gastos com cartão de crédito</ChartText>
+          <LineChart width={350} height={250} data={lineChartData} margin={{ right: 50, top: 80 }}>
+            <CartesianGrid />
+            <XAxis dataKey="data" tick={false} />
+            <YAxis />
+            <Tooltip />
+            <Legend iconType="none" />
+            <Line type="linear" dataKey="valor" stroke="#08632D" />
+          </LineChart>
+          <div className="info">
+            <div className="info-box">
+              <p >Limite:<span className='limite'> R$ 300</span></p>
+            </div>
+            <div className="info-box">
+              <p >Gasto: <span className='gasto'>R$ 300</span></p>
+            </div>
+            <div className="info-box">
+              <p>Livre: <span className='livre'>R$ 300</span></p>
+            </div>
           </div>
-          <div className="info-box">
-            <p >Gasto: <span className='gasto'>R$ 300</span></p>
-          </div>
-          <div className="info-box">
-            <p>Livre: <span  className='livre'>R$ 300</span></p>
-          </div>
-        </div>
-      </ChartContainer2>
-    </Container>
+        </ChartContainer2>
+      </Container>
+    </AllContainers>
   );
 }
 

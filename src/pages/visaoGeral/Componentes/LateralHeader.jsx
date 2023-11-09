@@ -1,13 +1,15 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "../funcoes/icons";
 import { useState } from "react";
 
 const Header = styled.div`
-width: 14.4%;
+width: 180px;
+height:100vh;
 background-color:#08632D;
 padding: 5% 0 0 0;
-position:relative;
 `
+
 const PerfilNome = styled.div`
 display:flex;
 height: 20%;
@@ -139,14 +141,11 @@ img{
 
 function LateralHeader(props) {
     const [selecionado, setSelecionado] = useState(props.selecionado);
+    const navigate = useNavigate();
 
-// ...
-
-const handleClick = (selecionado) => {
-    setSelecionado(selecionado);
-    props.setSelecionado(selecionado);
-    
-}
+    const handleClick = (selecionado) => {
+        setSelecionado(selecionado);
+    }
 
     return (
         <>
@@ -162,7 +161,7 @@ const handleClick = (selecionado) => {
                         Bem Vindo!
                     </div>
                     <div className="nome">
-                        Gabriel
+                        {sessionStorage?.getItem("nomeUsuario")}
                     </div>
 
                 </PerfilNome>
@@ -171,6 +170,7 @@ const handleClick = (selecionado) => {
                         className={selecionado === "geral" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("geral")
+                            navigate("/visao-geral")
                         }}
                     >
                         <div className="selecoes-icone">
@@ -184,8 +184,9 @@ const handleClick = (selecionado) => {
                         className={selecionado === "lancamentos" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("lancamentos")
+                            navigate("/lancamentos")
                         }
-                    }
+                        }
                     >
                         <div className="selecoes-icone">
                             {selecionado === "lancamentos" ? <img src={Icon("lancamentosAtiva")} /> : <img src={Icon("lancamentosIcon")} />}
@@ -196,7 +197,10 @@ const handleClick = (selecionado) => {
 
                     <Selecao
                         className={selecionado === "planejamentos" ? "selecionado" : "selecoes-texto"}
-                        onClick={() => handleClick("planejamentos")}
+                        onClick={() => {
+                            handleClick("planejamentos")
+                            navigate("/planejamentos")
+                        }}
                     >
                         <div className="selecoes-icone">
                             {selecionado === "planejamentos" ? <img src={Icon("planejamentosAtiva")} /> : <img src={Icon("planejamentosIcon")} />}
@@ -206,7 +210,10 @@ const handleClick = (selecionado) => {
 
                     <Selecao
                         className={selecionado === "objetivos" ? "selecionado" : "selecoes-texto"}
-                        onClick={() => handleClick("objetivos")}
+                        onClick={() => {
+                            handleClick("objetivos")
+                            navigate("/objetivos")
+                        }}
                     >
                         <div className="selecoes-icone">
                             {selecionado === "objetivos" ? <img src={Icon("objetivosAtiva")} /> : <img src={Icon("objetivosIcon")} />}
@@ -218,6 +225,7 @@ const handleClick = (selecionado) => {
                         className={selecionado === "config" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("config");
+                            navigate("/config")
                         }}
                     >
                         <div className="selecoes-icone">

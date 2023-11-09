@@ -2,6 +2,9 @@
     text-decoration: none;
 }
 
+a{
+    cursor: pointer;
+}
 
 /* Estilos para imagens */
 .loginImg {
@@ -17,7 +20,6 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 90vh;
 }
 
 #config{
