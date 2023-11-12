@@ -39,8 +39,8 @@ function Config() {
     }
 
     const handleSave = () => {
-        setEmail(email) 
-        setNome(nome) 
+        setEmail(email)
+        setNome(nome)
         setSenha(senha)
         setAtivo(!ativo);
     }
@@ -48,31 +48,23 @@ function Config() {
     return (
         <>
             <AllContainers>
-                <LateralHeader selecionado="config"/>
+                <LateralHeader selecionado="config" />
 
                 <div className="container" id="config">
 
                     <h1>Configurações</h1>
 
                     <form>
-                        {ativo ? (
-                            <div>
-                                <Input type="text" name="email" id="email" label={email} desativo={ativo} onChange={(e) => setEmail(e.target.value)}/>
-                                <Input type="text" name="nome" id="nome" label={nome} desativo={ativo} />
-                                <Input type="password" name="senha" id="senha" label={senha} desativo={ativo} />
-                                <Input type="password" name="confirmaSenha" id={senha} label="Confirmar Senha" desativo={ativo} />
-                            </div>
-                        ) : (
-                            <div>
-                                <Input type="text" name="email" id="email" label="E-mail" desativo={ativo} />
-                                <Input type="text" name="nome" id="nome" label="Nome" desativo={ativo} />
-                                <Input type="password" name="senha" id="senha" label="Senha" desativo={ativo} />
-                                <Input type="password" name="confirmaSenha" id="confirmaSenha" label="Confirmar Senha" desativo={ativo} />
-                            </div>
-                        )}
+
+                        <div>
+                            <Input type="text" name="email" id="email" label={email} desativo={ativo} onChange={(e) => setEmail(e.target.value)} />
+                            <Input type="text" name="nome" id="nome" label={nome} desativo={ativo} />
+                            <Input type="password" name="senha" id="senha" label={senha} desativo={ativo} />
+                            <Input type="password" name="confirmaSenha" id={senha} label="Confirmar Senha" desativo={ativo} />
+                        </div>
 
                         <div className="footer">
-                            <Button bg="#08632D" color='white'  width="45%" height="50px" onClick={() => handleClick()}>
+                            <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleClick()}>
                                 Alterar
                             </Button>
 

@@ -49,7 +49,7 @@ const Social = styled.div`
 
 const Card = styled.div`
     display: flex;
-    height: 183px; /* Alterado de height para max-height */
+    height: 135px; /* Alterado de height para max-height */
     justify-content: space-between;
     width: 40vw;
     border-radius: 10px;
@@ -71,7 +71,7 @@ const Card = styled.div`
     `;
 
 const TitleCard = styled.span`
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     margin: 20px 0;
 `
@@ -137,8 +137,8 @@ const ObjDiv = styled.div`
 const CardObj = styled.div`
     display: flex;
     padding: 20px;
-    width: 43vw;
-    height: 183px;
+    width: 40.5vw;
+    height: 153px;
     border-radius: 10px;
     margin-bottom: 10px;
     background-color: #FDFDFD;
@@ -150,7 +150,7 @@ const CardObj = styled.div`
         height: 90%;
         border: solid 5px #398257;
         border-radius: 100px;
-        width: 23%;
+        width: 20%;
         background-color: #DBE7E0;
     }
 `
@@ -166,7 +166,7 @@ const SubInfo = styled.div`
     flex-direction: column;
     width: 80%;
     height: 90vh;
-    margin: 20px auto;
+    margin: 15px auto;
     justify-content: space-between;
 
     .saldoObj{
@@ -177,13 +177,18 @@ const SubInfo = styled.div`
     }
 
     .saldoObj span{
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    h1{
+        font-size: 24px;
         font-weight: 600;
     }
 
     .progressBar{
         background-color: white;
-        height: 25px;
+        height: 12px;
         margin: 10px 0;
         width: 100%;
     }
@@ -200,9 +205,9 @@ const SubInfo = styled.div`
 `
 
 const Datas = styled.div`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
-    margin: 8px 0;
+    margin: 5px 0;
     width: 100%;
     height: 30px;
     flex-direction: row;
@@ -228,7 +233,7 @@ const Datas = styled.div`
 `
 
 const TitleObj = styled.span`
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
 `
 
@@ -237,10 +242,10 @@ const Meta = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 38vw;
+    width: 40.5vw;
     border-radius: 10px;
     padding: 22px;
-    margin: 10px 0;
+    margin: 5px 0;
     background-color: #FDFDFD;
 
     .borda{
@@ -255,7 +260,7 @@ const Meta = styled.div`
     }
 
     p{
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
     }
     `
@@ -263,7 +268,7 @@ const Icons = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    margin: 10px 0;
+    margin: 0px 10px;
 
     .border{
         cursor: pointer;
@@ -271,8 +276,8 @@ const Icons = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 30.911px;
-        height: 30.488px;
+        width: 26px;
+        height: 27px;
         border-radius: 50px;
     }
     `
@@ -426,7 +431,6 @@ function Objetivos(props) {
                                             <img src={icone.img} alt={icone.alt} />
                                         </div>
                                     ))}
-
                                 </Icons>
 
                             </CardObj>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import img from '../../../assets/Logo.png';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ButtonNav';
 
 const Nav = styled.nav`
@@ -64,6 +65,7 @@ const Bottoms = styled.div`
 
 function Navbar() {
   const options = ['Home', 'Produto', 'Contato'];
+  const navigate = useNavigate();
 
   return (
     <Nav className="nav">
@@ -76,7 +78,7 @@ function Navbar() {
       </Opcoes>
 
       <Bottoms>
-        <a href="#">Login</a>
+        <a onClick={()=> navigate("/login")}>Login</a>
 
         <Button bg="#08632D" color="white">
           Cadastro
