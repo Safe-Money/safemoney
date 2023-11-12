@@ -6,7 +6,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsToolti
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 
 const Container = styled.div`
-  position: relative;
+   position: relative;
   display: flex;
   flex-direction: column;
   height: 95%;
@@ -264,6 +264,7 @@ const AllContainers = styled.div`
   overflow-y:none;
   justify-content:center;
   align-items:center;
+  background-color: #DBE7E0;
 
   .container{
     width: 80vw;

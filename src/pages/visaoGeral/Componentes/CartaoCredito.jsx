@@ -258,7 +258,7 @@ function CartaoCredito() {
         <>
 
             <ContainerCartaoCredito>
-                <div className="titulo-icone">
+                <div className="titulo-icone" >
                     <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="21" height="20" rx="8" fill="#2FED42" fill-opacity="0.3" />
                         <path d="M12.2704 6.62195H7.07883C6.92485 6.62195 6.78186 6.62745 6.64987 6.63295C5.34647 6.70994 5 7.1884 5 8.6733V8.99227C5 9.29475 5.24748 9.54223 5.54996 9.54223H13.7993C14.1018 9.54223 14.3493 9.29475 14.3493 8.99227V8.6733C14.3493 7.03442 13.9313 6.62195 12.2704 6.62195Z" fill="#08632D" />

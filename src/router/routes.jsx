@@ -5,6 +5,7 @@ import Geral from "../pages/visaoGeral/Geral";
 import LancGeral from "../pages/Lancamentos/Funcoes/LancGeral";
 import Objetivos from "../pages/Objetivos/Objetivos";
 import Config from "../pages/visaoGeral/Config";
+import Card from "../pages/Cartoes/Funcoes/CardGeral";
 import NotFound from "../pages/NotFound/NotFound";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -21,7 +22,8 @@ function Rotas() {
           <Route path="/lancamentos" element={<LancGeral/>} />
           <Route path="/objetivos" element={<Objetivos/>} />
           <Route path="/config" element={<Config/>} />
-          {/* <Route path="*" element={<NotFound/>} /> */}
+          <Route path="/cartoes" element={<Card/>} />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
       </Router>
     </>

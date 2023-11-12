@@ -7,7 +7,7 @@ export const Button = styled.button`
     height: ${props => props.height ? props.height : '53px'};
     width: ${props => props.width ? props.width : '161px'};
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 11px;
     cursor: pointer;
     font-weight:500;
 `

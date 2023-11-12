@@ -11,9 +11,11 @@ const AllContainers = styled.div`
   overflow-y:none;
   justify-content:center;
   align-items:center;
+ 
 
   .container{
     width: 80%;
+   
   }
 
   *{
