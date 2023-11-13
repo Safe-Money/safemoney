@@ -8,6 +8,7 @@ width: 180px;
 height:100vh;
 background-color:#08632D;
 padding: 5% 0 0 0;
+border-radius: 0px 15px 15px 0px;
 `
 
 const PerfilNome = styled.div`
@@ -28,14 +29,16 @@ color:#FCFEFD;
     height:20%;
     width:100%;  
     font-size:14px;  
+    margin-top:5%;
 }
 .nome{
     justify-content:center;
     align-items:center;
     display:flex;
-    height:20%;
+    height:60%;
     width:100%;
-    font-weight:700;
+    font-weight:500;
+    font-size:16px;
     
 }
 
@@ -77,11 +80,13 @@ const Selecao = styled.div`
     background-color: white;
   }
 
-    .selecoes-icone {
+    .selecoes-icone {        
         
-        margin-right:10px;
         color: #08632D;
+         
         }
+
+        
 
 `;
 
@@ -110,12 +115,17 @@ margin-bottom:40%;
     display:flex;
     align-items:center;
     justify-content:center;
-    width:20%;
+   
 }
 
 .selecoes-texto{
     width:80%;
-    font-weight:700;
+    font-weight:550;
+    font-size:0.85rem;
+}
+img{
+    width:20px;
+    margin-right:10px;
 }
 
 .selecionado{
@@ -130,12 +140,14 @@ align-items:center;
 width:100%;
 padding:0 10px;
 color:white;
-font-weight:700;
+font-weight:500;
 position:absolute;
 bottom: 5%;
+font-size:0.85rem;
 
 img{
     margin-right:10px;
+    width:20px;
 }
 `
 
@@ -196,6 +208,7 @@ function LateralHeader(props) {
                     </Selecao>
 
                     <Selecao
+                    
                         className={selecionado === "planejamentos" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("planejamentos")
@@ -221,6 +234,7 @@ function LateralHeader(props) {
                         <div className="selecoes-texto">Objetivos</div>
                     </Selecao>
 
+                   
                     <Selecao
                         className={selecionado === "config" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
@@ -233,6 +247,7 @@ function LateralHeader(props) {
                         </div>
                         <div className="selecoes-texto">Configurações</div>
                     </Selecao>
+                    
                 </NavbarLateral>
 
 

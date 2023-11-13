@@ -28,6 +28,10 @@ import maisIcon from '../../../assets/Mais.png'
 import iconPrato from '../../../assets/iconPrato.png'
 import seta1 from '../../../assets/seta.png'
 import iconChart1 from '../../../assets/graficIcon.png'
+import cardIcon from '../../../assets/cardIcon.png'
+import seta22 from '../../../assets/seta22.png'
+import seta33 from '../../../assets/seta33.png'
+
 
 const icons = {
     visaoDesativa,
@@ -59,7 +63,10 @@ const icons = {
     maisIcon,
     iconPrato,
     seta1,
-    iconChart1
+    iconChart1,
+    cardIcon,
+    seta22,
+    seta33
 }
 
 export const Icon = (icon) => {
