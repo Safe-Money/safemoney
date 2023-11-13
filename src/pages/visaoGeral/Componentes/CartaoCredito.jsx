@@ -339,7 +339,7 @@ function CartaoCredito() {
                             <path d="M6.96846 18.4385H12.0315C16.2508 18.4385 17.9385 16.7508 17.9385 12.5315V7.46846C17.9385 3.24922 16.2508 1.56152 12.0315 1.56152H6.96846C2.74922 1.56152 1.06152 3.24922 1.06152 7.46846V12.5315C1.06152 16.7508 2.74922 18.4385 6.96846 18.4385Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
 
-                        Nova conta
+                        Novo cartão
                     </div>
                     <ModalCartao
                         isOpen={isModalOpen}
