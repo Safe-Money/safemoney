@@ -144,6 +144,7 @@ font-weight:500;
 position:absolute;
 bottom: 5%;
 font-size:0.85rem;
+cursor: pointer;
 
 img{
     margin-right:10px;
@@ -251,7 +252,8 @@ function LateralHeader(props) {
                 </NavbarLateral>
 
 
-                <Sair>
+                <Sair onClick={() => {sessionStorage.clear()
+                    navigate("/")}}>
                     <img src={Icon('sairIcon')} />
                     Sair
                 </Sair>

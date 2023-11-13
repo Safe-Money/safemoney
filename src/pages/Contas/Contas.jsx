@@ -4,13 +4,15 @@ import UltimosGastos from "./Componentes/UltimosGastos"
 import Balanco from "./Componentes/Balanco"
 import ContasAPagar from "./Componentes/ContasAPagar"
 import SaldoProjetado from "./Componentes/SaldoProjetado"
+import LateralHeader from "../visaoGeral/Componentes/LateralHeader";
 
 const AllContainers = styled.div`
   display: flex;
   height:100vh;
-  width:86%;
+  width:100%;
   box-sizing: border-box;
   overflow-y:hidden;
+  background-color:#DBE7E0;
 
   *{
     box-sizing: border-box;
@@ -22,10 +24,9 @@ const AllContainers = styled.div`
 
 const Social = styled.div`
 display:flex;
-width:100%;
+width:86%;
 padding:10px 20px;
 justify-content:space-between;
-background-color:#DBE7E0;
 flex-direction:column;
 
 .bloco1{
@@ -51,6 +52,7 @@ function Contas() {
     return (
         
         <AllContainers>
+            <LateralHeader selecionado="geral" />
 
             <Social>
                 <div className="bloco1">

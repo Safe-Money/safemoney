@@ -3,6 +3,7 @@ import { Icon } from "../funcoes/icons";
 import React, { useState } from 'react';
 import ModalWrapper from "./ModalWrapper";
 import ContaContainer from './ContaContainer'; // Importa o novo componente
+import { useNavigate } from "react-router-dom";
 
 const ContainerMinhasContas = styled.div`
 display:flex;
@@ -12,6 +13,7 @@ border-radius:10px;
 padding:22px;
 flex-direction:column;
 background-color:#FDFDFD;
+cursor:pointer;
 
 .titulo-icone{
     display:flex;
@@ -171,10 +173,13 @@ function MinhasContas() {
         setIsModalOpen(false);
     };
 
+    const navigate = useNavigate();
+
     const handleSalvarConta = (novaConta) => {
         const saldoString = novaConta.saldo.toString();
 
             const saldoNumerico = parseFloat(saldoString.replace(/[^\d.-]/g, '')); // Remove caracteres não numéricos
+
 
     // Verifica se o saldo é um número válido
     if (!isNaN(saldoNumerico) && saldoNumerico >= 0) {
@@ -215,7 +220,7 @@ function MinhasContas() {
 
     return (
         <>
-            <ContainerMinhasContas>
+            <ContainerMinhasContas onClick ={()=> navigate("/conta")}>
                 <div className="titulo-icone">
                     <img src={Icon('contasIcon')} />
                     Minhas Contas
