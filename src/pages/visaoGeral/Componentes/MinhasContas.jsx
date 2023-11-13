@@ -13,7 +13,6 @@ border-radius:10px;
 padding:22px;
 flex-direction:column;
 background-color:#FDFDFD;
-cursor:pointer;
 
 .titulo-icone{
     display:flex;
@@ -22,6 +21,7 @@ cursor:pointer;
     height:10%;
     width:100%;
     margin-bottom:10px;
+    cursor:pointer;
 
 }
 .titulo-icone img{
@@ -220,8 +220,8 @@ function MinhasContas() {
 
     return (
         <>
-            <ContainerMinhasContas onClick ={()=> navigate("/conta")}>
-                <div className="titulo-icone">
+            <ContainerMinhasContas>
+                <div className="titulo-icone" onClick ={()=> navigate("/conta")}>
                     <img src={Icon('contasIcon')} />
                     Minhas Contas
                 </div>
