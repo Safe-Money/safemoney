@@ -29,7 +29,7 @@ const AllContainers = styled.div`
 `
 
 function Config() {
-    const [ativo, setAtivo] = useState(true);
+    const [ativo, setAtivo] = useState(false);
     const [email, setEmail] = useState("gabriel@sptech");
     const [nome, setNome] = useState("gabriel");
     const [senha, setSenha] = useState("123");
@@ -64,9 +64,13 @@ function Config() {
                         </div>
 
                         <div className="footer">
-                            <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleClick()}>
+                            {!ativo && <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleClick()}>
                                 Alterar
-                            </Button>
+                            </Button>}
+
+                            {ativo && <Button bg="#D0112B" color='white' width="45%" height="50px" onClick={() => handleClick()}>
+                                Cancelar
+                            </Button>}
 
                             <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleSave()}>
                                 Salvar

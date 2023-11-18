@@ -156,6 +156,7 @@ background-color:#FDFDFD;
     font-size:14px;
     align-items:center;
     cursor:pointer;
+    transition: ease 0.2s;
 }
 
 .adicionaConta:hover{

@@ -10,5 +10,6 @@ export const Button = styled.button`
     font-size: 13px;
     cursor: pointer;
     font-weight:500;
+    transition: ease 0.2s;
 `
 

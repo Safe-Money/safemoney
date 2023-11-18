@@ -3,7 +3,7 @@ import { Icon } from "../funcoes/icons";
 
 const ContainerUltimosGastos = styled.div`
 display:flex;
-height:35%;
+max-height:28%;
 width:100%;
 border-radius:10px;
 padding:10px;
@@ -16,7 +16,7 @@ flex-direction:column;
     font-weight:700;
     height:10%;
     width:100%;
-    margin-bottom:10px;
+    margin: 5px 0;
 
 }
 .titulo-icone svg{
@@ -28,8 +28,9 @@ flex-direction:column;
 .conteudo-lista{
     display:flex;
     width:100%;
-    height:90%;
+    height:95%;
     flex-direction:column;
+    margin-top:10px;    
 }
 
 .titulos-categoria{
@@ -51,13 +52,13 @@ flex-direction:column;
 }
 .titulos-categoria .valor{
     display:flex;
-    width:20%;
+    width:15%;
     justify-content:center;
 
 }
 .titulos-categoria .data{
     display:flex;
-    width:10%;
+    width:15%;
     justify-content:center;
 
 }
@@ -76,7 +77,7 @@ flex-direction:column;
 .container-lista-scroll{
     display:flex;
     width:100%;
-    height:100%;
+    height:69%;
     overflow-x:hidden;
     flex-direction:column;
 
@@ -104,7 +105,7 @@ flex-direction:column;
     height:40%;
     justify-content:center;
     align-items:center;
-    font-size:12px;
+    font-size:13px;
     border-bottom: solid 1px rgba(119, 119, 119, 1);
 }
 
@@ -115,11 +116,12 @@ flex-direction:column;
     align-items:center;
 }
 .icone-lista img{
-    border-radius:50%;
+    height:100px;
     width:40%;
 }
 .container-lista .descricao-lista{
-    width:25%;
+    width:15%;
+    margin-left:4%;
     display:flex;
     justify-content:center;
     align-items:center;

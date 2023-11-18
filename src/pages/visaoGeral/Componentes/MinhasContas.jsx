@@ -21,7 +21,6 @@ background-color:#FDFDFD;
     height:10%;
     width:100%;
     margin-bottom:10px;
-    cursor:pointer;
 
 }
 .titulo-icone img{
@@ -140,6 +139,7 @@ background-color:#FDFDFD;
     font-size:14px;
     align-items:center;
     cursor:pointer;
+    transition: ease 0.2s;
 }
 
 .adicionaConta:hover{
@@ -148,6 +148,10 @@ background-color:#FDFDFD;
 
 .adicionaConta svg{
     margin-right:5px;
+}
+
+.containers{
+    cursor:pointer;
 }
 `
 
@@ -221,7 +225,7 @@ function MinhasContas() {
     return (
         <>
             <ContainerMinhasContas>
-                <div className="titulo-icone" onClick ={()=> navigate("/conta")}>
+                <div className="titulo-icone">
                     <img src={Icon('contasIcon')} />
                     Minhas Contas
                 </div>
@@ -233,7 +237,7 @@ function MinhasContas() {
 
                     <div className="containerBanco">
                         {contasRenderizadas}
-                        <div className="containers">
+                        <div className="containers" onClick ={()=> navigate("/conta")}>
                             <div className="icon">
                                 <img src={Icon('bradescoIcon')} />
 
@@ -248,7 +252,7 @@ function MinhasContas() {
                         </div>
 
 
-                        <div className="containers">
+                        <div className="containers" onClick ={()=> navigate("/conta")}>
                             <div className="icon">
                                 <img src={Icon('itauIcon')} />
                             </div>

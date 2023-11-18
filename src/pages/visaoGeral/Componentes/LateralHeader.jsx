@@ -5,8 +5,8 @@ import { useState } from "react";
 
 const Header = styled.div`
 width: 180px;
-height:100vh;
-background-color:#08632D;
+height: 100vh;
+background-color: #08632D;
 padding: 5% 0 0 0;
 border-radius: 0px 15px 15px 0px;
 `
@@ -171,7 +171,7 @@ function LateralHeader(props) {
                         </span>
                     </div>
                     <div className="bem-vindo">
-                        Bem Vindo!
+                        Olá,
                     </div>
                     <div className="nome">
                         {sessionStorage?.getItem("nomeUsuario")}
@@ -252,7 +252,8 @@ function LateralHeader(props) {
                 </NavbarLateral>
 
 
-                <Sair onClick={() => {sessionStorage.clear()
+                <Sair onClick={() => {
+                    sessionStorage.clear()
                     navigate("/")}}>
                     <img src={Icon('sairIcon')} />
                     Sair

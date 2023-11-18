@@ -3,7 +3,7 @@ import { Icon } from "../funcoes/icons";
 
 const ContainerAcessoRapido = styled.div`
 display:flex;
-height:30%;
+height:32%;
 width:100%;
 border-radius:10px;
 padding:20px 10px 20px 10px;

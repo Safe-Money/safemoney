@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer } from 
 
 const ContainerPrevisao = styled.div`
   display: flex;
-  height: 30%;
+  height: 35%;
   width: 100%;
   border-radius: 10px;
   padding: 10px;
@@ -29,7 +29,9 @@ const ContainerPrevisao = styled.div`
   }
 
   .grafico-container {
-    height: 50%;
+    height: 52%;
+    width: 80%;
+    font-size: 10px;
   }
 
   .texto-container {
@@ -104,7 +106,7 @@ function Previsao() {
         <div className="conteudo">
           <div className="grafico-container">
             <ResponsiveContainer width="100%" height="200%" position="absolute">
-              <BarChart data={dadosGrafico} margin={{ top: 20, right: 300, bottom: 20, left: 10 }}>
+              <BarChart data={dadosGrafico} margin={{ top: 20, right: 250, bottom: 20, left: 0 }}>
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
