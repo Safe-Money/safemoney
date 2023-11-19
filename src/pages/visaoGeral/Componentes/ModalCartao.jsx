@@ -33,7 +33,8 @@ const LogoNome = styled.div`
 display:flex;
 flex-direction:column;
 align-items:center;
-color:#09B451;
+color:#08632d;
+margin: 10px 0;
 
 span{
 }
@@ -63,12 +64,14 @@ button{
 
 .cancelar{
   color:white;
-  background-Color:rgba(255, 0, 0, 1);
+  background-Color:#D7263D;
   cursor:pointer;
+  border: none;
 }
 .adicionar-btn{
   color:white;
-  background-Color:rgba(9, 180, 81, 1);
+  background-Color:#08632D;
+  border:none;
   cursor:pointer;
 }
 `;
@@ -83,6 +86,7 @@ border-radius: 5px;
 letter-spacing: 0.8px;
 background-color: #FFF;
 color: #000;
+cursor: pointer;
 `;
 const OrigemSelect = styled.select`
 width: 100%;
@@ -94,6 +98,7 @@ border-radius: 5px;
 letter-spacing: 0.8px;
 background-color: #FFF;
 color: #000;
+cursor: pointer;
 `;
 
 const LabelInput = styled.div`
@@ -101,7 +106,7 @@ display:flex;
 flex-direction:column;
 margin-bottom:30px;
 align-items:center;
-color:#09B451;
+color:#08632D;
 position: relative;
 margin: 3% 0;
 width:50%;
@@ -304,7 +309,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
         <LogoNome>
           <span><img src={Icon('logo')} />
           </span>
-          <div>Nova Conta</div>
+          <div>Novo Cartão</div>
         </LogoNome>
 
 

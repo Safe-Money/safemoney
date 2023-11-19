@@ -13,6 +13,7 @@ const AllContainers = styled.div`
   height:100vh;
   box-sizing: border-box;
   overflow-y:hidden;
+  background-color:#DBE7E0;
 
   *{
     box-sizing: border-box;
@@ -26,7 +27,6 @@ display:flex;
 width:88%;
 padding:10px 20px;
 justify-content:space-between;
-background-color:#DBE7E0;
 
 
 .bloco1{

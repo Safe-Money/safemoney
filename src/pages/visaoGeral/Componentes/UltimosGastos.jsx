@@ -3,7 +3,7 @@ import { Icon } from "../funcoes/icons";
 
 const ContainerUltimosGastos = styled.div`
 display:flex;
-max-height:28%;
+height:35%;
 width:100%;
 border-radius:10px;
 padding:10px;

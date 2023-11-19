@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
+import Notification from "./Notification";
 
 const ContainerAcessoRapido = styled.div`
 display:flex;
-height:32%;
+height:20%;
 width:100%;
 border-radius:10px;
 padding:20px 10px 20px 10px;
@@ -33,7 +34,7 @@ flex-direction:column;
 .area-conteudo .conteudoBloco1{
     display:flex;
     flex-direction:column;
-    width:70%;
+    width:95%;
     height:100%;
     justify-content:space-between;
 }
@@ -50,35 +51,38 @@ flex-direction:column;
     flex-direction:column;
     justify-content:space-around;
     align-items:center;
-    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    background: #FDFDFD;
+    margin:5% 0;
     padding:3%;
-    width:30%;
+    width:70vw;
     height:100%;
-    font-size:10px;
-}
-
-.box:hover{
-    transform:scale(1.2);
+    font-size:11px;
+    cursor:pointer;
 }
 
 .box img{
     width:40%;
-        margin-bottom:5px;
-
+    margin: 8px 0;
 }
+
+.box img:hover{
+    opacity:0.7;
+    transition:0.3s ease;
+}
+
 
 .number_saldo{
     color:rgba(2, 102, 44, 1);
-    font-weight:600;
+    font-size:13px;
+    font-weight: 600;
 }
 .number_despesa{
     color:rgba(165, 0, 0, 1);
+    font-size:13px;
     font-weight:600;
 }
 .number_gasto{
     color:rgba(57, 41, 156, 1);
+    font-size:13px;
     font-weight:600;
 }
 
@@ -94,67 +98,7 @@ flex-direction:column;
     width:30%;
     justify-content:end;
 }
-
-.conteudoBloco2 .container-lista-notificacao{
-    display:flex;
-    height:100%;
-    width:90%;
-    flex-direction:column;
-    align-items:center;
-    border-radius: 20px;
-    background: #FDFDFD;
-    box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
-    padding:13px;
-}
-
-.container-lista-notificacao icone{
-
-}
-
-.container-lista-notificacao .tituloLista{
-    font-size: 11px;
-    font-weight:500;
-    margin-bottom:10px;
-    
-}
-.container-lista-notificacao .listaNotificacao{
-    display:flex;
-    flex-direction:column;
-    overflow:auto;
-
-}
-
-.listaNotificacao{
-    overflow-y: auto;
-    scrollbar-width: thin; 
-    scrollbar-color: #08632D #FDFDFD; /* Para navegadores Firefox */
-    &::-webkit-scrollbar {
-        width: 10px; /* Largura da barra de rolagem */
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: #08632D; /* Cor do polegar da barra de rolagem */
-        border-radius: 5px; /* Raio da borda do polegar da barra de rolagem */
-    }
-    &::-webkit-scrollbar-track {
-        background-color: rgba(228, 228, 228, 1);
-        border-radius:5px; /* Cor da trilha da barra de rolagem */
-    }
-}
-
-.listaNotificacao .containers-lista{
-    display:flex;
-    font-size: 9px;
-    height:30px;
-    line-height:normal;
-    font-weight: 400;
-    border-bottom: solid 1px rgba(159, 159, 159, 1);
-    margin-right:10px;
-    margin-bottom:7px;
-}
-
-
 `
-
 
 
 function AcessoRapido() {
@@ -174,62 +118,25 @@ function AcessoRapido() {
                         <div className="box-tree">
                             <span className="box">
                                 <img src={Icon('negativoIcon')} />
-                                <span>DESPESAS</span>
+                                <span className="action">Nova despesa</span>
                             </span>
 
                             <span className="box">
                                 <img src={Icon('positivoIcon')} />
-                                <span>RECEITA</span>
+                                <span className="action">Nova receita</span>
                             </span>
 
                             <span className="box">
                                 <img src={Icon('transferenciaIcon')} />
-                                <span>TRANSFERENCIA</span>
-                            </span>
-                        </div>
-
-                        <div className="tituloResumo">
-                            Resumo
-                        </div>
-
-                        <div className="box-tree">
-                            <span className="box">
-                                <span className="number_saldo">R$ 20.000,00</span>
-                                <span>Saldo Total</span>
+                                <span className="action">Transferir</span>
                             </span>
 
                             <span className="box">
-                                <span className="number_despesa">R$ 5.000,00</span>
-                                <span>Despesas totais</span>
+                                <Notification />
                             </span>
-
-                            <span className="box">
-                                <span className="number_gasto">R$ 10.000,00</span>
-                                <span>Gasto cartões</span>
-                            </span>
-                        </div>
-
-                    </div>
-                    <div className="conteudoBloco2">
-                        <div className="container-lista-notificacao">
-                            <div className="icone">
-                                <img src={Icon('notificacaoIcon')} />
-
-                            </div>
-                            <div className="tituloLista">
-                                Notificações
-                            </div>
-                            <div className="listaNotificacao">
-                                <div className="containers-lista">1 - Fatura fechou</div>
-                                <div className="containers-lista">2 - Fatura fechou</div>
-                                <div className="containers-lista">3 - Fatura fechou</div>
-                                <div className="containers-lista">4 - Fatura fechou</div>
-                                <div className="containers-lista">5 - Fatura fechou</div>
-                                <div className="containers-lista">6 - Fatura fechou</div>
-                                <div className="containers-lista">7 - Fatura fechou</div>
-                            </div>
                         </div>
                     </div>
+
                 </div>
             </ContainerAcessoRapido>
         </>

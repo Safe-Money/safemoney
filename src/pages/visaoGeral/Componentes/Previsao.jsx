@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer } from 
 
 const ContainerPrevisao = styled.div`
   display: flex;
-  height: 35%;
+  height: 40%;
   width: 100%;
   border-radius: 10px;
   padding: 10px;
@@ -30,8 +30,8 @@ const ContainerPrevisao = styled.div`
 
   .grafico-container {
     height: 52%;
-    width: 80%;
-    font-size: 10px;
+    width: 93%;
+    font-size: 11px;
   }
 
   .texto-container {
@@ -51,13 +51,12 @@ const TextoBox = styled.div`
   position:absolute;
   display:flex;
   flex-direction:column;
-  height:80%;
+  height:50%;
   right:50px;
-  top:10px;
+  top:20px;
   justify-content:space-between;
 
   div{
-    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.25);
     padding:10px;
     border-radius: 10px;
   }
@@ -69,12 +68,18 @@ const TextoBox = styled.div`
 
   .receitaBox{
     color:#08632D;
+    font-weight:700;
+    font-size:15px;
   }
   .despesaBox{
     color:#AD0000;
+    font-weight:700;
+    font-size:15px;
   }
   .saldoBox{
     color:#4232A9;
+    font-weight:700;
+    font-size:15px;
   }
   `;
 
@@ -101,7 +106,7 @@ function Previsao() {
             <path d="M6 10H14" stroke="#08632D" strokeLinecap="round" />
             <path d="M6 13H14" stroke="#08632D" strokeLinecap="round" />
           </svg>
-          Previsão para final de setembro
+          Resumo - Saldo Projetado
         </div>
         <div className="conteudo">
           <div className="grafico-container">

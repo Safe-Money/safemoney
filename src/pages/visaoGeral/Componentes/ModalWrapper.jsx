@@ -33,7 +33,7 @@ const LogoNome = styled.div`
 display:flex;
 flex-direction:column;
 align-items:center;
-color:#09B451;
+color:#08632D;
 
 span{
 }
@@ -63,12 +63,14 @@ button{
 
 .cancelar{
   color:white;
-  background-Color:rgba(255, 0, 0, 1);
+  background-color:#D0112B;
   cursor:pointer;
+  border:none;
 }
 .adicionar-btn{
   color:white;
-  background-Color:rgba(9, 180, 81, 1);
+  border: none;
+  background-Color:#08632D;
   cursor:pointer;
 }
 `;
@@ -102,8 +104,10 @@ display:flex;
 flex-direction:column;
 margin-bottom:30px;
 align-items:center;
-color:#09B451;
+color:#08632D;
 position: relative;
+border: none;
+cursor: pointer;
 margin: 3% 0;
 width:50%;
 box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
@@ -289,7 +293,7 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
           </StyledSelect>
         </LabelInput>
         <LabelInput>
-        <div className="label">Saldo</div>
+        <div className="label">Saldo (R$)</div>
           <input
             id="select_saldo"
             type="text"
