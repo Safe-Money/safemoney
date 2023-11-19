@@ -9,6 +9,7 @@ import money from "./assets/money.svg"
 import trash from "./assets/trash.svg"
 import add from "./assets/add.svg"
 import LateralHeader from "../visaoGeral/Componentes/LateralHeader"
+import FloatingButton from  '../Cartoes/Components/FloatingButton'; 
 
 const AllContainers = styled.div`
   display: flex;
@@ -447,6 +448,7 @@ function Objetivos(props) {
 
                     </div>
                 </Social>
+                <FloatingButton/>
             </AllContainers>
 
 

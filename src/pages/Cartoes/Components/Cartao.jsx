@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 import styled from "styled-components";
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import Swal from 'sweetalert2';
-
+import FloatingButton from './FloatingButton'; 
 
 const AllContainers = styled.div`
   display: flex;
@@ -374,6 +374,8 @@ const TituloCardCategoria = styled.h2`
 
 `;
 
+;
+
 function CartoesGeral() {
   const cartoes = [
     { logo: 'visaIcon', title: 'Cartão do Brad', sub: 'Vinculado a Bradesco', fatura: 'R$2500', limite: '$5000', vencimento: '16/01', fechamento: '15/01' },
@@ -396,39 +398,45 @@ function CartoesGeral() {
 
 
 
+  
+
+ 
+
+
   return (
     <>
       <AllContainers>
       <LateralHeader selecionado="geral" />
         <Container>
+        
           <Content>
             <Image src={Icon('cardIcon')} />
             <Text>Cartões</Text>
           </Content>
-
-
-          <BotaoSuperiorDireito onClick={() => Swal.fire({
-        title: 'Você tem certeza?',
-        text: 'Esta ação não pode ser desfeita.',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sim, continuar!',
-        cancelButtonText: 'Não, cancelar!',
-        
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Confirmado!', 'Sua ação foi bem-sucedida.', 'success');
-        } else if (result.isDismissed === Swal.DismissReason.cancel) {
-          Swal.fire('Cancelado', 'Sua ação foi cancelada.', 'error');
-        }
-      })}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 12 11" fill="none">
-              <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M6 7.28755V3.71216" stroke="#FDFDFD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Remover Cartão
-          </BotaoSuperiorDireito>
+          <BotaoSuperiorDireito onClick={(e) => {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Você tem certeza?',
+    text: 'Esta ação não pode ser desfeita.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Sim, continuar!',
+    cancelButtonText: 'Não, cancelar!',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire('Confirmado!', 'Sua ação foi bem-sucedida.', 'success');
+    } else if (result.isDismissed === Swal.DismissReason.cancel) {
+      Swal.fire('Cancelado', 'Sua ação foi cancelada.', 'error');
+    }
+  });
+}}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 12 11" fill="none">
+    <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6 7.28755V3.71216" stroke="#FDFDFD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+  Remover Cartão
+</BotaoSuperiorDireito>
           <Wrapper>
           <CardGeralCard>
           {cartoes.map((cartao, index) => (
@@ -497,6 +505,7 @@ function CartoesGeral() {
         
        </CardCategoria>
           </Wrapper>
+          <FloatingButton />
         </Container>
       </AllContainers>
     </>

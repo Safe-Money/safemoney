@@ -5,6 +5,7 @@ import AcessoRapido from "./Componentes/AcessoRapido";
 import UltimosGastos from "./Componentes/UltimosGastos";
 import Previsao from "./Componentes/Previsao";
 import LateralHeader from "./Componentes/LateralHeader";
+import FloatingButton from  '../Cartoes/Components/FloatingButton'; 
 
 const AllContainers = styled.div`
   display: flex;
@@ -69,6 +70,7 @@ function Geral() {
 
                 </div>
 
+             <FloatingButton/>   
             </Social>
         </AllContainers>
 
