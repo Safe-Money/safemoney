@@ -13,7 +13,7 @@ function NotFound() {
 
         return (
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px'}}>
-                <img src={notFound} style={{height: '80vh', margin: '0 20%'}}/>
+                <img src={notFound} style={{height: '70vh', margin: '0 20%'}}/>
                 <Titulo>Página não encontrada</Titulo>
                 <Button bg="#08632D" color="white" onClick={() => navigate(-1)}>Voltar</Button>
             </div>

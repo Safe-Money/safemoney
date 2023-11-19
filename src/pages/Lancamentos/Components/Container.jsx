@@ -220,7 +220,7 @@ const TableFooter = styled.div`
   display: flex;
   justify-content: flex-end;
   background: white;
-  z-index: 1;
+ 
   margin-bottom: 2%;
 `;
 
