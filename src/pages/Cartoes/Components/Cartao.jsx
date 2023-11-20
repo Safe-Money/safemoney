@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 import styled from "styled-components";
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import Swal from 'sweetalert2';
 import FloatingButton from './FloatingButton'; 
+import axios from 'axios';
+
+
+
 
 const AllContainers = styled.div`
   display: flex;
@@ -44,6 +48,10 @@ const Container = styled.div`
   
   
 `;
+
+
+
+
 const Content = styled.div`
   margin-top: 3%;
   margin-left: 3%;
@@ -111,36 +119,42 @@ width:40vw;
 margin-right: 20px;
 
 &::-webkit-scrollbar {
-  width: 8px; 
+  width: 8px;
+  
+  
   
 }
 
 &::-webkit-scrollbar-thumb {
-  background-color: #08632D; 
+  background-color: #08632D;
   height: 5px;
-  border-radius: 6px; 
+  border-radius: 6px;
 }
 
 &::-webkit-scrollbar-track {
   background-color: #E4E4E4;
-  height:100px; 
-  border-radius: 6px; 
+  height: 100px;
+  margin-right:100px;
+  border-radius: 6px;
+  margin-top: 30px;
+    margin-bottom: 10px;
 }
 `;
 
 
 const CardContainer = styled.div`
  
-  margin-left: 3%;
+  margin-left: auto;
   display: flex;
   flex-direction: column;
   margin-top: 15px;
   width: 95%;
   max-height: 400px; 
-  border-bottom: 1.5px solid #ddd; 
+  border-bottom: 1px solid #ddd; 
   padding: 12px;
   background-color: #fff;
   margin-bottom:-10px;
+  margin-right:3px;
 `;
 const CardInfo = styled.div`
   display: flex;
@@ -170,7 +184,7 @@ const CardLogo = styled.img`
   width: 37px; 
   height: 37px;
   margin-right: 25px;
-  margin-left: 10px;
+  
 `;
 
 const CardDetails = styled.div`
@@ -262,28 +276,41 @@ const CardCategoria = styled.div`
   height: 79vh;
   flex-direction: column;
   overflow: auto;
+  
   width: 40.5vw;
   margin-left: 10px;
   margin-top: 20px;
   padding:30px;
 
   &::-webkit-scrollbar {
-    width: 8px; 
-    
+
+    width: 8px;
   }
   
   &::-webkit-scrollbar-thumb {
-    background-color: #08632D; 
-    height: 5px;
-    border-radius: 6px; 
+    background-color: #08632D;
+    border-radius: 6px;
+    box-shadow: inset 0 0 25px px #E4E4E4;
   }
   
   &::-webkit-scrollbar-track {
+    margin-top: 60px;
+    margin-bottom: 30px;
+   
     background-color: #E4E4E4;
-    height:100px; 
-    border-radius: 6px; 
+    
   }
+  
+  /* Estilos para navegadores baseados em Gecko (Firefox) */
+  /* Estes estilos podem ser diferentes, ajuste conforme necessário */
+  & {
+    scrollbar-color: #08632D #E4E4E4;
+    scrollbar-width: thin;
+  }
+
+
 `;
+
 
 const Table = styled.table`
   width: 100%;
@@ -298,6 +325,7 @@ const Table = styled.table`
     font-style: normal;
     font-weight: 600;
     line-height: normal
+    
   }
 
   tbody{
@@ -306,6 +334,7 @@ const Table = styled.table`
     font-style: normal;
     font-weight: 500;
     line-height: normal
+    position:fixed;
   }
 
   img{
@@ -344,91 +373,146 @@ const TituloCardCategoria = styled.h2`
   color: #000;
   font-family: Montserrat;
   font-size: 18px;
-  margin-bottom: 15px;
+  
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   display: flex;
   align-items: center;
+  justify-content: center;
 
+  position: fixed;
+  background-color: white;
+  height: 8.5%;
+  width: 40%;
+ 
 
-  .setaR{
-    border: none;
-    background: transparent;
+  .setaR, .setaL {
+    background-color: white;
+    color: white;
     cursor: pointer;
-    position: relative;
-    left: 70px; 
   }
 
-  .setaL{
+  .setaR {
     border: none;
-    background: transparent;
-    cursor: pointer;
-    position: relative;
-    right: 70px; 
+    margin-left: auto;
+    margin-right: 10px; /* Ajuste a distância do canto direito conforme necessário */
   }
 
-
+  .setaL {
+    border: none;
+    margin-right: auto;
+    margin-left: 10px; /* Ajuste a distância do canto esquerdo conforme necessário */
+  }
 `;
 
-;
+
+
 
 function CartoesGeral() {
-  const cartoes = [
-    { logo: 'visaIcon', title: 'Cartão do Brad', sub: 'Vinculado a Bradesco', fatura: 'R$2500', limite: '$5000', vencimento: '16/01', fechamento: '15/01' },
-    { logo: 'eloIcon', title: 'Cartão do Brad', sub: 'Vinculado a Bradesco', fatura: 'R$2500', limite: '$5000', vencimento: '16/01', fechamento: '15/01' },
-    { logo: 'masterIcon', title: 'Cartão do Brad', sub: 'Vinculado a Bradesco', fatura: 'R$2500', limite: '$5000', vencimento: '16/01', fechamento: '15/01' },
-    { logo: 'visaIcon', title: 'Cartão do Brad', sub: 'Vinculado a Bradesco', fatura: 'R$2500', limite: '$5000', vencimento: '16/01', fechamento: '15/01' },
-    { logo: 'visaIcon', title: 'Cartão do Brad', sub: 'Vinculado a Bradesco', fatura: 'R$2500', limite: '$5000', vencimento: '16/01', fechamento: '15/01' },
+  const [cartoes, setCartoes] = useState([]);
+const [progressos, setProgressos] = useState([]);
+const [dadosTabela, setDadosTabela] = useState([]);
 
-  ];
 
-  const dadosTabela = [
-    { icone: 'iconPrato', descricao: 'Descrição 1', valor: '$100', data: '01/01/2023' },
-    { icone: 'iconPrato', descricao: 'Descrição 2', valor: '$150', data: '05/01/2023' },
-    { icone: 'iconPrato', descricao: 'Descrição 2', valor: '$150', data: '05/01/2023' },
-    { icone: 'iconPrato', descricao: 'Descrição 2', valor: '$150', data: '05/01/2023' },
-    { icone: 'iconPrato', descricao: 'Descrição 2', valor: '$150', data: '05/01/2023' },
-    { icone: 'iconPrato', descricao: 'Descrição 2', valor: '$150', data: '05/01/2023' },
-    { icone: 'iconPrato', descricao: 'Descrição 2', valor: '$150', data: '05/01/2023' },    
-  ];
+const fetchData = async () => {
+  try {
+    console.log('Chamando fetchCartoes...');
+    await fetchCartoes();
+
+    console.log('Chamando endpoint dadostabela...');
+    const responseTabela = await axios.get('http://localhost:3001/dadostabela');
+    const dataTabela = responseTabela.data;
+    console.log('Dados do endpoint dadostabela:', dataTabela);
+
+    
+    setDadosTabela(dataTabela);
+  } catch (error) {
+    console.error('Erro ao buscar dados da API:', error);
+  }
+};
 
 
   
 
-  
 
- 
+
+const fetchCartoes = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/cartoes');
+    
+    const data = response.data;
+    
+    
+    if (Array.isArray(data) && data.length > 0) {
+     
+      const primeiroCartao = data[0];
+
+    
+      if ('fatura' in primeiroCartao && 'limite' in primeiroCartao) {
+    
+        setCartoes(data);
+        
+      } else {
+        console.error('Propriedades necessárias não encontradas no objeto da API:', primeiroCartao);
+      }
+    } else {
+      console.error('Formato de resposta da API inválido:', data);
+    }
+  } catch (error) {
+    console.error('Erro ao buscar dados da API:', error);
+  }
+};
+
+useEffect(() => {
+  const fetchDataAndCartoes = async () => {
+    await fetchCartoes();
+    await fetchData(); 
+    atualizarProgressos();
+  };
+
+  fetchDataAndCartoes();
+}, []);
+
+
+
+
+const calcularPorcentagem = (fatura, limite) => {
+  return (fatura / limite) * 100;
+};
+
+const atualizarProgressos = () => {
+  const novosProgressos = cartoes.map((cartao) => {
+    return calcularPorcentagem(cartao.fatura, cartao.limite);
+  });
+  setProgressos(novosProgressos);
+};
 
 
   return (
     <>
       <AllContainers>
-      <LateralHeader selecionado="geral" />
-     
+        <LateralHeader selecionado="cartoes" />
         <Container>
-      
-        
           <Content>
-          <button className="botaoSuperiorDireito" onClick={() => alert("Botão Superior Direito Clicado!")}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
-<path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6 7.28755V3.71216" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-Remover cartão
-        </button>
+            <button className="botaoSuperiorDireito" onClick={() => alert("Botão Superior Direito Clicado!")}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
+                <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 7.28755V3.71216" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Remover cartão
+            </button>
             <Image src={Icon('cardIcon')} />
             <Text>Cartões</Text>
-        
           </Content>
-   
+
           <Wrapper>
-          <CardGeralCard>
-          {cartoes.map((cartao, index) => (
-            <CardContainer key={index}>
-              <CardInfo>
-                <CardLogo src={Icon(cartao.logo)} />
+            <CardGeralCard>
+              {cartoes.map((cartao, index) => (
+                <CardContainer key={index}>
+                  <CardInfo>
+                    <CardLogo src={Icon(cartao.logo)} />
                 <CardTitle>{cartao.title}</CardTitle>
                 <CardSub>{cartao.sub}</CardSub>
                 <CardButton>
@@ -439,64 +523,62 @@ Remover cartão
                   </svg>
                   Adicionar fatura
                 </CardButton>
-              </CardInfo>
-              <CardDetails>
-                <CardFatura>Fatura: {cartao.fatura}</CardFatura>
-                <CardLimite>Limite: {cartao.limite}</CardLimite>
-              </CardDetails>
-              <ProgressBarWrapper>
-                <ProgressBar>
-                  <ProgressFill />
-                </ProgressBar>
-              </ProgressBarWrapper>
-              <CardDates>
-                <CardDetail>Vencimento: <span className='negri'>{cartao.vencimento}</span></CardDetail>
+                  </CardInfo>
+                  <CardDetails>
+                   <CardFatura>Fatura R$: {cartao.fatura}</CardFatura>
+                <CardLimite>Limite R$: {cartao.limite}</CardLimite>
+                  </CardDetails>
+                  <ProgressBarWrapper>
+                    <ProgressBar>
+                      <ProgressFill style={{ width: `${progressos[index] || 0}%` }} />
+                    </ProgressBar>
+                  </ProgressBarWrapper>
+                  <CardDates>
+                   <CardDetail>Vencimento: <span className='negri'>{cartao.vencimento}</span></CardDetail>
                 <CardDetail>Fechamento: <span className='negri'>{cartao.fechamento}</span></CardDetail>
-              </CardDates>
-            </CardContainer>
-          ))}
-</CardGeralCard>
-       <CardCategoria>
-      
-        <TituloContainer>
-              
-              <TituloCardCategoria>
-                <button className='setaL'  onClick={() => alert("Botão Clicado!")}> <img src={Icon('seta22')}  alt="Seta" /></button>
-                Fatura - Novembro 
-                <button className='setaR'> <img src={Icon('seta33')}  alt="Seta" /></button></TituloCardCategoria>
-             
-            </TituloContainer>
-       <Table>
-          <thead>
-            <TableRow>
-              <TableCell>Ícone</TableCell>
-              <TableCell>Descrição</TableCell>
-              <TableCell>Valor</TableCell>
-              <TableCell>Data</TableCell>
+                  </CardDates>
+                </CardContainer>
+              ))}
+            </CardGeralCard>
+
+            <CardCategoria>
+              <TituloContainer>
+                <TituloCardCategoria>
+                  <button className='setaL'  onClick={() => alert("Botão Clicado!")}> <img src={Icon('seta22')}  alt="Seta" /></button>
+                  Fatura - Novembro 
+                  <button className='setaR'> <img src={Icon('seta33')}  alt="Seta" /></button>
+                </TituloCardCategoria>
+              </TituloContainer>
+              <Table>
+        <thead>
+          <TableRow>
+            <TableCell>Ícone</TableCell>
+            <TableCell>Descrição</TableCell>
+            <TableCell>Valor</TableCell>
+            <TableCell>Data</TableCell>
+          </TableRow>
+        </thead>
+        <tbody>
+          {dadosTabela.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell>
+                <img src={Icon(item.icone)} alt="Ícone" />
+              </TableCell>
+              <TableCell>{item.descricao}</TableCell>
+              <TableCell>{item.valor}</TableCell>
+              <TableCell>{item.data}</TableCell>
             </TableRow>
-          </thead>
-          <tbody>
-            {dadosTabela.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <img src={Icon(item.icone)} alt="Ícone" />
-                </TableCell>
-                <TableCell>{item.descricao}</TableCell>
-                <TableCell>{item.valor}</TableCell>
-                <TableCell>{item.data}</TableCell>
-              </TableRow>
-            ))}
-          </tbody>
-        </Table>
-        
-       </CardCategoria>
+          ))}
+        </tbody>
+      </Table>
+            </CardCategoria>
           </Wrapper>
           <FloatingButton />
-          
         </Container>
       </AllContainers>
     </>
   );
 }
+
 
 export default CartoesGeral;

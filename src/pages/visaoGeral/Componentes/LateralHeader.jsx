@@ -132,6 +132,10 @@ img{
     color:#08632D;
     background-color:white;
 }
+
+.planejamentosAtiva{
+    width: 15px;
+}
 `
 
 const Sair = styled.div`
@@ -194,6 +198,21 @@ function LateralHeader(props) {
                     </Selecao>
 
                     <Selecao
+                        className={selecionado === "cartoes" ? "selecionado" : "selecoes-texto"}
+                        onClick={() => {
+                            handleClick("cartoes")
+                            navigate("/cartoes")
+                        }
+                        }
+                    >
+                        <div className="selecoes-icone">
+                            {selecionado === "cartoes" ? <img   src={Icon("cartoesAtiva")} /> : <img src={Icon("cartoesIcon")} />}
+                        </div>
+
+                        <div className="selecoes-texto">Cartões</div>
+                    </Selecao>
+
+                    <Selecao
                         className={selecionado === "lancamentos" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("lancamentos")
@@ -202,7 +221,7 @@ function LateralHeader(props) {
                         }
                     >
                         <div className="selecoes-icone">
-                            {selecionado === "lancamentos" ? <img src={Icon("lancamentosAtiva")} /> : <img src={Icon("lancamentosIcon")} />}
+                            {selecionado === "lancamentos" ? <img   src={Icon("lancamentosAtiva")} /> : <img src={Icon("lancamentosIcon")} />}
                         </div>
 
                         <div className="selecoes-texto">Lançamentos</div>
@@ -217,7 +236,7 @@ function LateralHeader(props) {
                         }}
                     >
                         <div className="selecoes-icone">
-                            {selecionado === "planejamentos" ? <img src={Icon("planejamentosAtiva")} /> : <img src={Icon("planejamentosIcon")} />}
+                            {selecionado === "planejamentos" ? <img  className="planejamentosAtiva" src={Icon("planejamentosAtiva")} /> : <img src={Icon("planejamentosIcon")} />}
                         </div>
                         <div className="selecoes-texto">Planejamentos</div>
                     </Selecao>

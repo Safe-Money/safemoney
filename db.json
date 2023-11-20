@@ -1,0 +1,19 @@
+{
+  "cartoes": [
+    { "logo": "visaIcon", "title": "Cartão do Pinto", "sub": "Vinculado ao Bradesco", "fatura": 2500, "limite": 8000, "vencimento": "16/01", "fechamento": "15/01" },
+    { "logo": "eloIcon", "title": "Cartão do Brad", "sub": "Vinculado ao Bradesco", "fatura": 200, "limite": 5000, "vencimento": "16/01", "fechamento": "15/01" },
+    { "logo": "masterIcon", "title": "Cartão do Brad", "sub": "Vinculado ao Bradesco", "fatura": 2500, "limite": 5000, "vencimento": "16/01", "fechamento": "15/01" },
+    { "logo": "visaIcon", "title": "Cartão do Brad", "sub": "Vinculado ao Bradesco", "fatura": 1500, "limite": 5000, "vencimento": "16/01", "fechamento": "15/01" },
+    { "logo": "visaIcon", "title": "Cartão do Brad", "sub": "Vinculado ao Bradesco", "fatura": 900, "limite": 5000, "vencimento": "16/01", "fechamento": "15/01" }
+  ],
+  "dadosTabela": [
+    { "icone": "iconPrato", "descricao": "Descrição 1", "valor": "$100", "data": "01/01/2023" },
+    { "icone": "iconPrato", "descricao": "Descrição 2", "valor": "$150", "data": "05/01/2023" },
+    { "icone": "iconPrato", "descricao": "Descrição 2", "valor": "$150", "data": "05/01/2023" },
+    { "icone": "iconPrato", "descricao": "Descrição 2", "valor": "$150", "data": "05/01/2023" },
+    { "icone": "iconPrato", "descricao": "Descrição 2", "valor": "$150", "data": "05/01/2023" },
+    { "icone": "iconPrato", "descricao": "Descrição 2", "valor": "$150", "data": "05/01/2023" },
+    { "icone": "iconPrato", "descricao": "Descrição 2", "valor": "$150", "data": "05/01/2023" },
+    { "icone": "iconPrato", "descricao": "Descrição 2", "valor": "$150", "data": "05/01/2023" }
+  ]
+}
