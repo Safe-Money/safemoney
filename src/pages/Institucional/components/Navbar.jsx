@@ -80,9 +80,13 @@ function Navbar() {
       <Bottoms>
         <a onClick={()=> navigate("/login")}>Login</a>
 
+        <a onClick={()=> navigate("/cadastro")}>
         <Button bg="#08632D" color="white">
-          Cadastro
+
+        Cadastro
+
         </Button>
+        </a>
       </Bottoms>
     </Nav>
   );
