@@ -4,6 +4,7 @@ import Cadastro from "../pages/Login/Cadastro";
 import Geral from "../pages/visaoGeral/Geral";
 import LancGeral from "../pages/Lancamentos/Funcoes/LancGeral";
 import Objetivos from "../pages/Objetivos/Objetivos";
+import Planejamento from "../pages/Planejamento/Planejamento";
 import Config from "../pages/visaoGeral/Config";
 import Card from "../pages/Cartoes/Funcoes/CardGeral.jsx";
 import Contas from "../pages/Contas/Contas.jsx";
@@ -22,6 +23,7 @@ function Rotas() {
           <Route path="/cadastro" element={<Cadastro/>} />
           <Route path="/visao-geral" element={<Geral/>} />
           <Route path="/lancamentos" element={<LancGeral/>} />
+          <Route path="/planejamentos" element={<Planejamento/>} />
           <Route path="/objetivos" element={<Objetivos/>} />
           <Route path="/config" element={<Config/>} />
           <Route path="/cartoes" element={<Card/>} />

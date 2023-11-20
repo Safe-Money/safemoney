@@ -31,6 +31,9 @@ import iconChart1 from '../../../assets/graficIcon.png'
 import cardIcon from '../../../assets/cardIcon.png'
 import seta22 from '../../../assets/seta22.png'
 import seta33 from '../../../assets/seta33.png'
+import editar1Icon from '../../../assets/editar1.svg';
+import botaoApagarIcon from '../../../assets/botao-apagar1.svg';
+import sacoDeDolarIcon from '../../../assets/saco-de-dolar1.svg';
 
 
 const icons = {
@@ -66,7 +69,10 @@ const icons = {
     iconChart1,
     cardIcon,
     seta22,
-    seta33
+    seta33,
+    editar1Icon,
+    botaoApagarIcon,
+    sacoDeDolarIcon
 }
 
 export const Icon = (icon) => {
