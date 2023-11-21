@@ -9,7 +9,7 @@ import money from "./assets/money.svg"
 import trash from "./assets/trash.svg"
 import add from "./assets/add.svg"
 import LateralHeader from "../visaoGeral/Componentes/LateralHeader"
-import FloatingButton from  '../Cartoes/Components/FloatingButton'; 
+import FloatingButton from '../Cartoes/Components/FloatingButton';
 
 const AllContainers = styled.div`
   display: flex;
@@ -40,57 +40,84 @@ const Social = styled.div`
     }
 
     #opt {
-        height: 70vw;
-        width: 99.5%;
-        margin-top: 10px;
+        height: 80%;
+        width: 100%;
     }
 
 
     `
 
 const Card = styled.div`
-    display: flex;
-    height: 135px; /* Alterado de height para max-height */
-    justify-content: space-between;
-    width: 40vw;
-    border-radius: 10px;
-    margin: 0 7px;
-    background-color: #FDFDFD;
+    display:flex;
+    width:24%;
+    height:90%;
+    background: linear-gradient(to right, #08632D, #08632D 3%, #ffffff 3%, #ffffff);
+    border-radius:10px;
+    padding:10px;
+    font-size: 12px;
+    justify-content:space-between;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
+    .logo-texto-numero{
+        display:flex;
+        flex-direction:column;
+        height:100%;
+        width:100%;
+        justify-content:space-around;
+    }
+    
+    .logo{
+        display:flex;
+    }
+    .texto{
+        display:flex;
+        font-weight:700;
+        font-size:13px;
+    }
+    .numero{
+        display:flex;
+        
+        width:60%;
+        font-size:14px;
+        border-radius:10px;
+        padding:1px 1px 1px 10px;
+    }
+    
+    img{
+        padding:3px;
+        height: 40px;
+        border-radius:7px;
+    }
 
-    .linha-verde {
-        display: flex;
-        width: 0.75vw;
-        border-radius: 10px;
+    .imagem{
         height: 100%;
-        background-color: #398257;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-
-    .status{
-        height: 30px;
-        margin: 15px 10px;
-    }
-    `;
+    
+    `
 
 const TitleCard = styled.span`
+    margin-top: 10px;
     font-size: 16px;
     font-weight: 600;
-    margin: 20px 0;
 `
 const Info = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
+    padding-left: 10px;
     flex-direction: column;
-    padding: 15px;
 
     .icone{
         display: flex;
         justify-content: center;
         align-items: center;
         width: 30.911px;
-        height: 30.488px;
+        height: 30%;
         border-radius: 50px;
-        background-color: #DBE7E0;
+        background-color:#C1FAC6;
     }
 
     .icone img{
@@ -101,10 +128,11 @@ const Info = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #DBE7E0;
+        background-color:#C1FAC6;
         font-size: 12px;
         font-weight: 500;
-        height: 40px;
+        margin-top: 10px;
+        height: 20px;
         border-radius: 10px;
         width: 90%;
     }
@@ -115,10 +143,8 @@ const Info = styled.div`
 `
 
 const ObjDiv = styled.div`
-        margin: 10px 0;
         overflow-y: auto;
-        max-height: 450px;
-        padding-left: 10px;
+        max-height: 100%;
 
         &::-webkit-scrollbar {
             width: 10px;
@@ -138,19 +164,18 @@ const ObjDiv = styled.div`
 const CardObj = styled.div`
     display: flex;
     padding: 20px;
-    width: 40.5vw;
-    height: 153px;
+    width: 41vw;
+    height: 40%;
     border-radius: 10px;
-    margin-bottom: 10px;
     background-color: #FDFDFD;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     .imagem{
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 90%;
-        border: solid 5px #398257;
-        border-radius: 100px;
+        height: 75%;
+        border-radius: 30vw;
         width: 20%;
         background-color: #DBE7E0;
     }
@@ -167,7 +192,7 @@ const SubInfo = styled.div`
     flex-direction: column;
     width: 80%;
     height: 90vh;
-    margin: 15px auto;
+    margin: 12px auto 0 auto;
     justify-content: space-between;
 
     .saldoObj{
@@ -175,10 +200,11 @@ const SubInfo = styled.div`
         justify-content: space-between;
         width: 100%;
         align-items: center;
+        margin-bottom: -10px
     }
 
     .saldoObj span{
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 600;
     }
 
@@ -189,8 +215,7 @@ const SubInfo = styled.div`
 
     .progressBar{
         background-color: white;
-        height: 12px;
-        margin: 10px 0;
+        height: 25px;
         width: 100%;
     }
 
@@ -208,9 +233,8 @@ const SubInfo = styled.div`
 const Datas = styled.div`
     font-size: 14px;
     font-weight: 600;
-    margin: 5px 0;
     width: 100%;
-    height: 30px;
+    height: 30%;
     flex-direction: row;
     display: flex;
     justify-content: space-between;
@@ -243,25 +267,30 @@ const Meta = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 40.5vw;
+    width: 49.5%;
+    height: 100%;
     border-radius: 10px;
-    padding: 22px;
-    margin: 5px 0;
     background-color: #FDFDFD;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     .borda{
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
         border-radius: 50px;
-        background-color: #DBE7E0;
+        background-color: #C1FAC6;
         margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    img{
+        height: 40px;
     }
 
     p{
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
     }
     `
@@ -269,7 +298,9 @@ const Icons = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    margin: 0px 10px;
+    height: 75%;
+    margin: auto 0;
+    align-items: center;
 
     .border{
         cursor: pointer;
@@ -318,7 +349,7 @@ function Objetivos(props) {
     return (
         <>
             <AllContainers>
-                <LateralHeader selecionado="objetivos"/>
+                <LateralHeader selecionado="objetivos" />
 
                 <Social>
                     <div className="bloco">
@@ -337,12 +368,13 @@ function Objetivos(props) {
                                     <span>Para atingir o objetivo</span>
                                 </div>
                             </Info>
-                            <img class="status" src={up} alt="up" />
+
+                            <div className="imagem">
+                                <img class="status" src={up} alt="up" />
+                            </div>
                         </Card>
 
                         <Card>
-                            <div className="linha-verde"></div>
-
                             <Info>
                                 <div className="icone">
                                     <img src={contas} alt="aaa" />
@@ -354,12 +386,12 @@ function Objetivos(props) {
                                     <span>{props.data}</span>
                                 </div>
                             </Info>
-                            <img class="status" src={down} alt="down" />
+                            <div className="imagem">
+                                <img class="status" src={down} alt="down" />
+                            </div>
                         </Card>
 
                         <Card>
-                            <div className="linha-verde"></div>
-
                             <Info>
                                 <div className="icone">
                                     <img src={obj} alt="aaa" />
@@ -371,13 +403,13 @@ function Objetivos(props) {
                                     <span>50%</span>
                                 </div>
                             </Info>
-                            <img class="status" src={up} alt="up" />
+                            <div className="imagem">
+                                <img class="status" src={up} alt="up" />
+                            </div>
 
                         </Card>
 
                         <Card>
-                            <div className="linha-verde"></div>
-
                             <Info>
                                 <div className="icone">
                                     <img src={saldo} alt="saldo" />
@@ -389,7 +421,9 @@ function Objetivos(props) {
                                     <span>R${props.saldo},00</span>
                                 </div>
                             </Info>
-                            <img class="status" src={up} alt="up" />
+                            <div className="imagem">
+                                <img class="status" src={up} alt="up" />
+                            </div>
 
                         </Card>
                     </div>
@@ -448,7 +482,7 @@ function Objetivos(props) {
 
                     </div>
                 </Social>
-                <FloatingButton/>
+                <FloatingButton />
             </AllContainers>
 
 

@@ -9,6 +9,7 @@ const AllContainers = styled.div`
   height:100vh;
   box-sizing: border-box;
   overflow-y:hidden;
+  background-color:#DBE7E0;
 
   *{
     box-sizing: border-box;
@@ -20,7 +21,6 @@ display:flex;
 width:88%;
 padding:10px 20px;
 justify-content:space-between;
-background-color:#DBE7E0;
 flex-direction:column;
 
 
@@ -46,18 +46,18 @@ function Planejamento() {
 
     return (
         <>
-        <AllContainers>
-        <LateralHeader selecionado="planejamentos" />
-        <Social>
-            <div className="bloco1">
-                <Card></Card>
-            </div>
-            <div className="bloco2">
-            <Tabela></Tabela>
-            </div>
+            <AllContainers>
+                <LateralHeader selecionado="planejamentos" />
+                <Social>
+                    <div className="bloco1">
+                        <Card></Card>
+                    </div>
+                    <div className="bloco2">
+                        <Tabela></Tabela>
+                    </div>
 
-        </Social>
-        </AllContainers>
+                </Social>
+            </AllContainers>
         </>
     )
 }

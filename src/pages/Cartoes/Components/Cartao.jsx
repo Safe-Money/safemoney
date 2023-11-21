@@ -7,8 +7,6 @@ import FloatingButton from './FloatingButton';
 import axios from 'axios';
 
 
-
-
 const AllContainers = styled.div`
   display: flex;
   height: 100vh;
@@ -506,6 +504,7 @@ const atualizarProgressos = () => {
             <Image src={Icon('cardIcon')} />
             <Text>Cartões</Text>
           </Content>
+
 
           <Wrapper>
             <CardGeralCard>

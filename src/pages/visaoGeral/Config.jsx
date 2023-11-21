@@ -15,17 +15,19 @@ const AllContainers = styled.div`
   .container{
     width: 80%;
   }
+`
 
-  *{
-    box-sizing: border-box;
-  }
+const ConfigContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
 
-  .footer{
-    display:flex;
-    justify-content:space-between;
-    margin: auto;
-    width: 23vw;
-  }
+const Footer = styled.div`
+  display: flex;
+    justify-content: space-between;
+    width: 100%;
 `
 
 function Config() {
@@ -56,26 +58,30 @@ function Config() {
 
                     <form>
 
-                        <div>
+                        <ConfigContainer>
                             <Input type="text" name="email" id="email" label={email} desativo={ativo} onChange={(e) => setEmail(e.target.value)} />
                             <Input type="text" name="nome" id="nome" label={nome} desativo={ativo} />
                             <Input type="password" name="senha" id="senha" label={senha} desativo={ativo} />
                             <Input type="password" name="confirmaSenha" id={senha} label="Confirmar Senha" desativo={ativo} />
-                        </div>
 
-                        <div className="footer">
-                            {!ativo && <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleClick()}>
-                                Alterar
-                            </Button>}
+                            <Footer>
+                                {!ativo && 
+                                <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleClick()}>
+                                    Alterar
+                                </Button>}
 
-                            {ativo && <Button bg="#D0112B" color='white' width="45%" height="50px" onClick={() => handleClick()}>
-                                Cancelar
-                            </Button>}
+                                {ativo && 
+                                <Button bg="#D0112B" color='white' width="45%" height="50px" onClick={() => handleClick()}>
+                                    Cancelar
+                                </Button>}
 
-                            <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleSave()}>
-                                Salvar
-                            </Button>
-                        </div>
+                                <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleSave()}>
+                                    Salvar
+                                </Button>
+                            </Footer>
+                        </ConfigContainer>
+
+
 
                     </form>
                 </div>
