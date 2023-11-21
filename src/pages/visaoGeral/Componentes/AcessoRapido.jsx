@@ -10,6 +10,10 @@ border-radius:10px;
 padding:20px 10px 20px 10px;
 background-color:#FDFDFD;
 flex-direction:column;
+fill: #FDFDFD;
+// filter: drop-shadow(2px 2px 20px rgba(0, 0, 0, 0.15));
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+
 
 .titulo-icone{
     display:flex;
@@ -18,6 +22,7 @@ flex-direction:column;
     height:10%;
     width:100%;
     margin-bottom:10px;
+    font-size:15px;
 
 }
 .titulo-icone svg{

@@ -3,12 +3,18 @@ import { Icon } from "../funcoes/icons";
 
 const ContainerUltimosGastos = styled.div`
 display:flex;
-height:35%;
+height:37%;
 width:100%;
 border-radius:10px;
-padding:10px;
+padding:10px 10px 5px 20px;
 background-color:#FDFDFD;
 flex-direction:column;
+fill: #FDFDFD;
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+
+*{
+    box-sizing:border-box;
+}
 
 .titulo-icone{
     display:flex;
@@ -17,75 +23,79 @@ flex-direction:column;
     height:10%;
     width:100%;
     margin: 5px 0;
-
+    font-size:15px;
 }
+
 .titulo-icone svg{
-    margin-left:10px;
     margin-right:10px;
 
 }
 
 .conteudo-lista{
     display:flex;
-    width:100%;
-    height:95%;
+    width:98%;
+    height:79%;
     flex-direction:column;
-    margin-top:10px;    
+    margin-left:1%;
+    flex-shrink: 0;
+    margin-top:1%;
 }
 
 .titulos-categoria{
     display:flex;
-    width:93%;
-    height:25px;
+    width:95%;
+    height:15%;
     font-size:12px;
     font-weight:500;
 }
 .titulos-categoria .categoria{
     display:flex;
-    width:20%;
+    width:10%;
     justify-content:center;
 }
 .titulos-categoria .descricao{
     display:flex;
-    width:25%;
+    width:30%;
     justify-content:center;
 }
 .titulos-categoria .valor{
     display:flex;
-    width:15%;
+    width:20%;
     justify-content:center;
 
 }
 .titulos-categoria .data{
     display:flex;
-    width:15%;
+    width:10%;
     justify-content:center;
 
 }
 .titulos-categoria .parcelas{
     display:flex;
-    width:10%;
+    width:20%;
     justify-content:center;
 
 }
 .titulos-categoria .conta{
     display:flex;
-    width:20%;
+    width:10%;
     justify-content:center;
 
 }
+
 .container-lista-scroll{
-    display:flex;
+    // display:flex;
     width:100%;
-    height:69%;
+    height:85%;
     overflow-x:hidden;
     flex-direction:column;
 
     overflow-y: scroll;
     scrollbar-width: thin; 
     scrollbar-color: #08632D #FDFDFD; /* Para navegadores Firefox */
+
     &::-webkit-scrollbar {
-        width: 10px; /* Largura da barra de rolagem */
+        width: 7px; /* Largura da barra de rolagem */
     }
     &::-webkit-scrollbar-thumb {
         background-color: #08632D; /* Cor do polegar da barra de rolagem */
@@ -94,6 +104,7 @@ flex-direction:column;
     &::-webkit-scrollbar-track {
         background-color: rgba(228, 228, 228, 1);
         border-radius:5px; /* Cor da trilha da barra de rolagem */
+        margin-bottom:10px;
     }
 }
 
@@ -101,54 +112,57 @@ flex-direction:column;
 
 .container-lista{
     display:flex;
-    width:95%;
-    height:40%;
+    width:95.5%;
+    height:45px; 
     justify-content:center;
     align-items:center;
     font-size:13px;
-    border-bottom: solid 1px rgba(119, 119, 119, 1);
+    border-bottom: solid 1px rgba(119, 119, 119, 0.3);
 }
 
 .container-lista .icone-lista{
-    width:20%;
+    width:10%;
     display:flex;
-    justify-content:center;
     align-items:center;
 }
 .icone-lista img{
-    height:100px;
-    width:40%;
+    width:50%;
+    margin-left:14px;
 }
 .container-lista .descricao-lista{
-    width:15%;
-    margin-left:4%;
+    width:30%;
     display:flex;
     justify-content:center;
     align-items:center;
+    font-size:10px;
 }
 .container-lista .valor-lista{
     width:20%;
     display:flex;
     justify-content:center;
     align-items:center;
+    font-size:10px;
 }
 .container-lista .data-lista{
     width:10%;
     display:flex;
     justify-content:center;
     align-items:center;
+    font-size:10px;
 }
 .container-lista .parcelas-lista{
-    width:10%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-.container-lista .conta-lista{
     width:20%;
     display:flex;
     justify-content:center;
     align-items:center;
+    font-size:10px;
+}
+.container-lista .conta-lista{
+    width:10%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:10px;
 }
 `
 
@@ -230,6 +244,26 @@ function UltimosGastos() {
                         <div className="container-lista">
                             <span className="icone-lista">
                                 <img src={Icon('medicoIcon')} />
+                            </span>
+                            <span className="descricao-lista">Carrefour Express</span>
+                            <span className="valor-lista">R$50,00</span>
+                            <span className="data-lista">22/08</span>
+                            <span className="parcelas-lista">1/2</span>
+                            <span className="conta-lista">Itaú</span>
+                        </div>
+                        <div className="container-lista">
+                            <span className="icone-lista">
+                                <img src={Icon('lazerIcon')} />
+                            </span>
+                            <span className="descricao-lista">Carrefour Express</span>
+                            <span className="valor-lista">R$50,00</span>
+                            <span className="data-lista">22/08</span>
+                            <span className="parcelas-lista">1/2</span>
+                            <span className="conta-lista">Itaú</span>
+                        </div>
+                        <div className="container-lista">
+                            <span className="icone-lista">
+                                <img src={Icon('lazerIcon')} />
                             </span>
                             <span className="descricao-lista">Carrefour Express</span>
                             <span className="valor-lista">R$50,00</span>

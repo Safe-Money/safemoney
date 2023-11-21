@@ -25,19 +25,19 @@ const AllContainers = styled.div`
 const Social = styled.div`
 display:flex;
 width:88%;
-padding:10px 20px;
+padding:10px 10px;
 justify-content:space-between;
 
 
 .bloco1{
-    width:54%;
+    width:50%;
     height:100%;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
 }
 .bloco2{
-    width:44%;
+    width:49%;
     height:100%;
     display:flex;
     flex-direction:column;

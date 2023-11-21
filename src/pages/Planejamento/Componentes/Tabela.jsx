@@ -270,6 +270,7 @@ function Tabela() {
 
 
 
+    const iconHtml = `<img src="${Icon('logo')}" style="width:110px" />`;
 
     /*
       Modal para criar novo plano
@@ -277,15 +278,17 @@ function Tabela() {
     */
     const showSweetAlert = () => {
         const styleInput = `
-        width: 100%;
-        padding: 10px;
-        margin: 0;
-        box-sizing: border-box;
-    `;
+            width: 100%;
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box;
+        `;
 
         const styleSwal2Input = `
-    margin: 0 !important;
-    `;
+            margin: 0 !important;
+        `;
+
+
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: "btn btn-success custom-btn",
@@ -324,7 +327,9 @@ function Tabela() {
                 </div>
             </div>
         `,
-            iconHtml: `<img src='../../../assets/logo2.png'>`,
+            // iconHtml:``,
+            // imageUrl: Icon('logo'),
+            iconHtml: `${iconHtml}`,
             showCancelButton: true,
             confirmButtonText: "Adicionar",
             cancelButtonText: "Cancelar",
@@ -458,7 +463,7 @@ function Tabela() {
                 </div>
             </div>
         `,
-            iconHtml: `<img src='../../../assets/logo2.png'>`,
+        iconHtml: `${iconHtml}`,
             showCancelButton: true,
             confirmButtonText: "Alterar",
             cancelButtonText: "Cancelar",
@@ -640,6 +645,7 @@ function Tabela() {
                                 </div>
                                 <div className="acoes">
                                     Ações
+                                    <img src="" alt="" />
                                 </div>
 
                             </div>

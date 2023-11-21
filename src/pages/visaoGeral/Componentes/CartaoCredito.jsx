@@ -6,12 +6,15 @@ import CartaoContainer from "./CartaoContainer";
 
 const ContainerCartaoCredito = styled.div`
 display:flex;
-height:47%;
+height:48%;
 width:100%;
 border-radius:10px;
 padding:22px;
 flex-direction:column;
 background-color:#FDFDFD;
+fill: #FDFDFD;
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+
 
 .titulo-icone{
     display:flex;
@@ -20,29 +23,36 @@ background-color:#FDFDFD;
     height:10%;
     width:100%;
     margin-bottom:10px;
+    font-size:15px;
 
 }
 .titulo-icone svg{
-    margin-left:10px;
     margin-right:10px;
 
 }
 
-.categoriaSaldo{
+.titulos-categoria .Vencimento{
     display:flex;
-    justify-content: flex-end;
-    width:80.5%;
-}
-.categoriaSaldo span{
     width:30%;
+    justify-content:center;
+    font-weight:500;
+    font-size:14px;
 }
 
+.titulos-categoria .Fatura{
+    display:flex;
+    width:30%;
+    justify-content:start;
+    font-weight:500;
+    font-size:14px;
+}
 
 .containerBancoScroll{
     overflow:scroll;
     overflow-x:hidden;
     height:130%;
     width:100%;
+
 }
 
 .containerBancoScroll {
@@ -50,36 +60,35 @@ background-color:#FDFDFD;
     scrollbar-width: thin; 
     scrollbar-color: #08632D #FDFDFD; /* Para navegadores Firefox */
     &::-webkit-scrollbar {
-        width: 10px; /* Largura da barra de rolagem */
+        width: 7px; /* Largura da barra de rolagem */
     }
     &::-webkit-scrollbar-thumb {
         background-color: #08632D; /* Cor do polegar da barra de rolagem */
         border-radius: 5px; /* Raio da borda do polegar da barra de rolagem */
+
     }
     &::-webkit-scrollbar-track {
         background-color: rgba(228, 228, 228, 1);
         border-radius:5px; /* Cor da trilha da barra de rolagem */
+        padding:40px 0;
     }
 }
 
 .containerBanco{
     display:flex;
     height:100%;
-    width:83%;
+    width:95%;
     flex-direction:column;
 }
 
-
-
 .containerBanco .containers{
     display:flex;
-    height:50px;
+    height:45px;
     width:100%;
     align-items:center;
-    border-bottom: solid 1px #777;
-    
-
+    border-bottom: solid 1px rgba(119, 119, 119, 0.3);
 }
+
 .containerBanco .containers .icon{
     display:flex;
     height:70px;
@@ -90,7 +99,7 @@ background-color:#FDFDFD;
 
 .containers .icon img{
     border-radius:50%;
-    width:35px;
+    width:25px;
     height:35px;
     overflow:hidden;
 }
@@ -99,29 +108,23 @@ background-color:#FDFDFD;
     display:flex;
     height:70px;
     width:30%;
-    align-items:center;
-    font-size:16px;
-
+    align-items:start;
+    justify-content:center;
+    font-size:14px;
+    flex-direction:column;
 }
+
+
 .containerBanco .containers .vencimentoBanco{
     display:flex;
     height:70px;
     width:30%;
     align-items:center;
-    font-size:16px;
+    font-size:14px;
     justify-content:center;
 
 }
-.containerBanco .containers .nomeBanco{
-    display:flex;
-    height:70px;
-    width:30%;
-    align-items:start;
-    justify-content:center;
-    font-size:16px;
-    flex-direction:column;
 
-}
 
 .nomeBanco span{
     font-size: 10px;
@@ -134,6 +137,7 @@ background-color:#FDFDFD;
     height:70px;
     width:30%;
     align-items:center;
+    font-size:14px;
 
 }
 
@@ -141,7 +145,7 @@ background-color:#FDFDFD;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:200px;
+    height:30%;
     width:100%;
     background-color:white;
 }
@@ -151,9 +155,9 @@ background-color:#FDFDFD;
     justify-content:center;
     background-color:#08632D;
     border-radius:10px;
-    padding:10px;
+    padding:7px 10px;
     color:white;
-    font-size:14px;
+    font-size:10px;
     align-items:center;
     cursor:pointer;
     transition: ease 0.2s;
@@ -170,24 +174,11 @@ background-color:#FDFDFD;
 
 .titulos-categoria{
     display:flex;
-    width:83%;
+    width:95%;
     height:25px;
     font-size:12px;
     font-weight:500;
     justify-content:flex-end;
-}
-
-.titulos-categoria .Vencimento{
-    display:flex;
-    width:30%;
-    justify-content:center;
-
-}
-
-.titulos-categoria .Fatura{
-    display:flex;
-    width:30%;
-    justify-content:start;
 }
 
 `

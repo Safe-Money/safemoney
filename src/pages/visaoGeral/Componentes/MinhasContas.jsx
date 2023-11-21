@@ -13,6 +13,8 @@ border-radius:10px;
 padding:22px;
 flex-direction:column;
 background-color:#FDFDFD;
+fill: #FDFDFD;
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 .titulo-icone{
     display:flex;
@@ -21,10 +23,10 @@ background-color:#FDFDFD;
     height:10%;
     width:100%;
     margin-bottom:10px;
+    font-size:15px;
 
 }
 .titulo-icone img{
-    margin-left:10px;
     margin-right:10px;
 
 }
@@ -32,10 +34,12 @@ background-color:#FDFDFD;
     display:flex;
     justify-content: flex-end;
     width:80.5%;
+    font-size:14px;
+    font-weight:500;
 }
 
 .categoriaSaldo span{
-    width:30%;
+    width:20%;
 }
 
 .containerBancoScroll{
@@ -50,7 +54,7 @@ background-color:#FDFDFD;
     scrollbar-width: thin; 
     scrollbar-color: #08632D #FDFDFD; /* Para navegadores Firefox */
     &::-webkit-scrollbar {
-        width: 10px; /* Largura da barra de rolagem */
+        width: 7px; /* Largura da barra de rolagem */
     }
     &::-webkit-scrollbar-thumb {
         background-color: #08632D; /* Cor do polegar da barra de rolagem */
@@ -65,7 +69,7 @@ background-color:#FDFDFD;
 .containerBanco{
     display:flex;
     max-height:200px;
-    width:83%;
+    width:95%;
     flex-direction:column;
 }
 
@@ -73,34 +77,33 @@ background-color:#FDFDFD;
 
 .containerBanco .containers{
     display:flex;
-    height:50px;
+    height:3rem;
     width:100%;
     align-items:center;
-    border-bottom: solid 1px #777;
-    
-
+    border-bottom: solid 1px rgba(119, 119, 119, 0.3);    
 }
+
 .containerBanco .containers .icon{
     display:flex;
     height:70px;
-    width:15%;
+    width:10%;
     align-items:center;
     border-radius:50%;
 }
 
 .containers .icon img{
     border-radius:50%;
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     overflow:hidden;
 }
 
 .containerBanco .containers .nomeBanco{
     display:flex;
     height:70px;
-    width:50%;
+    width:55%;
     align-items:flex-start;
-    font-size:16px;
+    font-size:14px;
     justify-content:center;
     flex-direction:column;
 
@@ -117,6 +120,7 @@ background-color:#FDFDFD;
     height:70px;
     width:30%;
     align-items:center;
+    font-size:14px;
 
 }
 
@@ -124,7 +128,7 @@ background-color:#FDFDFD;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:200px;
+    height:30%;
     width:100%;
     background-color:white;
 }
@@ -134,9 +138,9 @@ background-color:#FDFDFD;
     justify-content:center;
     background-color:#08632D;
     border-radius:10px;
-    padding:10px;
+    padding:7px 10px;
     color:white;
-    font-size:14px;
+    font-size:10px;
     align-items:center;
     cursor:pointer;
     transition: ease 0.2s;
