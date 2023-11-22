@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Icon } from "../funcoes/icons";
 import styled from "styled-components";
 
@@ -24,8 +24,10 @@ const ListaNotificacoes = styled.div`
   top: 80%;
   right: 0;
   width: 200px;
-  font-size: 11px;
-  background-color: #fff;
+  font-size: 15px;
+  border-radius: 10px;
+  background-color: #08632D;
+  color: white;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
@@ -59,7 +61,6 @@ function Notification() {
         <p>Notificações</p>
       </Notifica>
       <ListaNotificacoes visible={mostrarNotificacoes}>
-        {/* Renderizar notificações aqui */}
         {notificacoes.map((notificacao, index) => (
           <div key={index}>
             <p>{index+1} - {notificacao}</p>

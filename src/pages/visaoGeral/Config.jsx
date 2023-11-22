@@ -32,18 +32,12 @@ const Footer = styled.div`
 
 function Config() {
     const [ativo, setAtivo] = useState(false);
-    const [email, setEmail] = useState("gabriel@sptech");
-    const [nome, setNome] = useState("gabriel");
-    const [senha, setSenha] = useState("123");
+    const [email, setEmail] = useState(sessionStorage.getItem("emailUsuario"));
+    const [nome, setNome] = useState(sessionStorage.getItem("nomeUsuario"));
+    const [senha, setSenha] = useState(sessionStorage.getItem("senhaUsuario"));
+    const [confirmaSenha, setConfirma] = useState(sessionStorage.getItem("senhaUsuario"));
 
     const handleClick = () => {
-        setAtivo(!ativo);
-    }
-
-    const handleSave = () => {
-        setEmail(email)
-        setNome(nome)
-        setSenha(senha)
         setAtivo(!ativo);
     }
 
@@ -59,23 +53,17 @@ function Config() {
                     <form>
 
                         <ConfigContainer>
-                            <Input type="text" name="email" id="email" label={email} desativo={ativo} onChange={(e) => setEmail(e.target.value)} />
-                            <Input type="text" name="nome" id="nome" label={nome} desativo={ativo} />
-                            <Input type="password" name="senha" id="senha" label={senha} desativo={ativo} />
-                            <Input type="password" name="confirmaSenha" id={senha} label="Confirmar Senha" desativo={ativo} />
+                            <Input type="text" name="email" id="email" label="Email" valor={email} change={(e) => setEmail(e.target.value)} />
+                            <Input type="text" name="nome" id="nome" label="Nome" valor={nome} change={(e) => setNome(e.target.value)}/>
+                            <Input type="password" name="senha" id="senha" label="Senha" valor={senha} change={(e)=> setSenha(e.target.value)} />
+                            <Input type="password" name="confirmaSenha" id="senha" label="Confirmar Senha" valor={confirmaSenha} change={(e) => setConfirma(e.target.value)}/>
 
                             <Footer>
-                                {!ativo && 
-                                <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleClick()}>
-                                    Alterar
-                                </Button>}
-
-                                {ativo && 
                                 <Button bg="#D0112B" color='white' width="45%" height="50px" onClick={() => handleClick()}>
                                     Cancelar
-                                </Button>}
+                                </Button>
 
-                                <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => handleSave()}>
+                                <Button bg="#08632D" color='white' width="45%" height="50px" onClick={() => {handleSave(), handleClick()}}>
                                     Salvar
                                 </Button>
                             </Footer>

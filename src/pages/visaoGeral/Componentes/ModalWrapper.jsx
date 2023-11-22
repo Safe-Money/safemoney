@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Icon } from "../funcoes/icons";
 
-
 const ModalWrap = styled.div`
   position: fixed;
   top: 0;

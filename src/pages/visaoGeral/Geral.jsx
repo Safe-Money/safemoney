@@ -55,18 +55,14 @@ function Geral() {
 
             <Social>
                 <div className="bloco1">
-                    <MinhasContas>
-
-                    </MinhasContas>
-                    <CartaoCredito>
-
-                    </CartaoCredito>
-
+                    <MinhasContas/>
+                    <CartaoCredito/>
                 </div>
+
                 <div className="bloco2">
-                    <AcessoRapido></AcessoRapido>
-                    <UltimosGastos></UltimosGastos>
-                    <Previsao></Previsao>
+                    <AcessoRapido/>
+                    <UltimosGastos/>
+                    <Previsao/>
 
                 </div>
 

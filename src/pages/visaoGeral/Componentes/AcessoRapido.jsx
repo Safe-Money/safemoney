@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
+import { useState } from "react";
 import Notification from "./Notification";
+import ModalDespesa from "./ModalDespesa";
+import ModalReceita from "./ModalReceita";
 
 const ContainerAcessoRapido = styled.div`
 display:flex;
@@ -107,6 +110,16 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 function AcessoRapido() {
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalReceita, setOpenModalReceita] = useState(false);
+
+    const fecharModal = () => {
+        setOpenModal(false)
+    }
+
+    const fecharModalReceita = () => {
+        setOpenModalReceita(false)
+    }
     return (
         <>
             <ContainerAcessoRapido>
@@ -122,12 +135,12 @@ function AcessoRapido() {
                     <div className="conteudoBloco1">
                         <div className="box-tree">
                             <span className="box">
-                                <img src={Icon('negativoIcon')} />
+                                <img src={Icon('negativoIcon')} onClick={() => setOpenModal(true)} />
                                 <span className="action">Nova despesa</span>
                             </span>
 
                             <span className="box">
-                                <img src={Icon('positivoIcon')} />
+                                <img src={Icon('positivoIcon')} onClick={() => setOpenModalReceita(true)}/>
                                 <span className="action">Nova receita</span>
                             </span>
 
@@ -143,6 +156,9 @@ function AcessoRapido() {
                     </div>
 
                 </div>
+
+                {openModal && <ModalDespesa onClose={fecharModal} salvar={fecharModal} />}
+                {openModalReceita && <ModalReceita onClose={fecharModalReceita} salvar={fecharModalReceita} />}
             </ContainerAcessoRapido>
         </>
     )
