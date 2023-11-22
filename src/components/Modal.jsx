@@ -87,7 +87,7 @@ function Modal(props) {
         </LogoNome>
 
 
-        {props.children}
+        {props.children} 
 
 
         <Button>

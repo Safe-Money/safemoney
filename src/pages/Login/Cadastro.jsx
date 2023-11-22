@@ -2,6 +2,7 @@ import Header from './components/Header';
 import Input from './components/Input';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
+import { useState } from 'react';
 
 function Cadastro() {
     const navigate = useNavigate();
