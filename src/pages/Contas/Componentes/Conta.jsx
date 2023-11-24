@@ -34,7 +34,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     font-weight: 700;
     height: 10%;
     width: 85%;
-    font-size:15px;
+    font-size:18px;
 
   }
 
@@ -55,6 +55,10 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     cursor:pointer;
 
   }
+
+  .removerConta:hover{
+    opacity:0.8;
+}
   .removerConta svg{
     margin-right:10px;
     padding: 0 0 1px 0;
@@ -80,7 +84,8 @@ font-size:16px;
 }
 
 .texto{
-    margin-top:10px;
+    margin-top:7%;
+    font-weight:500;
 }
 `
 

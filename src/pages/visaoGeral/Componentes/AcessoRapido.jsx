@@ -220,22 +220,26 @@ function AcessoRapido() {
             }
         });
 
-        const modal = document.querySelector('.swal2-modal');
+        // const modal = document.querySelector('.swal2-modal');
         const confirmButton = document.querySelector('.swal2-confirm');
         const cancelButton = document.querySelector('.swal2-cancel');
+        const localButton = document.querySelector('.swal2-actions');
 
         // modal.style.width = '700px';
 
         if (confirmButton && cancelButton) {
             confirmButton.style.padding = '10px 20px 10px 20px';
             confirmButton.style.borderRadius = '5px';
+            confirmButton.style.border = 'none';
             confirmButton.style.color = '#fff';
             confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
             confirmButton.style.marginLeft = '10px';
+            localButton.style.width='70%';
 
 
             cancelButton.style.padding = '10px 20px 10px 20px';
             cancelButton.style.borderRadius = '5px';
+            cancelButton.style.border = 'none';
             cancelButton.style.color = '#fff';
             cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
             cancelButton.style.marginRight = '10px';
@@ -357,6 +361,7 @@ function AcessoRapido() {
         if (confirmButton && cancelButton) {
             confirmButton.style.padding = '10px 20px 10px 20px';
             confirmButton.style.borderRadius = '5px';
+            confirmButton.style.border = 'none';
             confirmButton.style.color = '#fff';
             confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
             confirmButton.style.marginLeft = '10px';
@@ -364,6 +369,7 @@ function AcessoRapido() {
 
             cancelButton.style.padding = '10px 20px 10px 20px';
             cancelButton.style.borderRadius = '5px';
+            cancelButton.style.border = 'none';
             cancelButton.style.color = '#fff';
             cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
             cancelButton.style.marginRight = '10px';
@@ -485,6 +491,7 @@ function AcessoRapido() {
         if (confirmButton && cancelButton) {
             confirmButton.style.padding = '10px 20px 10px 20px';
             confirmButton.style.borderRadius = '5px';
+            confirmButton.style.border = 'none';
             confirmButton.style.color = '#fff';
             confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
             confirmButton.style.marginLeft = '10px';
@@ -492,6 +499,7 @@ function AcessoRapido() {
 
             cancelButton.style.padding = '10px 20px 10px 20px';
             cancelButton.style.borderRadius = '5px';
+            cancelButton.style.border = 'none';
             cancelButton.style.color = '#fff';
             cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
             cancelButton.style.marginRight = '10px';

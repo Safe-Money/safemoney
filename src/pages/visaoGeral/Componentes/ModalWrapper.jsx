@@ -21,8 +21,8 @@ background: white;
 padding: 50px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  width:850px;
-  height:550px;
+  width:40em;
+  height:500px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -74,12 +74,12 @@ const Button = styled.div`
 display:flex;
 justify-content:space-between;
 align-items:center;
-width:50%;
+width:60%;
 margin-top:9%;
 
 button{
   padding:10px;
-  width:170px;
+  width:150px;
   border-radius:5px;
   letter-spacing: 0.8px;
 }
@@ -132,7 +132,7 @@ position: relative;
 border: none;
 cursor: pointer;
 margin: 3% 0;
-width:50%;
+width:60%;
 box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
 
 .label {
@@ -266,13 +266,21 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
     resetCamposTocados();
   };
 
+  const handleCancelarClick2 = (e) => {
+    // Verifica se o clique ocorreu diretamente no ModalWrap e não em elementos dentro do ModalContent
+    if (e.target.classList.contains('ModalWrap')) {
+      onClose();
+      resetarCampos();
+    }
+  };
+
 
 
   if (!isOpen) return null;
 
   return (
-    <ModalWrap>
-      <ModalContent>
+    <ModalWrap className="ModalWrap" onClick={handleCancelarClick2} >
+      <ModalContent  className="ModalContent">
 
         <LogoNome>
           <span><img src={Icon('logo')} />

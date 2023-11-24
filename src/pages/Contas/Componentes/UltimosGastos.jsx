@@ -37,6 +37,10 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     margin-right:10%;
 }
 
+.mesSeta svg{
+    cursor:pointer;
+}
+
 
 .conteudo-lista{
     display:flex;

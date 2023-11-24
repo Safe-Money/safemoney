@@ -87,6 +87,9 @@ const Selecao = styled.div`
         }
 
         
+        &:hover {
+            background-color: #05411d;
+          }
 
 `;
 
@@ -119,18 +122,19 @@ margin-bottom:40%;
 }
 
 .selecoes-texto{
-    width:80%;
     font-weight:550;
     font-size:0.85rem;
+    justify-content:flex-start;
 }
 img{
     width:20px;
-    margin-right:10px;
+    margin:0 10px 0 5px;
 }
 
 .selecionado{
     color:#08632D;
     background-color:white;
+    justify-content:flex-start;
 }
 
 .planejamentosAtiva{
@@ -153,6 +157,10 @@ cursor: pointer;
 img{
     margin-right:10px;
     width:20px;
+}
+
+&:hover{
+    // color:red;
 }
 `
 
@@ -213,7 +221,7 @@ function LateralHeader(props) {
                     </Selecao>
 
                     <Selecao
-                        className={selecionado === "lancamentos" ? "selecionado" : "selecoes-texto"}
+                        className={selecionado === "lancamentos" ? "selecionado efeito" : "selecoes-texto efeito"}
                         onClick={() => {
                             handleClick("lancamentos")
                             navigate("/lancamentos")
