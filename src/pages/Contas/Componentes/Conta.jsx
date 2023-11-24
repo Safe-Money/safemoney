@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Icon } from "../../visaoGeral/funcoes/icons";
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+
 
 
 const ContainerConta = styled.div`
@@ -12,7 +15,7 @@ background-color:white;
 border-radius:10px;
 padding:1% 3%;
 flex-direction:column;
-box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 .titulo-removerConta {
     display: flex;
@@ -31,12 +34,13 @@ box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
     font-weight: 700;
     height: 10%;
     width: 85%;
-    font-size:18px;
+    font-size:15px;
 
   }
 
   .titulo-icone img {
     margin-right: 10px;
+    width:3%;
   }
 
   .removerConta{
@@ -81,15 +85,58 @@ font-size:16px;
 `
 
 function conta() {
-    return (
+    /*
+    Modal para excluir plano
+    */
+   const navigate = useNavigate();
+   const excluirConta = (index) => {
+       
+        
+        console.log(index);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    navigate("/visao-geral")
 
-        <ContainerConta>
-            <div className="titulo-removerConta">
-                <div className="titulo-icone">
-                <img src={Icon('contasIcon')} />
-                    Conta
+
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
+    };
+
+    const nomeConta = sessionStorage.NOMEBANCO;
+
+    // Converte todo o nome para minúsculas
+    const nomeContaMinusculo = nomeConta.toLowerCase();
+    
+    // Gera o nome do ícone com o nome todo em minúsculas
+    const nomeIcone = `${nomeContaMinusculo}Icon`;
+    
+    // Obtém o caminho do ícone usando a função Icon (supondo que você já a tenha definida)
+    const caminhoIcone = Icon(nomeIcone);
+    console.log(caminhoIcone);
+        return (
+    
+            <ContainerConta>
+                <div className="titulo-removerConta">
+                    <div className="titulo-icone">
+                    <img src={caminhoIcone} alt="Account Icon" />
+
+                    {sessionStorage.NOMEBANCO}
                 </div>
-                <div className="removerConta">
+                <div className="removerConta" onClick={excluirConta
+                }>
                     <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                         <path d="M6 7.28767V3.71228" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -104,7 +151,7 @@ function conta() {
             <Conteudo>
                 <TextoNumero>
                     <span className="texto">Saldo Geral</span>
-                    <span className="numeros">R$ 10.000,00</span>
+                    <span className="numeros">R${sessionStorage.NOMESALDO}</span>
                 </TextoNumero>
                 <TextoNumero>
                     <span className="texto">Despesas</span>

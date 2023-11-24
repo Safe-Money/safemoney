@@ -51,6 +51,7 @@ justify-content:flex-end;
 width:40%;
 justify-content:center;
 align-items:center;
+padding:0 0 0 10%;
 }
 
 .cardPlano{
@@ -65,7 +66,7 @@ color:rgba(253, 253, 253, 1);
 cursor:pointer;
 }
 .cardPlano svg{
-margin-right:10px;
+margin-right:5px;
 padding: 0 0 1px 0;
 }
 

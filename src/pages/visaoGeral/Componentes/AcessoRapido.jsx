@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
-import { useState } from "react";
 import Notification from "./Notification";
-import ModalDespesa from "./ModalDespesa";
-import ModalReceita from "./ModalReceita";
+import Swal from 'sweetalert2';
 
 const ContainerAcessoRapido = styled.div`
 display:flex;
@@ -110,16 +108,398 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 function AcessoRapido() {
-    const [openModal, setOpenModal] = useState(false);
-    const [openModalReceita, setOpenModalReceita] = useState(false);
+    const iconHtml = `<img src="${Icon('logo')}" style="width:110px" />`;
 
-    const fecharModal = () => {
-        setOpenModal(false)
-    }
+    const showSweetDespesas = () => {
+        const styleInput = `
+            width: 100%;
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box;
+        `;
 
-    const fecharModalReceita = () => {
-        setOpenModalReceita(false)
-    }
+        const styleSwal2Input = `
+            margin: 0 !important;
+        `;
+
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success custom-btn",
+                cancelButton: "btn btn-danger custom-btn"
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Criar Despesa",
+            text: "You won't be able to revert this!",
+            customClass: {
+                input: 'swal2-input custom-input',
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            html: `
+            <div style="width:90%; display:flex; justify-content:center; flex-direction:column; margin:auto; border-sizing:border-box">
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label style="margin-right:64%" for="nomePlano">Categoria</label>
+                    <select style="{styleInput};margin:0.4em 2em 3px" id="categoriaPlano" class="swal2-input">
+                    <option value="lazer">Lazer</option>
+                    <option value="comida">Comida</option>
+                    <option value="medico">Médico</option>
+                    </select>
+                </div>
+          
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label  style="margin-right:43%" style="justify-content:flex-start" for="valorPlano">Valor Planejado</label>
+                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="valorPlano" class="swal2-input" placeholder="Digite o valor do plano">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label  style="margin-right:53%" style="justify-content:flex-start" for="valorPlano">Total Gasto</label>
+                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="totalGasto" class="swal2-input" placeholder="Digite o valor do plano">
+                </div>
+            </div>
+        `,
+            // iconHtml:``,
+            // imageUrl: Icon('logo'),
+            iconHtml: `${iconHtml}`,
+            showCancelButton: true,
+            confirmButtonText: "Adicionar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const categoriaSelecionada = document.getElementById("categoriaPlano").value;
+                const valorSelecionadoString = document.getElementById("valorPlano").value;
+                const totalGastoSelecionadoString = document.getElementById("totalGasto").value;
+
+                if (!categoriaSelecionada || !valorSelecionadoString || !totalGastoSelecionadoString) {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Preencha todos os campos corretamente.",
+                        icon: "error",
+                    });
+                    return; // Impede a criação da nova conta se houver erros
+                }
+
+                const valorSelecionado = parseFloat(valorSelecionadoString.replace(',', '.'));
+                const totalGastoSelecionado = parseFloat(totalGastoSelecionadoString.replace(',', '.'));
+
+
+                if (isNaN(valorSelecionado) || isNaN(totalGastoSelecionado) || valorSelecionado < 0 || totalGastoSelecionado < 0) {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Os valores informados são inválidos.",
+                        icon: "error",
+                    });
+                    return; // Impede a criação da nova conta se houver erros
+                }
+
+                if (!isNaN(valorSelecionado) && valorSelecionado >= 0) {
+                    const novaConta = {
+                        categoria: categoriaSelecionada,
+                        valor: `R$${valorSelecionado.toFixed(2)}`, // Format o valor como moeda
+                        data: `R$${totalGastoSelecionado.toFixed(2)}`, // Substitua pelo valor real
+                        progresso: "70%", // Substitua pelo valor real
+                    }
+                };
+                adicionarConta(categoriaSelecionada, valorSelecionado, totalGastoSelecionado);
+                swalWithBootstrapButtons.fire({
+                    title: "Criada!",
+                    text: "Seu Planejamento foi criado.",
+                    icon: "success"
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelada",
+                    text: "Sua criação de Planejamento foi cancelada! :)",
+                    icon: "error"
+                });
+
+            }
+        });
+
+        const modal = document.querySelector('.swal2-modal');
+        const confirmButton = document.querySelector('.swal2-confirm');
+        const cancelButton = document.querySelector('.swal2-cancel');
+
+        // modal.style.width = '700px';
+
+        if (confirmButton && cancelButton) {
+            confirmButton.style.padding = '10px 20px 10px 20px';
+            confirmButton.style.borderRadius = '5px';
+            confirmButton.style.color = '#fff';
+            confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
+            confirmButton.style.marginLeft = '10px';
+
+
+            cancelButton.style.padding = '10px 20px 10px 20px';
+            cancelButton.style.borderRadius = '5px';
+            cancelButton.style.color = '#fff';
+            cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+            cancelButton.style.marginRight = '10px';
+        }
+    };
+    const showSweetReceita = () => {
+        const styleInput = `
+            width: 100%;
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box;
+        `;
+
+        const styleSwal2Input = `
+            margin: 0 !important;
+        `;
+
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success custom-btn",
+                cancelButton: "btn btn-danger custom-btn"
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Criar Despesa",
+            text: "You won't be able to revert this!",
+            customClass: {
+                input: 'swal2-input custom-input',
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            html: `
+            <div style="width:90%; display:flex; justify-content:center; flex-direction:column; margin:auto; border-sizing:border-box">
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label style="margin-right:64%" for="nomePlano">Categoria</label>
+                    <select style="{styleInput};margin:0.4em 2em 3px" id="categoriaPlano" class="swal2-input">
+                    <option value="lazer">Lazer</option>
+                    <option value="comida">Comida</option>
+                    <option value="medico">Médico</option>
+                    </select>
+                </div>
+          
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label  style="margin-right:43%" style="justify-content:flex-start" for="valorPlano">Valor Planejado</label>
+                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="valorPlano" class="swal2-input" placeholder="Digite o valor do plano">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label  style="margin-right:53%" style="justify-content:flex-start" for="valorPlano">Total Gasto</label>
+                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="totalGasto" class="swal2-input" placeholder="Digite o valor do plano">
+                </div>
+            </div>
+        `,
+            // iconHtml:``,
+            // imageUrl: Icon('logo'),
+            iconHtml: `${iconHtml}`,
+            showCancelButton: true,
+            confirmButtonText: "Adicionar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const categoriaSelecionada = document.getElementById("categoriaPlano").value;
+                const valorSelecionadoString = document.getElementById("valorPlano").value;
+                const totalGastoSelecionadoString = document.getElementById("totalGasto").value;
+
+                if (!categoriaSelecionada || !valorSelecionadoString || !totalGastoSelecionadoString) {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Preencha todos os campos corretamente.",
+                        icon: "error",
+                    });
+                    return; // Impede a criação da nova conta se houver erros
+                }
+
+                const valorSelecionado = parseFloat(valorSelecionadoString.replace(',', '.'));
+                const totalGastoSelecionado = parseFloat(totalGastoSelecionadoString.replace(',', '.'));
+
+
+                if (isNaN(valorSelecionado) || isNaN(totalGastoSelecionado) || valorSelecionado < 0 || totalGastoSelecionado < 0) {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Os valores informados são inválidos.",
+                        icon: "error",
+                    });
+                    return; // Impede a criação da nova conta se houver erros
+                }
+
+                if (!isNaN(valorSelecionado) && valorSelecionado >= 0) {
+                    const novaConta = {
+                        categoria: categoriaSelecionada,
+                        valor: `R$${valorSelecionado.toFixed(2)}`, // Format o valor como moeda
+                        data: `R$${totalGastoSelecionado.toFixed(2)}`, // Substitua pelo valor real
+                        progresso: "70%", // Substitua pelo valor real
+                    }
+                };
+                adicionarConta(categoriaSelecionada, valorSelecionado, totalGastoSelecionado);
+                swalWithBootstrapButtons.fire({
+                    title: "Criada!",
+                    text: "Seu Planejamento foi criado.",
+                    icon: "success"
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelada",
+                    text: "Sua criação de Planejamento foi cancelada! :)",
+                    icon: "error"
+                });
+
+            }
+        });
+
+        const confirmButton = document.querySelector('.swal2-confirm');
+        const cancelButton = document.querySelector('.swal2-cancel');
+
+        if (confirmButton && cancelButton) {
+            confirmButton.style.padding = '10px 20px 10px 20px';
+            confirmButton.style.borderRadius = '5px';
+            confirmButton.style.color = '#fff';
+            confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
+            confirmButton.style.marginLeft = '10px';
+
+
+            cancelButton.style.padding = '10px 20px 10px 20px';
+            cancelButton.style.borderRadius = '5px';
+            cancelButton.style.color = '#fff';
+            cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+            cancelButton.style.marginRight = '10px';
+        }
+    };
+    const showSweetTransition = () => {
+        const styleInput = `
+            width: 100%;
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box;
+        `;
+
+        const styleSwal2Input = `
+            margin: 0 !important;
+        `;
+
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success custom-btn",
+                cancelButton: "btn btn-danger custom-btn"
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Criar Despesa",
+            text: "You won't be able to revert this!",
+            customClass: {
+                input: 'swal2-input custom-input',
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            html: `
+            <div style="width:90%; display:flex; justify-content:center; flex-direction:column; margin:auto; border-sizing:border-box">
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label style="margin-right:64%" for="nomePlano">Categoria</label>
+                    <select style="{styleInput};margin:0.4em 2em 3px" id="categoriaPlano" class="swal2-input">
+                    <option value="lazer">Lazer</option>
+                    <option value="comida">Comida</option>
+                    <option value="medico">Médico</option>
+                    </select>
+                </div>
+          
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label  style="margin-right:43%" style="justify-content:flex-start" for="valorPlano">Valor Planejado</label>
+                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="valorPlano" class="swal2-input" placeholder="Digite o valor do plano">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <label  style="margin-right:53%" style="justify-content:flex-start" for="valorPlano">Total Gasto</label>
+                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="totalGasto" class="swal2-input" placeholder="Digite o valor do plano">
+                </div>
+            </div>
+        `,
+            // iconHtml:``,
+            // imageUrl: Icon('logo'),
+            iconHtml: `${iconHtml}`,
+            showCancelButton: true,
+            confirmButtonText: "Adicionar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const categoriaSelecionada = document.getElementById("categoriaPlano").value;
+                const valorSelecionadoString = document.getElementById("valorPlano").value;
+                const totalGastoSelecionadoString = document.getElementById("totalGasto").value;
+
+                if (!categoriaSelecionada || !valorSelecionadoString || !totalGastoSelecionadoString) {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Preencha todos os campos corretamente.",
+                        icon: "error",
+                    });
+                    return; // Impede a criação da nova conta se houver erros
+                }
+
+                const valorSelecionado = parseFloat(valorSelecionadoString.replace(',', '.'));
+                const totalGastoSelecionado = parseFloat(totalGastoSelecionadoString.replace(',', '.'));
+
+
+                if (isNaN(valorSelecionado) || isNaN(totalGastoSelecionado) || valorSelecionado < 0 || totalGastoSelecionado < 0) {
+                    Swal.fire({
+                        title: "Erro",
+                        text: "Os valores informados são inválidos.",
+                        icon: "error",
+                    });
+                    return; // Impede a criação da nova conta se houver erros
+                }
+
+                if (!isNaN(valorSelecionado) && valorSelecionado >= 0) {
+                    const novaConta = {
+                        categoria: categoriaSelecionada,
+                        valor: `R$${valorSelecionado.toFixed(2)}`, // Format o valor como moeda
+                        data: `R$${totalGastoSelecionado.toFixed(2)}`, // Substitua pelo valor real
+                        progresso: "70%", // Substitua pelo valor real
+                    }
+                };
+                adicionarConta(categoriaSelecionada, valorSelecionado, totalGastoSelecionado);
+                swalWithBootstrapButtons.fire({
+                    title: "Criada!",
+                    text: "Seu Planejamento foi criado.",
+                    icon: "success"
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelada",
+                    text: "Sua criação de Planejamento foi cancelada! :)",
+                    icon: "error"
+                });
+
+            }
+        });
+
+        const confirmButton = document.querySelector('.swal2-confirm');
+        const cancelButton = document.querySelector('.swal2-cancel');
+
+        if (confirmButton && cancelButton) {
+            confirmButton.style.padding = '10px 20px 10px 20px';
+            confirmButton.style.borderRadius = '5px';
+            confirmButton.style.color = '#fff';
+            confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
+            confirmButton.style.marginLeft = '10px';
+
+
+            cancelButton.style.padding = '10px 20px 10px 20px';
+            cancelButton.style.borderRadius = '5px';
+            cancelButton.style.color = '#fff';
+            cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+            cancelButton.style.marginRight = '10px';
+        }
+    };
+
+
+
     return (
         <>
             <ContainerAcessoRapido>
@@ -135,17 +515,17 @@ function AcessoRapido() {
                     <div className="conteudoBloco1">
                         <div className="box-tree">
                             <span className="box">
-                                <img src={Icon('negativoIcon')} onClick={() => setOpenModal(true)} />
+                                <img src={Icon('negativoIcon')} onClick={showSweetDespesas}/>
                                 <span className="action">Nova despesa</span>
                             </span>
 
                             <span className="box">
-                                <img src={Icon('positivoIcon')} onClick={() => setOpenModalReceita(true)}/>
+                                <img src={Icon('positivoIcon')} onClick={showSweetReceita} />
                                 <span className="action">Nova receita</span>
                             </span>
 
                             <span className="box">
-                                <img src={Icon('transferenciaIcon')} />
+                                <img src={Icon('transferenciaIcon')} onClick={showSweetTransition}/>
                                 <span className="action">Transferir</span>
                             </span>
 
@@ -156,9 +536,6 @@ function AcessoRapido() {
                     </div>
 
                 </div>
-
-                {openModal && <ModalDespesa onClose={fecharModal} salvar={fecharModal} />}
-                {openModalReceita && <ModalReceita onClose={fecharModalReceita} salvar={fecharModalReceita} />}
             </ContainerAcessoRapido>
         </>
     )

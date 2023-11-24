@@ -4,7 +4,7 @@ import { Icon } from "../funcoes/icons";
 import { useState } from "react";
 
 const Header = styled.div`
-width: 180px;
+width: 165px;
 height: 100vh;
 background-color: #08632D;
 padding: 5% 0 0 0;
@@ -141,7 +141,7 @@ img{
 const Sair = styled.div`
 display:flex;
 align-items:center;
-width:100%;
+// width:100%;
 padding:0 10px;
 color:white;
 font-weight:500;

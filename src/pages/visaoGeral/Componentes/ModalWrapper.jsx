@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Icon } from "../funcoes/icons";
 
+
 const ModalWrap = styled.div`
   position: fixed;
   top: 0;
@@ -16,8 +17,8 @@ const ModalWrap = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background: white;
-  padding: 50px;
+background: white;
+padding: 50px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   width:850px;
@@ -26,6 +27,29 @@ const ModalContent = styled.div`
   flex-direction:column;
   align-items:center;
   z-index:10;
+  animation: fadeIn 0.3s ease-in-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
 `;
 
 const LogoNome = styled.div`

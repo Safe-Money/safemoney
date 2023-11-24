@@ -83,6 +83,10 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     border-bottom: solid 1px rgba(119, 119, 119, 0.3);    
 }
 
+.containers:hover{
+    background-color:rgb(214, 214, 214);
+}
+
 .containerBanco .containers .icon{
     display:flex;
     height:70px;
@@ -166,7 +170,11 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 function MinhasContas() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [contas, setContas] = useState([]);
+    const [contas, setContas] = useState([
+        { id: 1, banco: "Bradesco", tipoConta: "Corrente",  saldo: "50,00" },
+        { id: 2, banco: "Itau", tipoConta: "Poupança", saldo: "75,00" },
+        { id: 3, banco: "Santander", tipoConta: "Corrente", saldo: "100,00" },
+    ]);
     const [novaConta, setNovaConta] = useState({
         banco: '',
         tipoConta: '',
@@ -180,34 +188,44 @@ function MinhasContas() {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
     const navigate = useNavigate();
+
+
+    const navigateClicked = (conta) => {
+        console.log(conta);
+        conta.banco = capitalizeFirstLetter(conta.banco); 
+        const { id, banco, tipoConta, saldo } = conta;
+        sessionStorage.NOMEBANCO = banco; // Ou qualquer outra lógica desejada
+        sessionStorage.NOMETIPOCONTA = tipoConta; // Ou qualquer outra lógica desejada
+        sessionStorage.NOMESALDO = saldo; // Ou qualquer outra lógica desejada
+        navigate(`/conta`)
+    };
 
     const handleSalvarConta = (novaConta) => {
         const saldoString = novaConta.saldo.toString();
 
-            const saldoNumerico = parseFloat(saldoString.replace(/[^\d.-]/g, '')); // Remove caracteres não numéricos
+        const saldoNumerico = parseFloat(saldoString.replace(/[^\d.-]/g, '')); // Remove caracteres não numéricos
 
 
-    // Verifica se o saldo é um número válido
-    if (!isNaN(saldoNumerico) && saldoNumerico >= 0) {
-      novaConta.saldo = saldoNumerico;
-      // Adiciona a nova conta ao estado
-        novaConta.banco = capitalizeFirstLetter(novaConta.banco); // Capitalizar a primeira letra do banco
-        setContas([...contas, novaConta]);
-        setNovaConta({
-          banco: '',
-          tipoConta: '',
-          saldo: ''
-        });
-        closeModal();
-    } else {
-        // Mostra uma mensagem de erro ou lida com o erro de outra forma
-        console.error('Saldo inválido');
-      }
-  
-      };
-      
+        // Verifica se o saldo é um número válido
+        if (!isNaN(saldoNumerico) && saldoNumerico >= 0) {
+            novaConta.saldo = saldoNumerico;
+            // Adiciona a nova conta ao estado
+            novaConta.banco = capitalizeFirstLetter(novaConta.banco); // Capitalizar a primeira letra do banco
+            setContas([...contas, novaConta]);
+            setNovaConta({
+                banco: '',
+                tipoConta: '',
+                saldo: ''
+            });
+            closeModal();
+        } else {
+            // Mostra uma mensagem de erro ou lida com o erro de outra forma
+            console.error('Saldo inválido');
+        }
+
+    };
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setNovaConta({
@@ -217,14 +235,15 @@ function MinhasContas() {
     };
 
     const contasRenderizadas = contas.map((conta, index) => (
-        <ContaContainer key={index} banco={conta.banco} tipoConta={conta.tipoConta} saldo={conta.saldo} />
+        <ContaContainer key={index} banco={conta.banco} tipoConta={conta.tipoConta} saldo={conta.saldo} onContainerClick={() => navigateClicked(conta)}
+        />
     ));
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
-      };
+    };
 
-    
+
 
     return (
         <>
@@ -241,46 +260,6 @@ function MinhasContas() {
 
                     <div className="containerBanco">
                         {contasRenderizadas}
-                        <div className="containers" onClick ={()=> navigate("/conta")}>
-                            <div className="icon">
-                                <img src={Icon('bradescoIcon')} />
-
-                            </div>
-                            <div className="nomeBanco">
-                                    Bradescos
-                                <span>Conta Corrente</span>
-                            </div>
-                            <div className="saldoBanco">
-                                R$ 5.000,00
-                            </div>
-                        </div>
-
-
-                        <div className="containers" onClick ={()=> navigate("/conta")}>
-                            <div className="icon">
-                                <img src={Icon('itauIcon')} />
-                            </div>
-                            <div className="nomeBanco">
-                                Itaú
-                                <span>Conta Corrente</span>
-                            </div>
-                            <div className="saldoBanco">
-                                R$ 5.000,00
-                            </div>
-                        </div>
-
-                        <div className="containers">
-                            <div className="icon">
-                                <img src={Icon('santanderIcon')} />
-                            </div>
-                            <div className="nomeBanco">
-                                Santander
-                                <span>Conta Corrente</span>
-                            </div>
-                            <div className="saldoBanco">
-                                R$ 5.000,00
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div className="localAdicionaConta">

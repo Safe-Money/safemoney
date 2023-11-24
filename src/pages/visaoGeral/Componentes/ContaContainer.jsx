@@ -16,9 +16,9 @@ function formatarValorMoeda(valor) {
 
 
 
-const ContaContainer = ({ banco, tipoConta, saldo }) => {
+const ContaContainer = ({ banco, tipoConta, saldo,onContainerClick  }) => {
   return (
-    <div className="containers">
+    <div className="containers" onClick={onContainerClick}>
       <div className="icon">
         <img src={Icon(`${banco.toLowerCase()}Icon`)} alt={banco} />
       </div>

@@ -8,13 +8,13 @@ import WaterfallChart from '@keyvaluesystems/react-waterfall-chart';
 
 const ContainerBalanco = styled.div`
 display:flex;
-height:46%;
+height:47%;
 width:49.5%;
 border-radius:10px;
-padding:10px 10px 40px 30px;
+padding:15px 10px 40px 30px;
 background-color:#FDFDFD;
 flex-direction:column;
-margin:1.5% 0 0 0;
+margin:1% 0 0 0;
 box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
 
 
@@ -25,45 +25,54 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     height: 10%;
     width: 100%;
     margin-bottom:5%;
-    font-size:18px;
+    font-size:15px;
 
   }
 
   .titulo-icone svg {
     margin-right: 10px;
+    
   }
 
   .grafico-container {
-    height: 100%;
+    height: 80%;
+    // padding:2% 5% 10% 5%;
+
   }
 
   .texto-container {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+
   }
 
   .conteudo{
     display:flex;
     flex-direction:column;
-    height:100%;
+    height:90%;
     position:relative;
+
   }
 
   .custom-waterfall-chart text {
     display: none; /* Oculta os números ao lado das barras */
   }
+  
   `;
 
 
 const TextoBox = styled.div`
-  position:absolute;
+  // position:absolute;
   display:flex;
+  height:20%;
   flex-direction:column;
-  height:80%;
-  right:50px;
-  top:10px;
-  justify-content:space-between;
+  right:50%;
+  bottom:5px;
+  justify-content:center;
+  align-items:center;
+  font-weight:700;
+
 
   div{
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.25);
@@ -150,11 +159,11 @@ function Balanco() {
       fill: '#4CAF50', // Cor da barra de resumo
     },
     positiveBar: {
-      width: '30px', // Cor das barras de valores positivos
+      width: '25px', // Cor das barras de valores positivos
     },
     negativeBar: {
       fill: '#F44336',
-      width: '30px', // Cor das barras de valores negativos
+      width: '25px', // Cor das barras de valores negativos
     },
     text: {
       display: 'none', // Oculta os números ao lado das barras
@@ -182,7 +191,7 @@ function Balanco() {
               className="custom-waterfall-chart" // Passa os estilos personalizados como propriedade
             />
           </div>
-          <TextoBox>
+          <TextoBox>Receita: R$ 2.000,00
           </TextoBox>
         </div>
       </ContainerBalanco>

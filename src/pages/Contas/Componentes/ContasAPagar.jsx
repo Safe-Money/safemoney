@@ -1,16 +1,20 @@
 import styled from "styled-components";
 import { Icon } from "../../visaoGeral/funcoes/icons";
+import ContainerCartaoBanco from "./ContainerCartaoBanco";
+import Cartoes from "../../visaoGeral/Componentes/CartaoCredito"
+
 
 const ContainerContasAPagar = styled.div`
 display:flex;
-height:46%;
+height:47%;
 width:49.5%;
 border-radius:10px;
-padding:10px 10px 10px 30px;
+padding:15px 10px 10px 30px;
 background-color:#FDFDFD;
 flex-direction:column;
 margin:0 1% 0 0;
-box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+
 
 .titulo-icone{
     display:flex;
@@ -19,7 +23,7 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     height:10%;
     width:100%;
     margin-bottom:5%;
-    font-size:18px;
+    font-size:15px;
 
 }
 .titulo-icone svg{
@@ -41,31 +45,23 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     font-size:12px;
     font-weight:700;
 }
-.titulos-categoria .categoria{
+
+.titulos-categoria .Vencimento{
     display:flex;
-    width:25%;
+    width:30%;
     justify-content:center;
+    font-weight:500;
+    font-size:14px;
 }
 
-.titulos-categoria .valor{
+.titulos-categoria .Fatura{
     display:flex;
-    width:25%;
-    justify-content:center;
-
-}
-.titulos-categoria .data{
-    display:flex;
-    width:25%;
-    justify-content:center;
-
+    width:30%;
+    justify-content:start;
+    font-weight:500;
+    font-size:14px;
 }
 
-.titulos-categoria .conta{
-    display:flex;
-    width:25%;
-    justify-content:center;
-
-}
 .container-lista-scroll{
     display:flex;
     width:100%;
@@ -77,7 +73,7 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     scrollbar-width: thin; 
     scrollbar-color: #08632D #FDFDFD; /* Para navegadores Firefox */
     &::-webkit-scrollbar {
-        width: 10px; /* Largura da barra de rolagem */
+        width: 7px; /* Largura da barra de rolagem */
     }
     &::-webkit-scrollbar-thumb {
         background-color: #08632D; /* Cor do polegar da barra de rolagem */
@@ -89,6 +85,14 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     }
 }
 
+.titulos-categoria{
+    display:flex;
+    width:95%;
+    height:25px;
+    font-size:12px;
+    font-weight:500;
+    justify-content:flex-end;
+}
 
 
 .container-lista{
@@ -131,10 +135,81 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     justify-content:center;
     align-items:center;
 }
+
+.containerBanco{
+    display:flex;
+    height:100%;
+    width:95%;
+    flex-direction:column;
+}
+
+.containerBanco .containers{
+    display:flex;
+    height:45px;
+    width:100%;
+    align-items:center;
+    border-bottom: solid 1px rgba(119, 119, 119, 0.3);
+}
+
+.containerBanco .containers .icon{
+    display:flex;
+    height:70px;
+    width:10%;
+    align-items:center;
+    border-radius:50%;
+}
+
+.containers .icon img{
+    border-radius:50%;
+    width:25px;
+    height:35px;
+    overflow:hidden;
+}
+
+.containerBanco .containers .nomeBanco{
+    display:flex;
+    height:70px;
+    width:30%;
+    align-items:start;
+    justify-content:center;
+    font-size:14px;
+    flex-direction:column;
+}
+
+
+.containerBanco .containers .vencimentoBanco{
+    display:flex;
+    height:70px;
+    width:30%;
+    align-items:center;
+    font-size:14px;
+    justify-content:center;
+
+}
+
+
+.nomeBanco span{
+    font-size: 10px;
+    color:rgba(86, 86, 86, 1);
+}
+
+
+.containerBanco .containers .saldoBanco{
+    display:flex;
+    height:70px;
+    width:30%;
+    align-items:center;
+    font-size:14px;
+
+}
+
+
 `
 
 
 function ContasAPagar() {
+    const contasSalvas = JSON.parse(sessionStorage.getItem('CONTA')) || [];
+
 
     return (
         <>
@@ -146,69 +221,24 @@ function ContasAPagar() {
                         <path d="M8.61591 17.5115C8.4973 17.5115 8.37172 17.4697 8.27404 17.3859C8.05777 17.1976 8.02986 16.8697 8.21823 16.6464L11.4206 12.9069C11.7694 12.5022 12.2717 12.258 12.8019 12.2371C13.3322 12.2231 13.8554 12.4185 14.2322 12.7952L14.895 13.458C15.0694 13.6325 15.2926 13.7162 15.5438 13.7162C15.788 13.7092 16.0112 13.5976 16.1717 13.4092L19.374 9.66967C19.5624 9.4534 19.8903 9.42549 20.1136 9.61386C20.3298 9.80223 20.3578 10.1301 20.1694 10.3534L16.9671 14.0929C16.6182 14.4976 16.1159 14.7418 15.5857 14.7627C15.0485 14.7766 14.5322 14.5813 14.1554 14.2045L13.4996 13.5418C13.3252 13.3673 13.095 13.2766 12.8508 13.2836C12.6066 13.2906 12.3833 13.4022 12.2229 13.5906L9.02056 17.3301C8.90893 17.4487 8.76242 17.5115 8.61591 17.5115Z" fill="#08632D" />
                     </svg>
 
-                    Contas a Pagar
+                    Cartões da Conta
                 </div>
 
                 <div className="conteudo-lista">
-                    <div className="titulos-categoria">
-                        <div className="categoria">
-                            Categoria
-                        </div>
-
-                        <div className="valor">
-                            Valor
-                        </div>
-                        <div className="data">
-                            Data
-                        </div>
-                        <div className="conta">
-                            Conta
-                        </div>
-
+                <div className="titulos-categoria">
+                    <div className="Vencimento">
+                        Vencimento
                     </div>
+                    <div className="Fatura">
+                        Fatura
+                    </div>
+                </div>
                     <div className="container-lista-scroll">
+                        <div className="containerBanco">
+                            <ContainerCartaoBanco conta={sessionStorage.CONTA} />
+                        </div>
 
 
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('lazerIcon')} />
-                            </span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="conta-lista">Cartão 1</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('comidaIcon')} />
-                            </span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="conta-lista">Cartão 1</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('comidaIcon')} />
-                            </span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="conta-lista">Cartão 1</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('medicoIcon')} />
-                            </span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="conta-lista">Cartão 1</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('lazerIcon')} />
-                            </span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="conta-lista">Cartão 1</span>
-                        </div>
                     </div>
 
                 </div>

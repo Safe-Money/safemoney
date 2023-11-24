@@ -120,6 +120,10 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     border-bottom: solid 1px rgba(119, 119, 119, 0.3);
 }
 
+.container-lista:hover{
+    background-color:rgb(214, 214, 214);
+}
+
 .container-lista .icone-lista{
     width:10%;
     display:flex;

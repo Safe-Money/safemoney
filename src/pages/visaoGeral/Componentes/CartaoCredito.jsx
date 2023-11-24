@@ -3,6 +3,7 @@ import { Icon } from "../funcoes/icons";
 import React, { useState } from 'react';
 import ModalCartao from "./ModalCartao";
 import CartaoContainer from "./CartaoContainer";
+import ContainerCartaoBradesco from '../../Contas/Componentes/ContainerCartaoBanco';
 
 const ContainerCartaoCredito = styled.div`
 display:flex;
@@ -87,6 +88,10 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     width:100%;
     align-items:center;
     border-bottom: solid 1px rgba(119, 119, 119, 0.3);
+}
+
+.containers:hover{
+    background-color:rgb(214, 214, 214);
 }
 
 .containerBanco .containers .icon{
@@ -186,7 +191,11 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 function CartaoCredito() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [contas, setContas] = useState([]);
+    const [contas, setContas] = useState([
+        { valor: "350,00", origem: "Bradesco",  bandeira: "master", vencimento:'21/23'},
+        { valor: "350,00", origem: "Santander", bandeira: "elo", vencimento:'21/23'},
+        { valor: "350,00", origem: "Itau", bandeira: "visa", vencimento:'21/23'},
+    ]);
     const [novaConta, setNovaConta] = useState({
         // categoria: '',
         valor: '',
@@ -197,6 +206,7 @@ function CartaoCredito() {
     const openModal = () => {
         setIsModalOpen(true);
     };
+    sessionStorage.setItem('CONTA', JSON.stringify(contas));
 
 
     const closeModal = () => {
@@ -244,6 +254,7 @@ function CartaoCredito() {
           vencimento={conta.vencimento} 
         />
       ));
+
       
 
     return (
@@ -271,60 +282,10 @@ function CartaoCredito() {
 
                     <div className="containerBanco">
                         {contasRenderizadas}
-
-                        <div className="containers">
-                            <div className="icon">
-                                <img src={Icon('visaIcon')} />
-
-                            </div>
-                            <div className="nomeBanco">
-                                Cartão-Brad
-                                <span>Vinculada a Bradesco</span>
-                            </div>
-                            <div className="vencimentoBanco">
-                                01/10
-                            </div>
-                            <div className="saldoBanco">
-                                R$ 1.200,00
-                            </div>
-                        </div>
-
-
-                        <div className="containers">
-                            <div className="icon">
-                                <img src={Icon('masterIcon')} />
-                            </div>
-                            <div className="nomeBanco">
-                                Cartão-Itau
-                                <span>Vinculada a Itaú</span>
-                            </div>
-                            <div className="vencimentoBanco">
-                                01/10
-                            </div>
-                            <div className="saldoBanco">
-                                R$ 5.000,00
-                            </div>
-                        </div>
-
-                        <div className="containers">
-                            <div className="icon">
-                                <img src={Icon('eloIcon')} />
-                            </div>
-                            <div className="nomeBanco">
-                                Cartão-Sant
-                                <span>Vinculada a Santander</span>
-                            </div>
-                            <div className="vencimentoBanco">
-                                01/10
-                            </div>
-                            <div className="saldoBanco">
-                                R$ 5.000,00
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div className="localAdicionaConta">
-                    <div className="adicionaConta" onClick={openModal}>
+                <div className="adicionaConta" onClick={(event) => { event.preventDefault(); openModal(); }}>
                         <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6.125 10H12.8758" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M9.5 13.3754V6.62463" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
@@ -350,5 +311,7 @@ function CartaoCredito() {
         </>
     )
 }
+
+
 
 export default CartaoCredito;

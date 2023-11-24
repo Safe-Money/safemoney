@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Icon } from "../funcoes/icons";
 import styled from "styled-components";
 
@@ -15,23 +15,24 @@ const Notifica = styled.div`
   font-size: 11px;
   cursor: pointer;
   justify-content: center;
+
 `;
 
 const ListaNotificacoes = styled.div`
+border-radius:10px;
   position: absolute;
   display: flex;
   justify-content: center;
-  top: 80%;
-  right: 0;
+  top: 90%;
+  right: -50%;
   width: 200px;
-  font-size: 15px;
-  border-radius: 10px;
-  background-color: #08632D;
-  color: white;
+  font-size: 11px;
+  background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
   display: ${(props) => (props.visible ? "block" : "none")};
+  overflow:auto;
 
   div{
     margin: 10px auto;
@@ -61,6 +62,7 @@ function Notification() {
         <p>Notificações</p>
       </Notifica>
       <ListaNotificacoes visible={mostrarNotificacoes}>
+        {/* Renderizar notificações aqui */}
         {notificacoes.map((notificacao, index) => (
           <div key={index}>
             <p>{index+1} - {notificacao}</p>
