@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 
 const pulse = keyframes`
   0% {
@@ -15,16 +14,7 @@ const pulse = keyframes`
   }
 `;
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-const AnimatedBotaoFlutuante = styled.button`
+const BotaoFlutuanteAnimado = styled.button`
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -47,7 +37,7 @@ const AnimatedBotaoFlutuante = styled.button`
   animation: ${pulse} 1s infinite;
 `;
 
-const ModalOverlay = styled.div`
+const SobreposicaoModal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -59,7 +49,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
 `;
 
-const ModalContent = styled.div`
+const ConteudoModal = styled.div`
   background: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -69,20 +59,12 @@ const ModalContent = styled.div`
   align-items: center;
 `;
 
-const InputSection = styled.div`
+const SecaoInput = styled.div`
   margin-bottom: 15px;
   width: 100%;
 `;
 
-const InputContainer = styled.div`
-  margin-top: 25px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-bottom: 15px;
-`;
-
-const ModalInput = styled.input`
+const EntradaModal = styled.input`
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -95,13 +77,13 @@ const ModalInput = styled.input`
   }
 `;
 
-const SelectBox = styled.select`
+const CaixaSelecao = styled.select`
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
 `;
 
-const ModalButton = styled.button`
+const BotaoModal = styled.button`
   background-color: #08632d;
   color: white;
   padding: 10px;
@@ -109,20 +91,20 @@ const ModalButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   width: 100%;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 `;
 
-const ModalTitle = styled.h2`
+const TituloModal = styled.h2`
   font-size: 1.5em;
   margin-bottom: 15px;
-  color:#08632D;
+  color: #08632D;
 `;
 
-const currencyNames = {
-  BRL: 'Real Brasileiro',
-  USD: 'Dólar Americano',
-  EUR: 'Euro',
-  GBP: 'Libra',
+const simbolosMoeda = {
+  BRL: 'Real - R$',
+  USD: 'Dólar - $ ',
+  EUR: 'Euro- €',
+  GBP: 'Libra - £',
 };
 
 const FloatingButton = () => {
@@ -134,7 +116,7 @@ const FloatingButton = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setShowMessageBox(false);
+      setValorConvertido('0');
     }, 3000);
   }, []);
 
@@ -156,12 +138,17 @@ const FloatingButton = () => {
 
   const lidarComConversao = async () => {
     try {
+      if (!valorInput) {
+        setValorConvertido('0');
+        return;
+      }
+
       const response = await axios.get(`https://open.er-api.com/v6/latest/${moedaOrigem}`);
       const rates = response.data.rates;
       const taxaDeConversaoOrigem = rates[moedaDestino];
       const valorConvertido = parseFloat(valorInput) * taxaDeConversaoOrigem;
 
-      setValorConvertido(`Valor em ${currencyNames[moedaDestino]}: ${valorConvertido.toFixed(2)}`);
+      setValorConvertido(`${simbolosMoeda[moedaDestino]} ${valorConvertido.toFixed(2)}`);
     } catch (error) {
       console.error('Erro ao obter as taxas de câmbio:', error);
       alert('Ocorreu um erro ao converter o valor. Tente novamente mais tarde.');
@@ -170,54 +157,54 @@ const FloatingButton = () => {
 
   return (
     <>
-      <AnimatedBotaoFlutuante onClick={abrirModal}>
+      <BotaoFlutuanteAnimado onClick={abrirModal}>
         +
-      </AnimatedBotaoFlutuante>
+      </BotaoFlutuanteAnimado>
 
-      <ModalOverlay isOpen={modalAberto} onClick={fecharModal}>
-        <ModalContent onClick={(e) => e.stopPropagation()}>
-          <ModalTitle>Conversor</ModalTitle>
-          <InputSection>
-            <ModalInput
+      <SobreposicaoModal isOpen={modalAberto} onClick={fecharModal}>
+        <ConteudoModal onClick={(e) => e.stopPropagation()}>
+          <TituloModal>Conversor</TituloModal>
+          <SecaoInput>
+            <EntradaModal
               type="number"
-              placeholder={`Valor em ${currencyNames[moedaOrigem]}`}
+              placeholder={`Valor em ${simbolosMoeda[moedaOrigem]}`}
               value={valorInput}
               onChange={(e) => setValorInput(e.target.value)}
             />
-            <SelectBox
+            <CaixaSelecao
               value={moedaOrigem}
               onChange={(e) => handleMoedaOrigemChange(e.target.value)}
             >
-              {Object.entries(currencyNames).map(([sigla, nome]) => (
+              {Object.entries(simbolosMoeda).map(([sigla, simbolo]) => (
                 <option key={sigla} value={sigla}>
-                  {nome} ({sigla})
+                  {simbolo} ({sigla})
                 </option>
               ))}
-            </SelectBox>
-          </InputSection>
-          <ModalButton onClick={lidarComConversao}>
-            Converter para {currencyNames[moedaDestino]}
-          </ModalButton>
-          <InputSection>
-            <ModalInput
+            </CaixaSelecao>
+          </SecaoInput>
+          <BotaoModal onClick={lidarComConversao}>
+            Converter para {simbolosMoeda[moedaDestino]}
+          </BotaoModal>
+          <SecaoInput>
+            <EntradaModal
               type="text"
-              placeholder={`Valor em ${currencyNames[moedaDestino]}`}
+              placeholder={`Valor em ${simbolosMoeda[moedaDestino]}`}
               value={valorConvertido}
               readOnly
             />
-            <SelectBox
+            <CaixaSelecao
               value={moedaDestino}
               onChange={(e) => handleMoedaDestinoChange(e.target.value)}
             >
-              {Object.entries(currencyNames).map(([sigla, nome]) => (
+              {Object.entries(simbolosMoeda).map(([sigla, simbolo]) => (
                 <option key={sigla} value={sigla}>
-                  {nome} ({sigla})
+                  {simbolo} ({sigla})
                 </option>
               ))}
-            </SelectBox>
-          </InputSection>
-        </ModalContent>
-      </ModalOverlay>
+            </CaixaSelecao>
+          </SecaoInput>
+        </ConteudoModal>
+      </SobreposicaoModal>
     </>
   );
 };
