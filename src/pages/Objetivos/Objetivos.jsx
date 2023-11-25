@@ -59,7 +59,7 @@ const Card = styled.div`
     height:100%;
     background: linear-gradient(to right, #08632D, #08632D 3%, #ffffff 3%, #ffffff);
     border-radius:10px;
-    padding:5px 20px 10px 20px;
+    padding:5px 20px 20px 20px;
     font-size: 12px;
     justify-content:space-between;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -79,6 +79,7 @@ const Card = styled.div`
         display:flex;
         font-weight:700;
         font-size:13px;
+        line-height:28px;
     }
     .numero{
         display:flex;
@@ -93,6 +94,7 @@ const Card = styled.div`
         padding:3px;
         height: 35px;
         border-radius:7px;
+        margin-left:-3px;
     }
 
     .imagem{
@@ -100,14 +102,16 @@ const Card = styled.div`
         height: 100%;
         justify-content: center;
         align-items: center;
+        padding: 20px 0 0 0;
     }
+    
 
     
     `
 
 const TitleCard = styled.span`
     margin-top: 10px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     line-height: 28px; 
 `
@@ -137,7 +141,7 @@ const Info = styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 500;
     }
 
@@ -209,6 +213,9 @@ const CardObj = styled.div`
         border-radius: 30vw;
         border:solid 2px #08632D;
         stroke-width: 3px;
+    }
+    .status{
+        width:10px;
     }
 
 `
