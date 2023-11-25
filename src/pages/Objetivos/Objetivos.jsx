@@ -8,13 +8,17 @@ import edit from "./assets/edit.svg"
 import money from "./assets/money.svg"
 import trash from "./assets/trash.svg"
 import add from "./assets/add.svg"
+import playstation from "./assets/playstation.svg"
 import LateralHeader from "../visaoGeral/Componentes/LateralHeader"
 import FloatingButton from '../Cartoes/Components/FloatingButton';
+import { Icon } from '../visaoGeral/funcoes/icons';
+
 
 const AllContainers = styled.div`
   display: flex;
   margin: 0;
   height:100vh;
+  width:100%;
   box-sizing: border-box;
   overflow-y:hidden;
   background-color: #DBE7E0;
@@ -26,21 +30,23 @@ const AllContainers = styled.div`
 
 const Social = styled.div`
     display: flex;
-    width: 86%;
-    height: 100%;
+    width: 88%;
     padding: 10px 20px;
     flex-direction: column;
     justify-content: space-between;
+    
 
-    .bloco {
-        width: 100%;
-        height: 30%;
+    .bloco1 {
         display: flex;
+        width: 100%;
+        height: 19%;
         justify-content: space-between;
     }
 
-    #opt {
-        height: 80%;
+    .bloco2 {
+        padding: 1% 0 0 0;
+        display:flex;
+        height: 81%;
         width: 100%;
     }
 
@@ -50,10 +56,10 @@ const Social = styled.div`
 const Card = styled.div`
     display:flex;
     width:24%;
-    height:90%;
+    height:100%;
     background: linear-gradient(to right, #08632D, #08632D 3%, #ffffff 3%, #ffffff);
     border-radius:10px;
-    padding:10px;
+    padding:5px 20px 10px 20px;
     font-size: 12px;
     justify-content:space-between;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -85,56 +91,67 @@ const Card = styled.div`
     
     img{
         padding:3px;
-        height: 40px;
+        height: 35px;
         border-radius:7px;
     }
 
     .imagem{
-        height: 100%;
         display: flex;
+        height: 100%;
         justify-content: center;
         align-items: center;
     }
+
     
     `
 
 const TitleCard = styled.span`
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
+    line-height: 28px; 
 `
 const Info = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
-    padding-left: 10px;
+    justify-content:space-around;
     flex-direction: column;
 
     .icone{
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        width: 30.911px;
-        height: 30%;
-        border-radius: 50px;
-        background-color:#C1FAC6;
+        width: 100%;
     }
 
     .icone img{
-        height: 20px;
+        width:20px;
+        height:20px;
+        padding: 3px;
+        border-radius: 7px;
+        background-color: #C1FAC6;
     }
 
     .info-texto{
         display: flex;
         align-items: center;
-        justify-content: center;
-        background-color:#C1FAC6;
-        font-size: 12px;
+        justify-content: flex-start;
+        font-size: 10px;
         font-weight: 500;
-        margin-top: 10px;
-        height: 20px;
+    }
+
+    .info-texto span{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color:#C1FAC6;
+        height:100%;
         border-radius: 10px;
-        width: 90%;
+        padding: 10px;
+
+
+
     }
 
     #card-2{
@@ -143,11 +160,16 @@ const Info = styled.div`
 `
 
 const ObjDiv = styled.div`
+        // display:flex; 
+        flex-direction:column;
         overflow-y: auto;
         max-height: 100%;
+        width:50%;
+        padding: 0 0.5% 0 0;
+        gap:15px;
 
         &::-webkit-scrollbar {
-            width: 10px;
+            width: 7px;
         }
 
         &::-webkit-scrollbar-track {
@@ -157,50 +179,67 @@ const ObjDiv = styled.div`
         &::-webkit-scrollbar-thumb {
             background: black;
             border-radius: 10px;
-            background-color: #398257;
+            background-color:  #08632D;
         }
     `;
 
 const CardObj = styled.div`
     display: flex;
-    padding: 20px;
-    width: 41vw;
-    height: 40%;
+    padding: 2%;
+    width: 100%;
+     height: 150px; 
     border-radius: 10px;
     background-color: #FDFDFD;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom:20px;
 
     .imagem{
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 75%;
         border-radius: 30vw;
         width: 20%;
-        background-color: #DBE7E0;
+        height:117px;
+        // background-color: #DBE7E0;
     }
+
+    .imagem img{
+        width:90px;
+        height:90px;
+        border-radius: 30vw;
+        border:solid 2px #08632D;
+        stroke-width: 3px;
+    }
+
 `
 const InfoObj = styled.div`
     display: flex;
     flex-direction: column;
     text-align: center;
     width: 70%;
+    height:100%;
+`
+const TitleObj = styled.span`
+    font-size: 14px;
+    font-weight: 600;
+    height:20%;
+    padding: 0 10% 0 0;
 `
 
 const SubInfo = styled.div`
     display: flex;
+    width: 100%;
+    padding: 0 5%;
+    height: 80%;
     flex-direction: column;
-    width: 80%;
-    height: 90vh;
-    margin: 12px auto 0 auto;
     justify-content: space-between;
 
     .saldoObj{
         display: flex;
-        justify-content: space-between;
         width: 100%;
+        justify-content: space-between;
         align-items: center;
-        margin-bottom: -10px
+        margin-top:2%;
     }
 
     .saldoObj span{
@@ -209,18 +248,20 @@ const SubInfo = styled.div`
     }
 
     h1{
-        font-size: 24px;
+        font-size: 18px;
         font-weight: 600;
+        color:#000;
+        margin:none;
     }
 
     .progressBar{
         background-color: white;
-        height: 25px;
+        height: 25%;
         width: 100%;
     }
 
     .progressBar::-webkit-progress-value {
-        background-color: #398257; 
+        background-color: #08632D;
         border-radius: 50px;
       }
 
@@ -231,10 +272,9 @@ const SubInfo = styled.div`
 `
 
 const Datas = styled.div`
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 600;
     width: 100%;
-    height: 30%;
     flex-direction: row;
     display: flex;
     justify-content: space-between;
@@ -242,36 +282,67 @@ const Datas = styled.div`
     .data{
         display: flex;
         justify-content: space-between;
+        font-weight:700;
     }
 
     .inicio, .fim{
         margin-right:5px;
     }
-
+    
     #inicio span{
-        color: #398257;
+        color: #08632D;
     }
 
     #fim span{
-        color: #D03434;
+        color:#AD0000;
+        
     }
 `
 
-const TitleObj = styled.span`
-    font-size: 16px;
-    font-weight: 600;
-`
+const Icons = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    width:10%;
+    margin-top:3%;
+
+    .border{
+        cursor: pointer;
+        background-color:  #08632D;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 26px;
+        height: 27px;
+        border-radius: 50px;
+    }
+    `
+
 
 const Meta = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 49.5%;
+    width: 50%;
     height: 100%;
     border-radius: 10px;
-    background-color: #FDFDFD;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding:0 0 0 1%;
+
+
+    .metaCard{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        background-color: #FDFDFD;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        
+    }
 
     .borda{
         display: flex;
@@ -292,25 +363,6 @@ const Meta = styled.div`
     p{
         font-size: 15px;
         font-weight: 600;
-    }
-    `
-const Icons = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    height: 75%;
-    margin: auto 0;
-    align-items: center;
-
-    .border{
-        cursor: pointer;
-        background-color: #398257;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 26px;
-        height: 27px;
-        border-radius: 50px;
     }
     `
 
@@ -352,7 +404,7 @@ function Objetivos(props) {
                 <LateralHeader selecionado="objetivos" />
 
                 <Social>
-                    <div className="bloco">
+                    <div className="bloco1">
 
                         <Card>
                             <div className="linha-verde"></div>
@@ -362,7 +414,7 @@ function Objetivos(props) {
                                     <img src={contas} alt="aaa" />
                                 </div>
 
-                                <TitleCard>Faltam X meses</TitleCard>
+                                <TitleCard>Faltam X meses:</TitleCard>
 
                                 <div className="info-texto">
                                     <span>Para atingir o objetivo</span>
@@ -428,11 +480,13 @@ function Objetivos(props) {
                         </Card>
                     </div>
 
-                    <div className="bloco" id="opt">
+                    <div className="bloco2" id="opt">
                         <ObjDiv>
+                           
                             <CardObj>
                                 <div className="imagem">
-                                    <img src={listaObjetivos[0].img} alt="img" />
+                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
+                                    <img src={playstation} alt="" />
                                 </div>
 
                                 <InfoObj>
@@ -469,15 +523,139 @@ function Objetivos(props) {
                                 </Icons>
 
                             </CardObj>
+                            <CardObj>
+                                <div className="imagem">
+                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
+                                    <img src={playstation} alt="" />
+                                </div>
+
+                                <InfoObj>
+                                    <TitleObj>Playstation 5 + Valhalla</TitleObj>
+
+                                    <SubInfo>
+                                        <div className="saldoObj">
+                                            <span>{listaObjetivos[0].saldoAtual},00 / {listaObjetivos[0].custoTotal},00</span>
+                                            <h1>{progresso.toFixed(1)}%</h1>
+                                        </div>
+
+                                        <progress className="progressBar" value={progresso} max="100"></progress>
+
+                                        <Datas>
+                                            <div className="data" id="inicio">
+                                                <p className="inicio">Inicio: </p>
+                                                <span> {listaObjetivos[0].dtInicio}</span>
+                                            </div>
+
+                                            <div className="data" id="fim">
+                                                <p className="fim">Término:</p>
+                                                <span>{listaObjetivos[0].dtFim}</span>
+                                            </div>
+                                        </Datas>
+                                    </SubInfo>
+                                </InfoObj>
+
+                                <Icons>
+                                    {icones.map((icone) => (
+                                        <div className="border">
+                                            <img src={icone.img} alt={icone.alt} />
+                                        </div>
+                                    ))}
+                                </Icons>
+
+                            </CardObj>
+                            <CardObj>
+                                <div className="imagem">
+                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
+                                    <img src={playstation} alt="" />
+                                </div>
+
+                                <InfoObj>
+                                    <TitleObj>Playstation 5 + Valhalla</TitleObj>
+
+                                    <SubInfo>
+                                        <div className="saldoObj">
+                                            <span>{listaObjetivos[0].saldoAtual},00 / {listaObjetivos[0].custoTotal},00</span>
+                                            <h1>{progresso.toFixed(1)}%</h1>
+                                        </div>
+
+                                        <progress className="progressBar" value={progresso} max="100"></progress>
+
+                                        <Datas>
+                                            <div className="data" id="inicio">
+                                                <p className="inicio">Inicio: </p>
+                                                <span> {listaObjetivos[0].dtInicio}</span>
+                                            </div>
+
+                                            <div className="data" id="fim">
+                                                <p className="fim">Término:</p>
+                                                <span>{listaObjetivos[0].dtFim}</span>
+                                            </div>
+                                        </Datas>
+                                    </SubInfo>
+                                </InfoObj>
+
+                                <Icons>
+                                    {icones.map((icone) => (
+                                        <div className="border">
+                                            <img src={icone.img} alt={icone.alt} />
+                                        </div>
+                                    ))}
+                                </Icons>
+
+                            </CardObj>
+                       
+                            <CardObj>
+                                <div className="imagem">
+                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
+                                    <img src={playstation} alt="" />
+                                </div>
+
+                                <InfoObj>
+                                    <TitleObj>Playstation 5 + Valhalla</TitleObj>
+
+                                    <SubInfo>
+                                        <div className="saldoObj">
+                                            <span>{listaObjetivos[0].saldoAtual},00 / {listaObjetivos[0].custoTotal},00</span>
+                                            <h1>{progresso.toFixed(1)}%</h1>
+                                        </div>
+
+                                        <progress className="progressBar" value={progresso} max="100"></progress>
+
+                                        <Datas>
+                                            <div className="data" id="inicio">
+                                                <p className="inicio">Inicio: </p>
+                                                <span> {listaObjetivos[0].dtInicio}</span>
+                                            </div>
+
+                                            <div className="data" id="fim">
+                                                <p className="fim">Término:</p>
+                                                <span>{listaObjetivos[0].dtFim}</span>
+                                            </div>
+                                        </Datas>
+                                    </SubInfo>
+                                </InfoObj>
+
+                                <Icons>
+                                    {icones.map((icone) => (
+                                        <div className="border">
+                                            <img src={icone.img} alt={icone.alt} />
+                                        </div>
+                                    ))}
+                                </Icons>
+
+                            </CardObj>
+                       
 
                         </ObjDiv>
 
                         <Meta>
-                            <div className="borda">
-                                <img src={add} alt="add" />
-                            </div>
+                            <div className="metaCard">
+                                <div className="borda">
+                                    <img src={add} alt="add" />
+                                </div>
 
-                            <p>Nova Meta</p>
+                                <p>Nova Meta</p>
+                            </div>
                         </Meta>
 
                     </div>

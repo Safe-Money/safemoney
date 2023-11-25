@@ -37,6 +37,7 @@ import sacoDeDolarIcon from '../../../assets/saco-de-dolar1.svg';
 import cartoesIcon from '../../../assets/cartoesIcon.png';
 import cartoesAtiva from '../../../assets/cartoesAtiva.png';
 import Logo2 from '../../../assets/logo2.png';
+import moneyRecive from '../../../assets/money_recive.svg';
 
 
 const icons = {
@@ -78,7 +79,8 @@ const icons = {
     sacoDeDolarIcon,
     cartoesIcon,
     cartoesAtiva,
-    Logo2
+    Logo2,
+    moneyRecive
 }
 
 export const Icon = (icon) => {
