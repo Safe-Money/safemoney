@@ -239,12 +239,12 @@ const TableRow = styled.tr`
 
 
 const TableFooter = styled.div`
-  width: 50%;
+  width: 47%;
   display: flex;
   justify-content: flex-end;
   background: white; 
   margin-top: -35px;
-  margin-left: -25px;
+  margin-left: -1px;
 `;
 
 const Button = styled.button`
