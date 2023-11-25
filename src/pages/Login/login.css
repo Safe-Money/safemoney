@@ -11,7 +11,7 @@ a{
     width: 130px;
     height: 130px;
     flex-shrink: 0;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 /* Estilos para o contêiner principal */
@@ -20,6 +20,7 @@ a{
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    height: 95vh;
 }
 
 #config{
@@ -55,11 +56,13 @@ a{
 /* Estilos para contêiner de entrada */
 .container form .inputContainer {
     position: relative;
-    margin-bottom: 45px;
+    margin-bottom: 33px;
+    box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
+
 }
 
 .forgot-password {
-    margin-top: -35px; 
+    margin-top: -60px; 
     
   }
 
@@ -86,7 +89,7 @@ a{
 /* Estilos para entrada de formulário */
 .container form .inputContainer input {
     width: 370px;
-    height: 40px;
+    height: 50px;
     padding: 5px 10px;
     border-radius: 4px;
     border: 1px solid #08632D;
@@ -133,6 +136,8 @@ a{
     line-height: 24px;
     letter-spacing: 0.8px;
     margin-bottom: 50px;
+    margin-top: -20px;
+    
 }
 
 /* Estilos para links */
