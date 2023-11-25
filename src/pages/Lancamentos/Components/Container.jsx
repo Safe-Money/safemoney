@@ -4,7 +4,8 @@ import { Icon } from '../../visaoGeral/funcoes/icons';
 import { PieChart, Pie, Tooltip, Legend, Cell } from 'recharts';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend as RechartsLegend } from 'recharts';
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
-import FloatingButton from  '../../Cartoes/Components/FloatingButton'; 
+
+
 
 const Container = styled.div`
   position: relative;
@@ -265,6 +266,7 @@ const AllContainers = styled.div`
   overflow-y:none;
   justify-content:center;
   align-items:center;
+  background-color: #DBE7E0;
 
   .container{
     width: 80vw;
@@ -611,7 +613,7 @@ function ContainerGeral() {
           </div>
         </ChartContainer2>
       </Container>
-      <FloatingButton/>
+     
     </AllContainers>
   );
 }

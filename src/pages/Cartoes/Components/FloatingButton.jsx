@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const pulse = keyframes`
   0% {
@@ -68,6 +69,11 @@ const ModalContent = styled.div`
   align-items: center;
 `;
 
+const InputSection = styled.div`
+  margin-bottom: 15px;
+  width: 100%;
+`;
+
 const InputContainer = styled.div`
   margin-top: 25px;
   display: flex;
@@ -77,14 +83,22 @@ const InputContainer = styled.div`
 `;
 
 const ModalInput = styled.input`
-  width: 95%;
+  width: 100%;
   padding: 10px;
-  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+
+  &:focus {
+    border-color: #08632D;
+  }
 `;
 
 const SelectBox = styled.select`
   width: 100%;
   padding: 10px;
+  margin-bottom: 10px;
 `;
 
 const ModalButton = styled.button`
@@ -94,37 +108,31 @@ const ModalButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 15px;
   width: 100%;
+  margin-bottom:20px;
 `;
 
-const MessageBox = styled.div`
-  position: fixed;
-  
-  bottom: 70px;
-  right: 10px;
-  background-color: #08632D;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-  display: ${(props) => (props.show ? 'block' : 'none')};
-  justify-content: center;
-  animation: ${fadeIn} 1s;
-
-  span{
-    font-size:11px;
-  }
+const ModalTitle = styled.h2`
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color:#08632D;
 `;
+
+const currencyNames = {
+  BRL: 'Real Brasileiro',
+  USD: 'Dólar Americano',
+  EUR: 'Euro',
+  GBP: 'Libra',
+};
 
 const FloatingButton = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [valorInput, setValorInput] = useState('');
+  const [moedaOrigem, setMoedaOrigem] = useState('BRL');
   const [moedaDestino, setMoedaDestino] = useState('USD');
   const [valorConvertido, setValorConvertido] = useState('');
-  const [showMessageBox, setShowMessageBox] = useState(true);
 
   useEffect(() => {
-    // Ocultar a caixa de mensagem após 3 segundos (3000 milissegundos)
     setTimeout(() => {
       setShowMessageBox(false);
     }, 3000);
@@ -138,18 +146,22 @@ const FloatingButton = () => {
     setModalAberto(false);
   };
 
+  const handleMoedaOrigemChange = (novaMoeda) => {
+    setMoedaOrigem(novaMoeda);
+  };
+
   const handleMoedaDestinoChange = (novaMoeda) => {
     setMoedaDestino(novaMoeda);
   };
 
   const lidarComConversao = async () => {
     try {
-      const response = await axios.get(`https://open.er-api.com/v6/latest/${moedaDestino}`);
+      const response = await axios.get(`https://open.er-api.com/v6/latest/${moedaOrigem}`);
       const rates = response.data.rates;
-      const taxaDeConversao = rates.BRL;
-      const valorEmDolar = parseFloat(valorInput) / taxaDeConversao;
+      const taxaDeConversaoOrigem = rates[moedaDestino];
+      const valorConvertido = parseFloat(valorInput) * taxaDeConversaoOrigem;
 
-      setValorConvertido(`Valor em ${moedaDestino}: ${valorEmDolar.toFixed(2)}`);
+      setValorConvertido(`Valor em ${currencyNames[moedaDestino]}: ${valorConvertido.toFixed(2)}`);
     } catch (error) {
       console.error('Erro ao obter as taxas de câmbio:', error);
       alert('Ocorreu um erro ao converter o valor. Tente novamente mais tarde.');
@@ -162,38 +174,48 @@ const FloatingButton = () => {
         +
       </AnimatedBotaoFlutuante>
 
-      <MessageBox show={showMessageBox}>
-        <span>Conversor</span>
-      </MessageBox>
-
       <ModalOverlay isOpen={modalAberto} onClick={fecharModal}>
         <ModalContent onClick={(e) => e.stopPropagation()}>
-          <InputContainer>
-            <label>
-              <ModalInput
-                type="number"
-                placeholder="Valor em reais"
-                value={valorInput}
-                onChange={(e) => setValorInput(e.target.value)}
-              />
-            </label>
-            <label>
-              <SelectBox
-                value={moedaDestino}
-                onChange={(e) => handleMoedaDestinoChange(e.target.value)}
-              >
-                <option value="USD">Dólar Americano (USD)</option>
-                <option value="EUR">Euro (EUR)</option>
-                <option value="JPY">Iene Japonês (JPY)</option>
-                <option value="GBP">Libra (GBP)</option>
-                <option value="AUD">Dólar Australiano (AUD)</option>
-              </SelectBox>
-            </label>
-          </InputContainer>
+          <ModalTitle>Conversor</ModalTitle>
+          <InputSection>
+            <ModalInput
+              type="number"
+              placeholder={`Valor em ${currencyNames[moedaOrigem]}`}
+              value={valorInput}
+              onChange={(e) => setValorInput(e.target.value)}
+            />
+            <SelectBox
+              value={moedaOrigem}
+              onChange={(e) => handleMoedaOrigemChange(e.target.value)}
+            >
+              {Object.entries(currencyNames).map(([sigla, nome]) => (
+                <option key={sigla} value={sigla}>
+                  {nome} ({sigla})
+                </option>
+              ))}
+            </SelectBox>
+          </InputSection>
           <ModalButton onClick={lidarComConversao}>
-            Converter para {moedaDestino}
+            Converter para {currencyNames[moedaDestino]}
           </ModalButton>
-          {valorConvertido && <div>{valorConvertido}</div>}
+          <InputSection>
+            <ModalInput
+              type="text"
+              placeholder={`Valor em ${currencyNames[moedaDestino]}`}
+              value={valorConvertido}
+              readOnly
+            />
+            <SelectBox
+              value={moedaDestino}
+              onChange={(e) => handleMoedaDestinoChange(e.target.value)}
+            >
+              {Object.entries(currencyNames).map(([sigla, nome]) => (
+                <option key={sigla} value={sigla}>
+                  {nome} ({sigla})
+                </option>
+              ))}
+            </SelectBox>
+          </InputSection>
         </ModalContent>
       </ModalOverlay>
     </>
