@@ -8,10 +8,10 @@ a{
 
 /* Estilos para imagens */
 .loginImg {
-    width: 130px;
-    height: 130px;
+    width: 110px;
+    height: 60px;
     flex-shrink: 0;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 /* Estilos para o contêiner principal */
