@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import ReactApexChart from 'react-apexcharts';
+import GraficoLinha from './GraficoLinha'; 
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Icon } from '../../visaoGeral/funcoes/icons';
-import { PieChart, Pie, Tooltip, Legend, Cell } from 'recharts';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend as RechartsLegend } from 'recharts';
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
+import { ApexChart, ApexAxis, ApexDataLabels, ApexPlotOptions, ApexTitleSubtitle } from 'react-apexcharts';
 
 
+
+
+const PieChartContainer = styled.div`
+  width: 100%;
+  height: 50%; /* Ajuste a altura conforme necessário */
+`;
 
 const Container = styled.div`
   position: relative;
@@ -21,24 +28,64 @@ const Container = styled.div`
   align-items: flex-start;
 `;
 
-const ChartContainer1 = styled.div`
-  position: fixed;
-  top: 5%;
-  left: 61%;
-  margin: 24px 30px 10px 10px;
-  height: 40%;
-  width: 35%;
-  border-radius: 10px;
-  border: 1px solid #08632D;
+const MainContent = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+`;
+
+const DivsChartsContainer = styled.div`
+ display: flex;
+ flex-direction: column;
+ justify-content:flex-start;
+ margin-left:80px;
+ width:40vw;
+ height:88vh; 
+ margin-top: -20px;
+`;
+
+
+
+const SideDiv = styled.div`
+  margin-bottom: 20px;
+  width: 90%;
+  height: 45%;
+  border: 1px solid #08632D;
+  border-radius: 10px;
+  background: #FFF;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  position:relative;
+
+  .textSide {
+    font-size: 15px;
+    margin-left: px;
+  }
+
+  
+
+  img{
+    width:20px;
+    height:20px;
+  }
+
+  
+
+  .cabeçalho{
+    display:flex;
+    justify-content:center;
+    width: 200%;
+    mar
+   
+  }
 
   table {
-    position: relative;
-    right: 45%;
+    position: relative;   
     white-space: nowrap;
+    margin-top:20px;
+    right: 5%;
+
   }
 
   thead {
@@ -51,7 +98,7 @@ const ChartContainer1 = styled.div`
   }
 
   tbody .valor {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   td {
@@ -59,55 +106,15 @@ const ChartContainer1 = styled.div`
     border-bottom: 0.1px solid rgba(220, 229, 238);
     padding: 0.6rem;
   }
-`;
-
-const IconChart = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 10px;
-  color: #000;
-  font-family: Montserrat;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  width: 22px;
-  height: 22px;
-`;
-
-const ChartText = styled.span`
-  position: absolute;
-  top: 0;
-  left: 30px;
-  margin: 10px;
-  color: #000;
-  font-family: Montserrat;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-`;
-
-const ChartContainer2 = styled.div`
-  position: fixed;
-  margin: 20px 42px 10px 10px;
-  right: 0;
-  height: 40%;
-  width: 35%;
-  border-radius: 10px;
-  border: 1px solid #08632D;
-  top: 50%;
 
   .info {
     position: relative;
-    left: 70%;
-    bottom: 70%;
+    left: 13%;
+    top: 20%;
   }
 
   .info-box {
     position: relative;
-
     width: 130px;
     padding: 10px;
     justify-content: center;
@@ -117,15 +124,6 @@ const ChartContainer2 = styled.div`
     background: #FDFDFD;
     margin-bottom: 20px;
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.25);
-  }
-
-  p {
-    color: #000;
-    font-family: Montserrat;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
   }
 
   .limite {
@@ -139,7 +137,21 @@ const ChartContainer2 = styled.div`
   .livre {
     color: #4232A9;
   }
+
+  .p{   
+      color: #000;
+      font-family: Montserrat;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+  
+
+
 `;
+
+
 
 const Content = styled.div`
   margin-top: 3%;
@@ -171,13 +183,15 @@ const Image = styled.img`
 `;
 
 const TableContainer = styled.div`
+
   margin-top: 40px;
-  width: 50%;
+  width: 40vw;
   overflow-x: none;
-  margin-left: -5px;
+  margin-left: 2px;
   align-items: center;
   flex-grow: 1;
   position: relative;
+  left:20px;
 `;
 
 const StyledTable = styled.table`
@@ -185,6 +199,11 @@ const StyledTable = styled.table`
   text-align: left;
   font-size: 12px;
   border-collapse: collapse;
+
+  .categoria-valor-data {
+    width: 150px; // Ajuste conforme necessário
+  }
+
 `;
 
 const TableHeader = styled.thead`
@@ -192,10 +211,11 @@ const TableHeader = styled.thead`
     padding: 0.5rem;
   }
 
-  th:nth-child(5) {
-    padding-left: 9rem;
-  }
+ 
+
+  
 `;
+
 
 const TableRow = styled.tr`
   th {
@@ -207,22 +227,24 @@ const TableRow = styled.tr`
   td {
     text-align: center;
     border-bottom: 0.1px solid rgba(220, 229, 238);
-    border-width: -31px;
     padding: 0.5rem;
   }
 
-  td:nth-child(5) {
-    padding-left: 9rem;
+  .tdEspacoConta {
+    padding-left: 8.5rem; // Ajuste o valor conforme necessário
   }
+
+  
 `;
+
 
 const TableFooter = styled.div`
   width: 50%;
   display: flex;
   justify-content: flex-end;
-  background: white;
- 
-  margin-bottom: 2%;
+  background: white; 
+  margin-top: -35px;
+  margin-left: -25px;
 `;
 
 const Button = styled.button`
@@ -258,7 +280,11 @@ const SelecionarOrdenacao = styled.select`
   cursor: pointer;
   background-color: transparent;
   color: #000;
+  width: 50%; 
+  
+  
 `;
+
 
 const AllContainers = styled.div`
   display: flex;
@@ -283,141 +309,34 @@ const AllContainers = styled.div`
     width: 23vw;
   }
 `
+const TableIcon = styled.img`
+  margin-left:10px;
+  margin: 0;
+  vertical-align: middle;
+`;
 
-const dadosGrafico = [
-  { valor: 300, cor: '#C568F6' },
-  { valor: 300, cor: '#C568F6' },
-  { valor: 300, cor: '#C568F6' },
-  { valor: 300, cor: '#C568F6' },
-  { valor: 100, cor: '#C568F6' },
-];
+const FiltroContainer = styled.div`
+  cursor: pointer;
+`;
 
-const data = [
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 200.00',
-    data: '2023-13-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 300.00',
-    data: '2023-15-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 400.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 500.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 600.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 700.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 800.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 900.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 1900.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  }, {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 2100.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  }, {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 4100.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 5100.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 6100.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 1700.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 10.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 600.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 1200.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  },
-  {
-    icon: 'icone1',
-    categoria: <Image src={Icon('iconPrato')} style={{ width: '30px', height: '30px' }} />,
-    valor: 'R$ 4100.00',
-    data: '2023-10-21',
-    conta: 'Conta A',
-  }
-];
+
+const opcoesGraficoPizza = {
+  labels: ['Categoria1', 'Categoria2', 'Categoria3', 'Categoria4', 'Categoria5'],
+  cores: ['#C568F6', '#53246B', '#F81F1F', '#FFA588', '#00F828'],
+};
+
+const GraficoPizzaApex = () => {
+  return (
+    <ApexChart
+      type="pie"
+      options={{
+        labels: opcoesGraficoPizza.labels,
+        colors: opcoesGraficoPizza.cores,
+      }}
+      series={[300, 300, 300, 300, 300]} // Substitua pelos seus dados reais
+    />
+  );
+};
 
 const data2 = [
   {
@@ -461,14 +380,16 @@ const itensPorPagina = 8;
 function ContainerGeral() {
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('Valor');
+  const [dadosTabela, setDadosTabela] = useState([]);
 
-  const totalItens = data.length;
+
+  const totalItens = dadosTabela.length;
   const totalPaginas = Math.ceil(totalItens / itensPorPagina);
 
   const indiceInicial = (paginaAtual - 1) * itensPorPagina;
   const indiceFinal = indiceInicial + itensPorPagina;
 
-  const dadosExibidos = data.slice(indiceInicial, indiceFinal);
+  const dadosExibidos = dadosTabela.slice(indiceInicial, indiceFinal);
 
   const mudarPagina = (numeroPagina) => {
     setPaginaAtual(numeroPagina);
@@ -486,52 +407,160 @@ function ContainerGeral() {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/dadostabela');
+      const data = await response.json();
+      setDadosTabela(data);
+    } catch (error) {
+      console.error('Erro ao buscar dados da API', error);
+    }
+  };
+
+
+
+  
+  const GraficoPizzaApex = () => {
+    return (
+      <ReactApexChart
+        type="pie"
+        options={{
+          labels: opcoesGraficoPizza.labels,
+          colors: opcoesGraficoPizza.cores,
+          legend: {
+            show: false,
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+              return opts.w.globals.series[opts.seriesIndex];
+            },
+            style: {
+              fontSize: '0px', 
+              colors: ['white', '#333', '#555', '#777', '#999'],
+            },
+          },
+        }}
+        series={[100, 200, 150, 300, 250]} 
+        style={{
+          position: 'absolute',
+          left: 20,
+          top: 60,
+          width: '50%',
+          height: '50%',
+        }}
+      />
+    );
+  };
+  
+
+
+
   return (
     <AllContainers>
       <LateralHeader selecionado="lancamentos" />
       
       <Container>
         <Content>
+        
           <Image src={Icon('maisIcon')} />
           <Text>Lançamentos</Text>
-          <Text className="filtro">
-            Ordenar por:{" "}
-            <SelecionarOrdenacao
-              value={opcaoSelecionada}
-              onChange={(e) => setOpcaoSelecionada(e.target.value)}
-            >
-              <option value="Valor">Valor</option>
-              <option value="Data">Data</option>
-              <option value="Categoria">Categoria</option>
-            </SelecionarOrdenacao>
-          </Text>
+          
+  <Text className="filtro">
+    <FiltroContainer onClick={() => console.log('Clicou no filtro')}>
+    Ordenar por:{" "}
+    <SelecionarOrdenacao
+  value={opcaoSelecionada}
+  onChange={(e) => setOpcaoSelecionada(e.target.value)}
+>
+  <option value="Valor">Valor</option>
+  <option value="Data">Data</option>
+  <option value="Categoria">Categoria</option>
+</SelecionarOrdenacao>
+  </FiltroContainer>
+  </Text>
+
         </Content>
+        <MainContent>
         <TableContainer>
+          
           <StyledTable id="machineTable">
             <TableHeader>
-              <TableRow>
-                <th></th>
-                <th>Categoria</th>
+            <TableRow>   
+                <th>Categoria</th>             
                 <th>Valor</th>
                 <th>Data</th>
-                <th>Conta</th>
+                <th className='tdEspacoConta'>Conta</th>
               </TableRow>
             </TableHeader>
             <tbody>
               {dadosExibidos.map((item, index) => (
                 <TableRow key={index}>
-                  <th>
-                    <Icon name={item.icon} />
-                  </th>
-                  <td>{item.categoria}</td>
+                  <td class>
+                    <TableIcon src={Icon(item.icone)} alt="Ícone" />
+                  </td>
+                  
                   <td>{item.valor}</td>
-                  <td>{item.data}</td>
-                  <td>{item.conta}</td>
+                  <td >{item.data}</td>
+                  <td className='tdEspacoConta'>{item.descricao}</td>
                 </TableRow>
               ))}
             </tbody>
           </StyledTable>
+         
         </TableContainer>
+        
+        <DivsChartsContainer>
+        <SideDiv>
+  {/* Cabeçalho */}
+  <div className='cabeçalho'>
+    <Image src={Icon('iconChart1')} />
+    <Text className='textSide'>Gastos por categoria</Text>
+  </div>
+  <PieChartContainer>
+    <GraficoPizzaApex />
+  </PieChartContainer>
+  <table>
+            <thead>
+              <tr>
+                <th colSpan="2" style={{ textAlign: "center" }}>TOP 5 Gastos</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data2.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.categoria}</td>
+                  <td className='valor'>{item.valor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+</SideDiv>
+
+  <SideDiv>
+ 
+    <Image src={Icon('iconChart1')} />
+    <Text className='textSide'>Gastos com cartão de crédito</Text>
+ 
+    <GraficoLinha />
+    <div className="info">
+            <div className="info-box">
+              <p  className='p'>Limite:<span className='limite'> R$ 300</span></p>
+            </div>
+            <div className="info-box">
+              <p className='p' >Gasto: <span className='gasto'>R$ 300</span></p>
+            </div>
+            <div className="info-box">
+              <p className='p'>Livre: <span className='livre'>R$ 300</span></p>
+            </div>
+          </div>
+  </SideDiv>
+</DivsChartsContainer>
+        </MainContent>
         <TableFooter>
           <BotaoAnterior onClick={irParaPaginaAnterior}>&lt; </BotaoAnterior>
           {Array.from({ length: totalPaginas }, (_, index) => {
@@ -553,67 +582,7 @@ function ContainerGeral() {
           })}
           <BotaoAnterior onClick={irParaProximaPagina}> &gt;</BotaoAnterior>
         </TableFooter>
-        <ChartContainer1>
-          <IconChart src={Icon('iconChart1')} />
-          <ChartText>Gastos por categoria</ChartText>
-          <PieChart width={700} height={300} margin={{ right: 50, top: 20 }}>
-            <Pie
-              data={dadosGrafico}
-              dataKey="valor"
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-              fill="#FF5733"
-              label
-            >
-              {dadosGrafico.map((entry, index) => (
-                <Cell key={index} fill={entry.cor} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend iconType="none" />
-          </PieChart>
-          <table>
-            <thead>
-              <tr>
-                <th colSpan="2" style={{ textAlign: "center" }}>TOP 5 Gastos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data2.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.categoria}</td>
-                  <td className='valor'>{item.valor}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </ChartContainer1>
-        <ChartContainer2>
-          <IconChart src={Icon('iconChart1')} />
-          <ChartText>Evolução dos gastos com cartão de crédito</ChartText>
-          <LineChart width={350} height={250} data={lineChartData} margin={{ right: 50, top: 80 }}>
-            <CartesianGrid />
-            <XAxis dataKey="data" tick={false} />
-            <YAxis />
-            <Tooltip />
-            <Legend iconType="none" />
-            <Line type="linear" dataKey="valor" stroke="#08632D" />
-          </LineChart>
-          <div className="info">
-            <div className="info-box">
-              <p >Limite:<span className='limite'> R$ 300</span></p>
-            </div>
-            <div className="info-box">
-              <p >Gasto: <span className='gasto'>R$ 300</span></p>
-            </div>
-            <div className="info-box">
-              <p>Livre: <span className='livre'>R$ 300</span></p>
-            </div>
-          </div>
-        </ChartContainer2>
-      </Container>
-     
+      </Container>     
     </AllContainers>
   );
 }
