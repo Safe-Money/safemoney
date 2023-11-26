@@ -5,6 +5,7 @@ import AcessoRapido from "./Componentes/AcessoRapido";
 import UltimosGastos from "./Componentes/UltimosGastos";
 import Previsao from "./Componentes/Previsao";
 import LateralHeader from "./Componentes/LateralHeader";
+
  
 
 const AllContainers = styled.div`

@@ -5,33 +5,6 @@ import { Icon } from '../../visaoGeral/funcoes/icons';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-
-
-const AllContainers = styled.div`
-  display: flex;
-  height: 100vh;
-  overflow-y: none;
-  justify-content: center;
-  align-items: center;
-  background-color: #DBE7E0;
-
-  
-
-  .container {
-    width: 80vw;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    margin: auto;
-    width: 23vw;
-  }
-`;
 const Container = styled.div`
   position: relative;
   display: flex;
@@ -44,11 +17,50 @@ const Container = styled.div`
   margin: auto;
   justify-content: flex-start;
   align-items: flex-start;
+
+  @media (max-width: 1200px) {
+    width: 90%;
+  }
+
   
-  
-  
+  @media (max-width: 768px) {
+    width: 95%;
+  }
+
 `;
 
+const AllContainers = styled.div`
+  display: flex;
+  height: 100vh;
+  overflow-y: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #DBE7E0;
+
+  .container {
+    width: 80vw;
+    max-width: 1200px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    max-width: 1200px;
+  }
+
+  @media (max-width: 1200px) {
+    width: 90%;
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+  }
+`;
 
 
 
@@ -76,18 +88,24 @@ const Content = styled.div`
     font-family: Montserrat;
     font-size: 11px;
     padding: 8px;
-    font-weight:500;
-    position: absolute; 
-    top: 5%; 
+    font-weight: 500;
+    position: absolute;
+    top: 5%;
     right: 3%;
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
   }
 
-  svg{
-    margin-right:5px;
+  svg {
+    margin-right: 5px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
   }
 `;
+
 
 const Text = styled.span`
   color: #000;
@@ -109,36 +127,41 @@ const Text = styled.span`
 const Image = styled.img`
   margin-right: 10px;
 `;
-
 const CardGeralCard = styled.div`
-display: flex;
-height: 82vh;
-flex-direction:column;
-overflow: auto;
-width:40vw;
-margin-right: 20px;
+  display: flex;
+  height: 82vh;
+  flex-direction: column;
+  overflow: auto;
+  width: 40vw;
+  max-width: 600px;
+  margin-right: 20px;
 
-&::-webkit-scrollbar {
-  width: 8px;
-  
-  
-  
-}
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
 
-&::-webkit-scrollbar-thumb {
-  background-color: #08632D;
-  height: 5px;
-  border-radius: 6px;
-}
+  &::-webkit-scrollbar-thumb {
+    background-color: #08632D;
+    height: 5px;
+    border-radius: 6px;
+  }
 
-&::-webkit-scrollbar-track {
-  background-color: #E4E4E4;
-  height: 100px;
-  margin-right:100px;
-  border-radius: 6px;
-  margin-top: 30px;
+  &::-webkit-scrollbar-track {
+    background-color: #E4E4E4;
+    height: 100px;
+    margin-right: 100px;
+    border-radius: 6px;
+    margin-top: 30px;
     margin-bottom: 10px;
-}
+  }
+
+  @media (max-width: 1200px) {
+    width: 50vw;
+  }
+
+  @media (max-width: 768px) {
+    width: 80vw;
+  }
 `;
 
 
@@ -268,29 +291,29 @@ const CardButton = styled.button`
 `;
 
 
-
 const CardCategoria = styled.div`
   border-radius: 5px;
   border: 1px solid #FDFDFD;
   box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.25);
   display: flex;
   height: 78vh;
-  width:40vw;
+  width: 40vw;
+  max-width: 600px;
   flex-direction: column;
   margin-left: 10px;
   margin-top: 20px;
-  padding:30px;
+  padding: 30px;
 
   &::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: #08632D;
     border-radius: 6px;
     box-shadow: inset 0 0 25px px #E4E4E4;
   }
-  
+
   &::-webkit-scrollbar-track {
     margin-top: 60px;
     margin-bottom: 30px;
@@ -333,12 +356,15 @@ const TableContainer = styled.div`
   }
 `;
 
+
 const Wrapper = styled.div`
   display: flex;
   position: relative;
-  
-`;
 
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
+`;
 const TituloContainer = styled.div`
   display: flex;
   justify-content: center;
