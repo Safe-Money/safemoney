@@ -5,6 +5,9 @@ import Balanco from "./Componentes/Balanco"
 import ContasAPagar from "./Componentes/ContasAPagar"
 import SaldoProjetado from "./Componentes/SaldoProjetado"
 import LateralHeader from "../visaoGeral/Componentes/LateralHeader";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import api from "../../api";
 
 const AllContainers = styled.div`
   display: flex;
@@ -18,9 +21,6 @@ const AllContainers = styled.div`
     box-sizing: border-box;
   }
 `;
-
-
-
 
 const Social = styled.div`
 display:flex;
@@ -49,20 +49,40 @@ flex-direction:column;
 
 
 function Contas() {
+    const {id} = useParams();
+    const [conta, setConta] = useState({});
+    const [saldoConta, setSaldoConta ]= useState(0);
+
+    useEffect(() => {
+        api.get(`/contas/${id}`).
+        then((response) => {
+            console.log("conta selecionada: "+ response.data);
+            const saldoParaReal = parseFloat(response.data.saldo)
+            .toLocaleString('pt-br',
+            {style: 'currency', currency: 'BRL'});
+   
+            setConta(response.data);
+            setSaldoConta(saldoParaReal);
+        }).catch((error) => {
+            console.log(error);
+        }
+        )
+    }, []);
+
     return (
-        
+
         <AllContainers>
             <LateralHeader selecionado="geral" />
 
             <Social>
                 <div className="bloco1">
-                    <Conta/>
+                    <Conta nome={conta.nome} banco={conta.banco} saldo={saldoConta} id={id}/>
                 </div>
                 <div className="bloco2">
-                    <UltimosGastos/>
-                    <Balanco/>
-                    <ContasAPagar/>
-                    <SaldoProjetado/>
+                    <UltimosGastos />
+                    <Balanco />
+                    <ContasAPagar />
+                    <SaldoProjetado />
                 </div>
 
             </Social>

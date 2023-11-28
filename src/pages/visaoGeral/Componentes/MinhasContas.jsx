@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
 import React, { useEffect, useState } from 'react';
 import ModalWrapper from "./ModalWrapper";
-import ContaContainer from './ContaContainer'; // Importa o novo componente
+import ContaContainer from './ContaContainer'; 
 import { useNavigate } from "react-router-dom";
 import api  from "../../../api";
 
@@ -196,13 +196,9 @@ function MinhasContas() {
 
 
     const navigateClicked = (conta) => {
-        console.log(conta);
-        conta.banco = capitalizeFirstLetter(conta.banco);
-        const { id, banco, tipoConta, saldo } = conta;
-        sessionStorage.NOMEBANCO = banco; // Ou qualquer outra lógica desejada
-        sessionStorage.NOMETIPOCONTA = tipoConta; // Ou qualquer outra lógica desejada
-        sessionStorage.NOMESALDO = saldo; // Ou qualquer outra lógica desejada
-        navigate(`/conta`)
+        console.log(conta);;
+        const contaClicada = conta;
+        navigate(`/conta/${contaClicada.id}`)
     };
 
     const handleSalvarConta = (novaConta) => {
@@ -273,7 +269,7 @@ function MinhasContas() {
 
                         <div className="containerBanco">
                             {contas.length > 0 ? contas.map((conta, index) => (
-                                <ContaContainer key={index} banco={conta.banco} tipoConta={conta.tipoConta} saldo={conta.saldo} onContainerClick={() => navigateClicked(conta)}
+                                <ContaContainer key={index} nome={conta.nome} banco={conta.banco} tipoConta={conta.tipo} saldo={conta.saldo} onContainerClick={() => navigateClicked(conta)}
                                 />
                             )) : <NaoEncontrado>Nenhuma conta cadastrada</NaoEncontrado>}
                         </div>

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Icon } from "../../visaoGeral/funcoes/icons";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+import api from "../../../api";
 
 
 
@@ -89,56 +90,64 @@ font-size:16px;
 }
 `
 
-function conta() {
-    /*
-    Modal para excluir plano
-    */
+function conta({nome, banco, saldo, id}) {
+    
    const navigate = useNavigate();
-   const excluirConta = (index) => {
+   const excluirConta = () => {
        
-        
-        console.log(index);
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Você tem certeza?",
+            text: "Você não poderá recuperar essa conta!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Sim!"
         }).then((result) => {
             if (result.isConfirmed) {
+                api.delete(`/contas/${id}`).then(() => {
                     navigate("/visao-geral")
 
+                    Swal.fire({
+                        title: "Deletado!",
+                        text: "Conta deletada!",
+                        icon: "success"
+                    });
+                }).catch((error) => {
+                    Swal.fire({
+                        title: "Erro!",
+                        text: "Não foi possível deletar a conta!",
+                        icon: "error"
+                    });
 
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
+                    console.log('Houve um erro na exclusão!'+ error)
                 });
+
+
             }
+        }).catch((error) => {
+            Swal.fire({
+                title: "Erro!",
+                text: "Não foi possível deletar a conta!",
+                icon: "error"
+            });
+
+            console.log('Houve um erro na aplicação. Tente novamente!'+ error)
         });
     };
 
-    const nomeConta = sessionStorage.NOMEBANCO;
+    const nomeConta = nome;
+    
+    const nomeIcone = `${banco}Icon`;
 
-    // Converte todo o nome para minúsculas
-    const nomeContaMinusculo = nomeConta.toLowerCase();
-    
-    // Gera o nome do ícone com o nome todo em minúsculas
-    const nomeIcone = `${nomeContaMinusculo}Icon`;
-    
-    // Obtém o caminho do ícone usando a função Icon (supondo que você já a tenha definida)
-    const caminhoIcone = Icon(nomeIcone);
-    console.log(caminhoIcone);
         return (
     
             <ContainerConta>
                 <div className="titulo-removerConta">
                     <div className="titulo-icone">
-                    <img src={caminhoIcone} alt="Account Icon" />
+                    <img src={Icon(nomeIcone)} alt="Account Icon" />
 
-                    {sessionStorage.NOMEBANCO}
+                    {nomeConta}
                 </div>
                 <div className="removerConta" onClick={excluirConta
                 }>
@@ -156,7 +165,7 @@ function conta() {
             <Conteudo>
                 <TextoNumero>
                     <span className="texto">Saldo Geral</span>
-                    <span className="numeros">R${sessionStorage.NOMESALDO}</span>
+                    <span className="numeros">{saldo}</span>
                 </TextoNumero>
                 <TextoNumero>
                     <span className="texto">Despesas</span>

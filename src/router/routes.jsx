@@ -28,8 +28,7 @@ function Rotas() {
           <Route path="/planejamentos" element={<Planejamento/>} />
           <Route path="/objetivos" element={<Objetivos/>} />
           <Route path="/config" element={<Config/>} />
-          <Route path="/cartoes" element={<Card/>} />
-          <Route path="/conta" element={<Contas/>} />
+          <Route path="/conta/:id" element={<Contas/>} />
           <Route path="*" element={<NotFound/>} />
           <Route path="/cartoes" element={<Cartoes/>} />
         </Routes>

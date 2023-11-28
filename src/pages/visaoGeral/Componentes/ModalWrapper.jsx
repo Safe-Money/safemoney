@@ -20,12 +20,12 @@ const ModalWrap = styled.div`
 `;
 
 const ModalContent = styled.div`
-background: white;
-padding: 50px;
+  background: white;
+  padding: 50px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   width:40em;
-  height:500px;
+  height:530px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -78,7 +78,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 width:60%;
-margin-top:9%;
+margin-top:5%;
 
 button{
   padding:10px;
@@ -158,16 +158,15 @@ box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
 }
 `;
 
-const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
+const ModalWrapper = ({ isOpen, onClose }) => {
   // const [banco, setBanco] = useState('');
   const [saldo, setSaldo] = useState('');
   const [selectedBanco, setSelectedBanco] = useState('');
-  const [selectedTipoConta, setSelectedTipoConta] = useState('');
   const [tipo, setTipo] = useState('sel');
+  const [valorAmortizar, setValorAmortizar] = useState('');
+  const [nome, setNome] = useState('');
   const id = localStorage.getItem('id');
   const navigate = useNavigate();
-
-
 
   const [camposTocados, setCamposTocados] = useState({
     banco: false,
@@ -175,8 +174,6 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
     saldo: false
   });
 
-
-  //Resetar campos ao adicionar conta ou cancelar
   const resetCamposTocados = () => {
     setCamposTocados({
       banco: false,
@@ -185,15 +182,67 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
     });
   };
 
-
-  //Resetar campos ao cancelar
   const handleCancelarClick = () => {
     onClose();
     resetarCampos();
   };
 
+  const handleCancelarClick2 = (e) => {
+    if (e.target.classList.contains('ModalWrap')) {
+      onClose();
+      resetarCampos();
+    }
+  };
 
-  const [valorAmortizar, setValorAmortizar] = useState('');
+  const handleChange = (event) => {
+    setTipo(event.target.value);
+  };
+
+  async function inserirConta() {
+    const saldoNumerico = parseFloat(saldo.replace(/[^\d,.-]/g, '').replace(',', '.'));
+
+    const novaConta = {
+      banco: selectedBanco,
+      nome: nome,
+      saldo: saldoNumerico,
+      tipo: tipo,
+      fkUsuario: {
+        id: id
+      }
+    };
+
+    try {
+      const response = await api.post(`/contas/`, novaConta);
+      console.log(response);
+      onClose();
+      resetarCampos();
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Conta adicionada!',
+        text: 'Sua conta foi adicionada com sucesso!!.',
+      });
+
+      navigate('/visao-geral');
+    } catch (error) {
+      const errorMessage = 'Não foi possível adicionar a conta. Tente novamente.';
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao adicionar conta!',
+        text: errorMessage,
+      });
+
+      console.error('Erro na adição de conta:', error.message);
+    }
+  }
+
+  const resetarCampos = () => {
+    setSaldo('');
+    setSelectedBanco('');
+    setTipo('sel');
+    resetCamposTocados();
+  };
 
   const handleValorChange = (e) => {
     const valorDigitado = e.target.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
@@ -205,84 +254,19 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
 
   const formatarValorNoInput = (saldo) => {
     const valorFormatado = formatarMoeda(saldo);
-    // // Atualize o valor no estado
+    
     setSaldo(valorFormatado);
   };
 
 
-  const formatarMoeda = (valor) => {
-    if (!valor) return '';
-  
-    const valorNumerico = parseFloat(valor.replace(/[^\d,.-]/g, '').replace(',', '.'));
+  const formatarMoeda = (saldo) => {
+    const valorNumerico = parseFloat(saldo) / 100; // Converte centavos para reais
     const valorFormatado = valorNumerico.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL'
     });
     return valorFormatado;
   };
-
-  const resetarCampos = () => {
-    setSaldo('');
-    setSelectedBanco('');
-    setSelectedTipoConta('');
-    resetCamposTocados();
-  };
-
-  const handleCancelarClick2 = (e) => {
-    // Verifica se o clique ocorreu diretamente no ModalWrap e não em elementos dentro do ModalContent
-    if (e.target.classList.contains('ModalWrap')) {
-      onClose();
-      resetarCampos();
-    }
-  };
-
-
-
-  const handleChange = (event) => {
-    setTipo(event.target.value);
-  };
-
-  async function inserirConta() {
-    const saldoNumerico = parseFloat(saldo.replace(/[^\d,.-]/g, '').replace(',', '.'));
-
-    const novaConta = {
-      banco: selectedBanco,
-      nome: selectedBanco,
-      saldo: saldoNumerico,
-      tipo: tipo,
-      fkUsuario: {
-        id: id
-      }
-    };
-
-    api
-    .post(`/contas/`, novaConta)
-    .then((response) => {
-      console.log(response);
-      onClose();
-      resetarCampos()
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Conta adicionada!',
-        text: 'Sua conta foi adicionada com sucesso!!.',
-      });
-
-      navigate('/visao-geral');
-    })
-    .catch(() => {
-      alert("Erro ao atualizar música!");
-      const errorMessage = 'Não foi possível adicionar a conta. Tente novamente.';
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao adicionar conta!',
-        text: errorMessage,
-      });
-
-      console.error('Erro na adição de conta:', error.message);
-    });
-  }
 
   if (!isOpen) return null;
 
@@ -295,7 +279,20 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
           </span>
           <div>Nova Conta</div>
         </LogoNome>
-
+        
+        <LabelInput>
+          <div className="label">Nome</div>
+          <input
+            id="nome"
+            type="text"
+            className="input-field"
+            name="nome"
+            value={nome}
+            onChange={(e) => {
+              setNome(e.target.value);
+              console.log(e.target.value);
+            }}/>
+        </LabelInput>
 
         <LabelInput>
           <div className="label">Banco</div>
@@ -304,7 +301,6 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
             value={selectedBanco}
             onChange={(e) => {
               setSelectedBanco(e.target.value);
-              setCamposTocados({ ...camposTocados, banco: true });
               console.log(e.target.value);
             }}
             style={{ borderColor: camposTocados.banco && !selectedBanco ? 'red' : '' }}
@@ -336,12 +332,11 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
             type="text"
             className="input-field"
             name="saldo"
-            value={formatarMoeda(saldo)}
+            value={saldo}
             onChange={(e) => {
               handleValorChange(e);
               setCamposTocados({ ...camposTocados, saldo: true });
             }}
-            style={{ borderColor: camposTocados.saldo && !saldo ? 'red' : '' }}
           />
         </LabelInput>
 
