@@ -42,13 +42,12 @@ const Cadastro = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    try {
-      const response = await api.post('/usuarios/cadastro', {
+      await api.post('/usuarios/cadastro', {
         nome,
         email,
         senha,
         dtNascimento: data  
-      });
+      }).then((response) => {
   
       console.log('Usuário cadastrado', response);
   
@@ -57,13 +56,20 @@ const Cadastro = () => {
         title: 'Cadastro bem-sucedido!',
         text: 'Você foi cadastrado com sucesso!',
       });
-  
+      
       navigate('/login');
-    } catch (error) {
-      console.error('Erro ao cadastrar usuário:', error.message);
-    }
-  }
 
+    }).catch((error) => {
+      console.log('Não foi possível cadastrar o usuário', error);
+  
+      Swal.fire({
+        icon: 'error',
+        title: 'Cadastro mal-sucedido!',
+        text: 'Não foi possível cadastrar o usuário!',
+      });
+    });
+  }
+  
 
   return (
     <div className="container">
