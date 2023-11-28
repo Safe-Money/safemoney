@@ -42,7 +42,7 @@ const Cadastro = () => {
       e.preventDefault();
   
       try {
-        const response = await Api.cadastrar(nome, email, senha, dtNascimento);
+        const response = await api.post('/autenticacao/cadastro', {;
   
         console.log('Resposta da API:', response);       
   

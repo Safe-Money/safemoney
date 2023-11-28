@@ -1,34 +1,21 @@
-// Api.js
-import axios from 'axios';
+import axios from "axios";
 
-const baseUrl = 'http://localhost:8080';  
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+});
 
-const Api = {
-  login: async (email, senha) => {
-    try {
-      const response = await axios.post(`${baseUrl}/autenticacao/login`, { email, senha });
-      return response.data;
-    } catch (error) {
-      throw error;
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+
+    return config;
   },
+  (error) => {
+    return Promise.reject(error);
+});
 
-  cadastrar: async (nome, email, senha, dtNascimento) => {
-    try {
-      const dadosCadastro = {
-        nome,
-        email,
-        senha,
-        dt_nascimento: dtNascimento,
-      };
-
-      const response = await axios.post(`${baseUrl}/usuarios/cadastro`, dadosCadastro);
-
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-};
-
-export default Api;
+export default api;

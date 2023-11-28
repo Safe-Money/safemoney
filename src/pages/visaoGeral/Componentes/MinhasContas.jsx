@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalWrapper from "./ModalWrapper";
 import ContaContainer from './ContaContainer'; // Importa o novo componente
 import { useNavigate } from "react-router-dom";
+import api  from "../../../api";
 
 const ContainerMinhasContas = styled.div`
 display:flex;
@@ -163,6 +164,10 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 }
 `
 
+const NaoEncontrado = styled.div`
+    margin: 10% 0 10% 30%;
+`
+
 
 
 
@@ -171,9 +176,6 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 function MinhasContas() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [contas, setContas] = useState([
-        { id: 1, banco: "Bradesco", tipoConta: "Corrente",  saldo: "50,00" },
-        { id: 2, banco: "Itau", tipoConta: "Poupança", saldo: "75,00" },
-        { id: 3, banco: "Santander", tipoConta: "Corrente", saldo: "100,00" },
     ]);
     const [novaConta, setNovaConta] = useState({
         banco: '',
@@ -191,9 +193,11 @@ function MinhasContas() {
     const navigate = useNavigate();
 
 
+
+
     const navigateClicked = (conta) => {
         console.log(conta);
-        conta.banco = capitalizeFirstLetter(conta.banco); 
+        conta.banco = capitalizeFirstLetter(conta.banco);
         const { id, banco, tipoConta, saldo } = conta;
         sessionStorage.NOMEBANCO = banco; // Ou qualquer outra lógica desejada
         sessionStorage.NOMETIPOCONTA = tipoConta; // Ou qualquer outra lógica desejada
@@ -234,62 +238,72 @@ function MinhasContas() {
         });
     };
 
-    const contasRenderizadas = contas.map((conta, index) => (
-        <ContaContainer key={index} banco={conta.banco} tipoConta={conta.tipoConta} saldo={conta.saldo} onContainerClick={() => navigateClicked(conta)}
-        />
-    ));
-
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
+    useEffect(() => {
+        const fetchContas = async () => {
+          try {
+            const response = await api.get('/contas/');
+            setContas(response.data);
+            console.log(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+      
+        fetchContas();
+      }, []);
 
 
-    return (
-        <>
-            <ContainerMinhasContas>
-                <div className="titulo-icone">
-                    <img src={Icon('contasIcon')} />
-                    Minhas Contas
-                </div>
 
-                <div className="categoriaSaldo">
-                    <span>Saldo</span>
-                </div>
-                <div className="containerBancoScroll">
-
-                    <div className="containerBanco">
-                        {contasRenderizadas}
+        return (
+            <>
+                <ContainerMinhasContas>
+                    <div className="titulo-icone">
+                        <img src={Icon('contasIcon')} />
+                        Minhas Contas
                     </div>
-                </div>
-                <div className="localAdicionaConta">
-                    <div className="adicionaConta" onClick={openModal}>
-                        <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.125 10H12.8758" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9.5 13.3754V6.62463" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M6.96846 18.4385H12.0315C16.2508 18.4385 17.9385 16.7508 17.9385 12.5315V7.46846C17.9385 3.24922 16.2508 1.56152 12.0315 1.56152H6.96846C2.74922 1.56152 1.06152 3.24922 1.06152 7.46846V12.5315C1.06152 16.7508 2.74922 18.4385 6.96846 18.4385Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
 
-                        Nova conta
+                    <div className="categoriaSaldo">
+                        {contas.length > 0 ? <span>Saldo</span> : null}
                     </div>
-                    <ModalWrapper
-                        isOpen={isModalOpen}
-                        onClose={closeModal}
-                        onSave={(data) => {
-                            handleSalvarConta(data);
-                            closeModal();
-                        }}
-                        formData={novaConta}
-                        onChange={handleInputChange}
-                    />
-                </div>
+                    <div className="containerBancoScroll">
+
+                        <div className="containerBanco">
+                            {contas.length > 0 ? contas.map((conta, index) => (
+                                <ContaContainer key={index} banco={conta.banco} tipoConta={conta.tipoConta} saldo={conta.saldo} onContainerClick={() => navigateClicked(conta)}
+                                />
+                            )) : <NaoEncontrado>Nenhuma conta cadastrada</NaoEncontrado>}
+                        </div>
+                    </div>
+                    <div className="localAdicionaConta">
+                        <div className="adicionaConta" onClick={openModal}>
+                            <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.125 10H12.8758" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9.5 13.3754V6.62463" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M6.96846 18.4385H12.0315C16.2508 18.4385 17.9385 16.7508 17.9385 12.5315V7.46846C17.9385 3.24922 16.2508 1.56152 12.0315 1.56152H6.96846C2.74922 1.56152 1.06152 3.24922 1.06152 7.46846V12.5315C1.06152 16.7508 2.74922 18.4385 6.96846 18.4385Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+
+                            Nova conta
+                        </div>
+                        <ModalWrapper
+                            isOpen={isModalOpen}
+                            onClose={closeModal}
+                            onSave={(data) => {
+                                handleSalvarConta(data);
+                                closeModal();
+                            }}
+                            formData={novaConta}
+                            onChange={handleInputChange}
+                        />
+                    </div>
 
 
-            </ContainerMinhasContas >
-        </>
-    )
-}
-
-
+                </ContainerMinhasContas >
+            </>
+        )
+    }
 
 export default MinhasContas;

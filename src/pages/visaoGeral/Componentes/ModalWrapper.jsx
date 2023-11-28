@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Icon } from "../funcoes/icons";
+import Swal from 'sweetalert2';
+import api from '../../../api';
+import { useNavigate } from 'react-router-dom';
 
 
 const ModalWrap = styled.div`
@@ -157,10 +160,12 @@ box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
 
 const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
   // const [banco, setBanco] = useState('');
-  const [tipoConta, setTipoConta] = useState('');
   const [saldo, setSaldo] = useState('');
   const [selectedBanco, setSelectedBanco] = useState('');
   const [selectedTipoConta, setSelectedTipoConta] = useState('');
+  const [tipo, setTipo] = useState('sel');
+  const id = localStorage.getItem('id');
+  const navigate = useNavigate();
 
 
 
@@ -169,51 +174,6 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
     tipoConta: false,
     saldo: false
   });
-
-  // Salvar os dados das inputs/select
-  const handleSalvar = () => {
-    const camposNaoTocados = {
-      banco: !camposTocados.banco,
-      tipoConta: !camposTocados.tipoConta,
-      saldo: !camposTocados.saldo
-    };
-
-    setCamposTocados({
-      banco: camposTocados.banco || camposNaoTocados.banco,
-      tipoConta: camposTocados.tipoConta || camposNaoTocados.tipoConta,
-      saldo: camposTocados.saldo || camposNaoTocados.saldo
-    });
-
-    if (camposNaoTocados.banco || camposNaoTocados.tipoConta || camposNaoTocados.saldo) {
-      // Se nenhum campo foi tocado, mostra as bordas vermelhas
-      setCamposTocados({
-        banco: true,
-        tipoConta: true,
-        saldo: true
-      });
-      return;
-    }
-
-
-    if (!selectedBanco || !selectedTipoConta || !saldo) {
-      // Mostra uma mensagem de erro, você pode adicionar uma lógica aqui para lidar com a mensagem de erro
-      console.error('Por favor, preencha todos os campos obrigatórios.');
-      return;
-    }
-
-    const saldoNumerico = parseFloat(saldo.replace(/[^\d,.-]/g, '').replace(',', '.'));
-    const novaConta = {
-      banco: selectedBanco,
-      tipoConta: selectedTipoConta,
-      saldo: parseFloat(saldoNumerico)
-    };
-    onSave(novaConta);
-    setTipoConta('');
-    setSaldo('');
-    setSelectedBanco('');
-    onClose();
-    resetCamposTocados();
-  };
 
 
   //Resetar campos ao adicionar conta ou cancelar
@@ -250,8 +210,10 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
   };
 
 
-  const formatarMoeda = (saldo) => {
-    const valorNumerico = parseFloat(saldo) / 100; // Converte centavos para reais
+  const formatarMoeda = (valor) => {
+    if (!valor) return '';
+  
+    const valorNumerico = parseFloat(valor.replace(/[^\d,.-]/g, '').replace(',', '.'));
     const valorFormatado = valorNumerico.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL'
@@ -276,11 +238,57 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
 
 
 
+  const handleChange = (event) => {
+    setTipo(event.target.value);
+  };
+
+  async function inserirConta() {
+    const saldoNumerico = parseFloat(saldo.replace(/[^\d,.-]/g, '').replace(',', '.'));
+
+    const novaConta = {
+      banco: selectedBanco,
+      nome: selectedBanco,
+      saldo: saldoNumerico,
+      tipo: tipo,
+      fkUsuario: {
+        id: id
+      }
+    };
+
+    api
+    .post(`/contas/`, novaConta)
+    .then((response) => {
+      console.log(response);
+      onClose();
+      resetarCampos()
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Conta adicionada!',
+        text: 'Sua conta foi adicionada com sucesso!!.',
+      });
+
+      navigate('/visao-geral');
+    })
+    .catch(() => {
+      alert("Erro ao atualizar música!");
+      const errorMessage = 'Não foi possível adicionar a conta. Tente novamente.';
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao adicionar conta!',
+        text: errorMessage,
+      });
+
+      console.error('Erro na adição de conta:', error.message);
+    });
+  }
+
   if (!isOpen) return null;
 
   return (
     <ModalWrap className="ModalWrap" onClick={handleCancelarClick2} >
-      <ModalContent  className="ModalContent">
+      <ModalContent className="ModalContent">
 
         <LogoNome>
           <span><img src={Icon('logo')} />
@@ -297,6 +305,7 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
             onChange={(e) => {
               setSelectedBanco(e.target.value);
               setCamposTocados({ ...camposTocados, banco: true });
+              console.log(e.target.value);
             }}
             style={{ borderColor: camposTocados.banco && !selectedBanco ? 'red' : '' }}
           >
@@ -310,27 +319,24 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
           <div className="label">Tipo de Conta</div>
           <StyledSelect
             id="select_tipoConta"
-            value={selectedTipoConta}
+            value={tipo}
             onChange={(e) => {
-              setSelectedTipoConta(e.target.value);
-              setCamposTocados({ ...camposTocados, tipoConta: true });
+              handleChange(e);
             }}
-            style={{ borderColor: camposTocados.tipoConta && !selectedTipoConta ? 'red' : '' }}
-          >
-
-            <option value="">Selecione o tipo de conta</option>
-            <option value="corrente">Conta Corrente</option>
-            <option value="poupanca">Conta Poupança</option>
+            style={{ borderColor: camposTocados.tipoConta && !selectedTipoConta ? 'red' : '' }}>
+            <option value="sel">Selecione o tipo de conta</option>
+            <option value="0">Conta Corrente</option>
+            <option value="1">Conta Poupança</option>
           </StyledSelect>
         </LabelInput>
         <LabelInput>
-        <div className="label">Saldo (R$)</div>
+          <div className="label">Saldo (R$)</div>
           <input
             id="select_saldo"
             type="text"
             className="input-field"
             name="saldo"
-            value={saldo}
+            value={formatarMoeda(saldo)}
             onChange={(e) => {
               handleValorChange(e);
               setCamposTocados({ ...camposTocados, saldo: true });
@@ -342,7 +348,7 @@ const ModalWrapper = ({ isOpen, onClose, onSave, formData, onChange }) => {
 
         <Button>
           <button onClick={handleCancelarClick} className='cancelar'>Cancelar</button>
-          <button className='adicionar-btn' onClick={handleSalvar} >Adicionar</button>
+          <button className='adicionar-btn' onClick={inserirConta} >Adicionar</button>
         </Button>
 
       </ModalContent>

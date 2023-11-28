@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import Header from './components/Header';
 import Input from './components/Input';
 import { Button } from '../../components/Button';
-import Api from '../../API'; 
+import api from '../../api';
 
 function Login() {
   const navigate = useNavigate();
@@ -13,29 +13,39 @@ function Login() {
 
   async function logar() {
     try {
-      const response = await Api.login(email, senha);
-      localStorage.setItem('token', response.token);
+      const response = await api.post('/autenticacao/login', {
+        email,
+        senha,
+      });
+  
+      console.log(response);
 
-      const decodedToken = JSON.parse(atob(response.token.split('.')[1]));
-      console.log('Token Decodificado:', decodedToken);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('nome', response.data.nome);
+      localStorage.setItem('email', response.data.email);
+      localStorage.setItem('id', response.data.id);
 
+  
       Swal.fire({
         icon: 'success',
         title: 'Login bem-sucedido!',
         text: 'Você foi autenticado com sucesso.',
       });
-
+  
       navigate('/visao-geral');
     } catch (error) {
+      const errorMessage = 'Verifique suas credenciais e tente novamente.';
+  
       Swal.fire({
         icon: 'error',
         title: 'Erro no login!',
-        text: 'Verifique suas credenciais e tente novamente.',
+        text: errorMessage,
       });
-
+  
       console.error('Erro no login:', error.message);
     }
   }
+  
 
   return (
     <div className="container">
