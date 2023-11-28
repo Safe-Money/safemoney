@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Api from '../../API';
-import { format } from 'date-fns';
-import Swal from 'sweetalert2';  
+import api from '../../api';
+import Swal from 'sweetalert2';
 import Input from './components/Input';
 import { Button } from '../../components/Button';
 import { Icon } from '../visaoGeral/funcoes/icons';
@@ -32,33 +31,40 @@ const H2 = styled.div`
 `;
 
 const Cadastro = () => {
-    const navigate = useNavigate();
-    const [nome, setNome] = useState("");
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [dtNascimento, setDataNascimento] = useState("");
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      try {
-        const response = await api.post('/autenticacao/cadastro', {;
-  
-        console.log('Resposta da API:', response);       
-  
-        Swal.fire({
-          icon: 'success',
-          title: 'Cadastro bem-sucedido!',
-          text: 'Você foi cadastrado com sucesso!',
-        });
-  
-        navigate('/login');
-      } catch (error) {
-        console.error('Erro ao cadastrar usuário:', error.message);
-      }
-    };
+  const navigate = useNavigate();
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [dtNascimento, setDataNascimento] = useState("");
 
+  const data = new Date(dtNascimento);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
   
+    try {
+      const response = await api.post('/usuarios/cadastro', {
+        nome,
+        email,
+        senha,
+        dtNascimento: data  
+      });
+  
+      console.log('Usuário cadastrado', response);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Cadastro bem-sucedido!',
+        text: 'Você foi cadastrado com sucesso!',
+      });
+  
+      navigate('/login');
+    } catch (error) {
+      console.error('Erro ao cadastrar usuário:', error.message);
+    }
+  }
+
+
   return (
     <div className="container">
       <Image>
