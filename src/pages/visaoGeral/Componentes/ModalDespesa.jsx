@@ -84,11 +84,7 @@ function ModalDespesa(props) {
             setContaSelecionada(e.target.value);
           }}
         >
-          {/* {contas.map((conta) => (
-            <option key={conta.id} value={conta.id}>
-              {conta.nome}
-            </option>
-          ))} */}
+          
         </BancoSelect>
       </LabelInput>
 

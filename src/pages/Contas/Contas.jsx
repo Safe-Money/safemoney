@@ -56,7 +56,6 @@ function Contas() {
     useEffect(() => {
         api.get(`/contas/${id}`).
         then((response) => {
-            console.log("conta selecionada: "+ response.data);
             const saldoParaReal = parseFloat(response.data.saldo)
             .toLocaleString('pt-br',
             {style: 'currency', currency: 'BRL'});

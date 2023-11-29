@@ -6,7 +6,7 @@ const ModalWrap = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -19,8 +19,8 @@ const ModalContent = styled.div`
   padding: 50px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  width:850px;
-  height:550px;
+  width:60%;
+  height:92%;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -50,7 +50,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 width:50%;
-margin-top:9%;
+margin: 3% 0;
 
 button{
   padding:10px;
@@ -92,7 +92,7 @@ function Modal(props) {
 
         <Button>
           <button onClick={props.cancelar} className='cancelar'>Cancelar</button>
-          <button className='adicionar-btn' onClick={props.salvar} >Adicionar</button>
+          <button className='adicionar-btn' onClick={props.salvar} >Salvar</button>
         </Button>
 
       </ModalContent>

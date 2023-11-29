@@ -3,6 +3,8 @@ import { Icon } from "../../visaoGeral/funcoes/icons";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 import api from "../../../api";
+import ModalEditar from "./ModalEditar";
+import { useState } from "react";
 
 
 
@@ -112,12 +114,13 @@ cursor:pointer;
 }
 `
 
-function conta(props) {
-   const contaAtual = props.conta
-    
-   const navigate = useNavigate();
-   const excluirConta = () => {
-       
+function Conta(props) {
+    const contaAtual = props.conta
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const navigate = useNavigate();
+    const excluirConta = () => {
+
         Swal.fire({
             title: "Você tem certeza?",
             text: "Você não poderá recuperar essa conta!",
@@ -143,7 +146,7 @@ function conta(props) {
                         icon: "error"
                     });
 
-                    console.log('Houve um erro na exclusão!'+ error)
+                    console.log('Houve um erro na exclusão!' + error)
                 });
 
 
@@ -155,17 +158,26 @@ function conta(props) {
                 icon: "error"
             });
 
-            console.log('Houve um erro na aplicação. Tente novamente!'+ error)
+            console.log('Houve um erro na aplicação. Tente novamente!' + error)
         });
     };
-    
+
+    const editarConta = () => {
+        setIsModalOpen(true);
+        console.log(isModalOpen)
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     const nomeIcone = `${contaAtual.banco}Icon`;
 
-        return (
-    
-            <ContainerConta>
-                <div className="titulo-removerConta">
-                    <div className="titulo-icone">
+    return (
+
+        <ContainerConta>
+            <div className="titulo-removerConta">
+                <div className="titulo-icone">
                     <img src={Icon(nomeIcone)} alt="Account Icon" />
 
                     {contaAtual.nome}
@@ -182,7 +194,7 @@ function conta(props) {
 
                 </div>
 
-                <EditarConta>
+                <EditarConta onClick={editarConta}>
 
                     Editar Conta
 
@@ -202,7 +214,13 @@ function conta(props) {
                     <span className="texto">Receita</span>
                     <span className="numeros">R$ 10.000,00</span>
                 </TextoNumero>
-                </Conteudo>
+            </Conteudo>
+
+            {isModalOpen && <ModalEditar
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                conta={contaAtual}
+            />}
 
         </ContainerConta>
 
@@ -213,5 +231,5 @@ function conta(props) {
 }
 
 
-export default conta;
+export default Conta;
 
