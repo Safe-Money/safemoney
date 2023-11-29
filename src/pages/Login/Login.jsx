@@ -19,12 +19,11 @@ function Login() {
       });
   
       console.log(response);
-
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('nome', response.data.nome);
-      localStorage.setItem('email', response.data.email);
-      localStorage.setItem('id', response.data.id);
-
+  
+      sessionStorage.setItem('token', response.data.token);
+      sessionStorage.setItem('nome', response.data.nome);
+      sessionStorage.setItem('email', response.data.email);
+      sessionStorage.setItem('id', response.data.id);
   
       Swal.fire({
         icon: 'success',
@@ -32,7 +31,7 @@ function Login() {
         text: 'Você foi autenticado com sucesso.',
       });
   
-      navigate('/visao-geral');
+      navigate(`/visao-geral/`);
     } catch (error) {
       const errorMessage = 'Verifique suas credenciais e tente novamente.';
   

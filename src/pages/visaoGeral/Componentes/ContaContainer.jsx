@@ -6,24 +6,24 @@ function formatarValorMoeda(valor) {
     return '';
   }
 
-  const valorFormatado = new Intl.NumberFormat('pt-BR', {
+  const valorFormatado = valor.toLocaleString('pt-br', {
     style: 'currency',
     currency: 'BRL',
-  }).format(valor);
+  });
 
   return valorFormatado;
 }
 
 
 
-const ContaContainer = ({ nome, banco, tipoConta, saldo,onContainerClick  }) => {
+const ContaContainer = ({ nome, banco, tipoConta, saldo, onContainerClick  }) => {
   return (
     <div className="containers" onClick={onContainerClick}>
       <div className="icon">
         <img src={Icon(`${banco}Icon`)} alt={banco} />
       </div>
       <div className="nomeBanco">{nome}<span>{tipoConta === 0 ? "Conta Corrente" : "Conta Poupança"}</span></div>
-      <div className="saldoBanco">{formatarValorMoeda(parseFloat(saldo))}</div>
+      <div className="saldoBanco">{formatarValorMoeda(saldo)}</div>
     </div>
   );
 };

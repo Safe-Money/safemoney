@@ -165,7 +165,7 @@ const ModalWrapper = ({ isOpen, onClose }) => {
   const [tipo, setTipo] = useState('sel');
   const [valorAmortizar, setValorAmortizar] = useState('');
   const [nome, setNome] = useState('');
-  const id = localStorage.getItem('id');
+  const id = sessionStorage.getItem('id');
   const navigate = useNavigate();
 
   const [camposTocados, setCamposTocados] = useState({
@@ -199,12 +199,11 @@ const ModalWrapper = ({ isOpen, onClose }) => {
   };
 
   async function inserirConta() {
-    const saldoNumerico = parseFloat(saldo.replace(/[^\d,.-]/g, '').replace(',', '.'));
 
     const novaConta = {
       banco: selectedBanco,
       nome: nome,
-      saldo: saldoNumerico,
+      saldo: saldo,
       tipo: tipo,
       fkUsuario: {
         id: id
@@ -252,20 +251,16 @@ const ModalWrapper = ({ isOpen, onClose }) => {
 
 
 
-  const formatarValorNoInput = (saldo) => {
-    const valorFormatado = formatarMoeda(saldo);
-    
+  const formatarValorNoInput = (saldoDigitado) => {
+    const valorFormatado = formatarMoeda(saldoDigitado);
+    if (isNaN(valorFormatado)) return "";
+
     setSaldo(valorFormatado);
   };
 
-
   const formatarMoeda = (saldo) => {
     const valorNumerico = parseFloat(saldo) / 100; // Converte centavos para reais
-    const valorFormatado = valorNumerico.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    });
-    return valorFormatado;
+    return valorNumerico.toFixed(2); // Formata para 2 casas decimais
   };
 
   if (!isOpen) return null;

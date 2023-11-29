@@ -76,7 +76,7 @@ function Contas() {
 
             <Social>
                 <div className="bloco1">
-                    <Conta nome={conta.nome} banco={conta.banco} saldo={saldoConta} id={id}/>
+                    <Conta conta={conta} saldo={saldoConta}/>
                 </div>
                 <div className="bloco2">
                     <UltimosGastos />

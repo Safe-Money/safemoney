@@ -48,6 +48,8 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     display:flex;
     justify-content:center;
     align-items:end;
+    width: 11%;
+    margin-right: 20px;
     font-size: 10px;
     padding: 10px;
     border-radius:10px;
@@ -59,7 +61,9 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
   .removerConta:hover{
     opacity:0.8;
-}
+    transition:0.3s ease;
+    }
+
   .removerConta svg{
     margin-right:10px;
     padding: 0 0 1px 0;
@@ -90,7 +94,26 @@ font-size:16px;
 }
 `
 
-function conta({nome, banco, saldo, id}) {
+const EditarConta = styled.div`
+display:flex;
+justify-content:center;
+align-items:end;
+width: 10%;
+font-size: 10px;
+padding: 10px;
+border-radius:10px;
+background-color: #DAA839;
+color:white;
+cursor:pointer;
+
+&:hover{
+    opacity:0.8;
+    transition:0.3s ease;
+}
+`
+
+function conta(props) {
+   const contaAtual = props.conta
     
    const navigate = useNavigate();
    const excluirConta = () => {
@@ -105,7 +128,7 @@ function conta({nome, banco, saldo, id}) {
             confirmButtonText: "Sim!"
         }).then((result) => {
             if (result.isConfirmed) {
-                api.delete(`/contas/${id}`).then(() => {
+                api.delete(`/contas/${contaAtual.id}`).then(() => {
                     navigate("/visao-geral")
 
                     Swal.fire({
@@ -135,10 +158,8 @@ function conta({nome, banco, saldo, id}) {
             console.log('Houve um erro na aplicação. Tente novamente!'+ error)
         });
     };
-
-    const nomeConta = nome;
     
-    const nomeIcone = `${banco}Icon`;
+    const nomeIcone = `${contaAtual.banco}Icon`;
 
         return (
     
@@ -147,7 +168,7 @@ function conta({nome, banco, saldo, id}) {
                     <div className="titulo-icone">
                     <img src={Icon(nomeIcone)} alt="Account Icon" />
 
-                    {nomeConta}
+                    {contaAtual.nome}
                 </div>
                 <div className="removerConta" onClick={excluirConta
                 }>
@@ -161,11 +182,17 @@ function conta({nome, banco, saldo, id}) {
 
                 </div>
 
+                <EditarConta>
+
+                    Editar Conta
+
+                </EditarConta>
+
             </div>
             <Conteudo>
                 <TextoNumero>
                     <span className="texto">Saldo Geral</span>
-                    <span className="numeros">{saldo}</span>
+                    <span className="numeros">{props.saldo}</span>
                 </TextoNumero>
                 <TextoNumero>
                     <span className="texto">Despesas</span>

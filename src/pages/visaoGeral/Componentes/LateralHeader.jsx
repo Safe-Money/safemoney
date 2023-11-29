@@ -186,7 +186,7 @@ function LateralHeader(props) {
                         Olá,
                     </div>
                     <div className="nome">
-                        {localStorage?.getItem("nome")}
+                        {sessionStorage.getItem("nome")}
                     </div>
 
                 </PerfilNome>

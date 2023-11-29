@@ -23,7 +23,7 @@ function Rotas() {
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro/>} />
-          <Route path="/visao-geral" element={<Geral/>} />
+          <Route path="/visao-geral/" element={<Geral/>} />
           <Route path="/lancamentos" element={<LancGeral/>} />
           <Route path="/planejamentos" element={<Planejamento/>} />
           <Route path="/objetivos" element={<Objetivos/>} />

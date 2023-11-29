@@ -177,6 +177,7 @@ function MinhasContas() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [contas, setContas] = useState([
     ]);
+    const idUser = sessionStorage.getItem('id');
     const [novaConta, setNovaConta] = useState({
         banco: '',
         tipoConta: '',
@@ -241,7 +242,7 @@ function MinhasContas() {
     useEffect(() => {
         const fetchContas = async () => {
           try {
-            const response = await api.get('/contas/');
+            const response = await api.get(`/contas/listar-contas/${idUser}`);
             setContas(response.data);
             console.log(response.data);
           } catch (error) {
