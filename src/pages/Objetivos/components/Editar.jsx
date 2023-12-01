@@ -82,14 +82,15 @@ box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
 }
 `;
 
-function Adiciona(props) {
+function Edita(props) {
   const idUser = sessionStorage.getItem("id")
-  const [nome, setNome] = useState("")
-  const [urlImagem, setUrlImagem] = useState("")
-  const [dataInicio, setDataInicio] = useState("")
-  const [dataFinal, setDataFinal] = useState("")
-  const [concluida, setConcluida] = useState(0)
-  const [valorFinal, setValorFinal] = useState("")
+  const objetivo = props.objetivo
+  const [nome, setNome] = useState(objetivo.nome)
+  const [urlImagem, setUrlImagem] = useState(objetivo.urlImagem)
+  const [dataInicio, setDataInicio] = useState(objetivo.dataInicio)
+  const [dataFinal, setDataFinal] = useState(objetivo.dataTermino)
+  const [concluida, setConcluida] = useState(objetivo.concluida)
+  const [valorFinal, setValorFinal] = useState(objetivo.valorFinal)
 
   const [camposTocados, setCamposTocados] = useState({
     nome: false,
@@ -117,7 +118,7 @@ function Adiciona(props) {
     return valorNumerico.toFixed(2);
   };
 
-  const adicionarObjetivo = async () => {
+  const editarObjetivo = async (id) => {
     if (!nome || !urlImagem || !dataInicio || !dataFinal || !valorFinal || valorFinal <= 0) {
       setCamposTocados({
         nome: !nome,
@@ -133,7 +134,7 @@ function Adiciona(props) {
       const dataInicioFormatada = new Date(dataInicio);
       const dataFimFormatada = new Date(dataFinal);
 
-      await api.post(`/objetivos/`, {
+      await api.put(`/objetivos/${id}`, {
         nome: nome,
         urlImagem: urlImagem,
         dataInicio: dataInicioFormatada,
@@ -151,8 +152,8 @@ function Adiciona(props) {
         
         Swal.fire({
             icon: 'success',
-            title: 'Objetivo adicionado com sucesso!',
-            text: 'Seu objetivo foi adicionado com sucesso!',
+            title: 'Objetivo atualizado!',
+            text: 'Seu objetivo foi atualizado!',
             confirmButtonColor: "#3085d6",
             confirmButtonText: "Ok"
         }).then((result) => {
@@ -166,7 +167,7 @@ function Adiciona(props) {
         Swal.fire({
           icon: 'error',
           title: 'Erro!',
-          text: 'Não foi possível adicionar o objetivo! Tente novamente.',
+          text: 'Não foi possível atualizar o objetivo! Tente novamente.',
         });
 
         console.log('Houve um erro na aplicação. Tente novamente!' + error)
@@ -174,7 +175,7 @@ function Adiciona(props) {
   }
 
   return (
-    <Modal title="Adicionar Objetivo" cancelar={props.onClose} salvar={adicionarObjetivo}>
+    <Modal title="Editar Objetivo" cancelar={props.onClose} salvar={() => editarObjetivo(objetivo.id)}>
       <LabelInput>
         <div className="label">Nome</div>
         <input
@@ -273,4 +274,4 @@ function Adiciona(props) {
   )
 }
 
-export default Adiciona;
+export default Edita;

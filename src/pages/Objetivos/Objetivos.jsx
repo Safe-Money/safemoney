@@ -10,10 +10,14 @@ import trash from "./assets/trash.svg"
 import add from "./assets/add.svg"
 import LateralHeader from "../visaoGeral/Componentes/LateralHeader"
 import FloatingButton from '../Cartoes/Components/FloatingButton';
+import Edita from "./components/Editar"
 import { useState, useEffect } from "react";
 import Adiciona from "./components/Adiciona"
 import api from "../../api"
 import { Icon } from '../visaoGeral/funcoes/icons';
+import Swal from "sweetalert2"
+import { set } from "date-fns"
+import Depositar from "./components/Depositar"
 
 
 const AllContainers = styled.div`
@@ -328,7 +332,6 @@ const Icons = styled.div`
     }
     `
 
-
 const Meta = styled.div`
     display: flex;
     flex-direction: column;
@@ -377,28 +380,48 @@ const Meta = styled.div`
 
 function Objetivos(props) {
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [editar, setEditar] = useState(false);
+    const [depositar, setDepositar] = useState(false);
+    const [objetivoAtual, setObjetivoAtual] = useState({});
     const [listaObjetivos, setListaObjetivos] = useState([]);
     const id = sessionStorage.getItem("id");
     const icones = [
         {
             img: edit,
             alt: "Editar",
-            link: "editar"
+            link: "editar",
+            click: (objetivo) => {setEditar(true), setObjetivoAtual(objetivo)}
         },
         {
             img: money,
             alt: "Depositar",
-            link: "depositar"
+            link: "depositar",
+            click: (objetivo) => {setDepositar(true), setObjetivoAtual(objetivo)}
         },
         {
             img: trash,
             alt: "Excluir",
-            link: "excluir"
+            link: "excluir",
+            click: (objetivo) => excluirObjetivo(objetivo.id)
         }
     ]
 
     const closeModal = () => {
-        setIsModalOpen(false);
+        if (editar) {
+            setEditar(false);
+        }
+
+        if(isModalOpen){
+            setIsModalOpen(false);
+        }
+
+        if(depositar){
+            setDepositar(false);
+        }
+    };
+
+    const formatarMoeda = (saldo) => {
+        return saldo.toFixed(2);
     };
 
 
@@ -412,6 +435,44 @@ function Objetivos(props) {
         const dataFormatada = data.split("-").reverse().join("/");
 
         return dataFormatada;
+    }
+
+    const excluirObjetivo = (id) => {
+        Swal.fire({
+            title: "Você tem certeza?",
+            text: "Você não poderá recuperar essa conta!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Não",
+            confirmButtonText: "Sim!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                api.delete(`/objetivos/${id}`)
+                    .then(response => {
+                        console.log(response.data);
+                        Swal.fire({
+                            title: "Excluído!",
+                            text: "Objetivo excluído com êxito!",
+                            icon: "success"
+                        }).then((result) =>{
+                            if(result.isConfirmed){
+                                window.location.reload();
+                            }
+                        });
+                    }).catch(error => {
+                        Swal.fire({
+                            title: "Erro!",
+                            text: "Não foi possível excluir o objetivo! Tente novamente",
+                            icon: "error"
+                        })
+                        console.log("Erro ao excluir objetivo");
+                        console.log(error);
+                    })
+            }
+        })
+
     }
 
     useEffect(() => {
@@ -428,7 +489,6 @@ function Objetivos(props) {
 
         fetchContas();
     }, []);
-
 
 
     return (
@@ -526,7 +586,7 @@ function Objetivos(props) {
 
                                         <SubInfo>
                                             <div className="saldoObj">
-                                                <span> R${objetivo.valorInvestido}/ R${objetivo.valorFinal}</span>
+                                                <span> R$ {formatarMoeda(objetivo.valorInvestido)} / R$ {formatarMoeda(objetivo.valorFinal)}</span>
                                                 <h1>{retornarProgresso(objetivo).toFixed(1)}%</h1>
                                             </div>
 
@@ -549,7 +609,7 @@ function Objetivos(props) {
                                     <Icons>
                                         {icones.map((icone) => (
                                             <div className="border">
-                                                <img src={icone.img} alt={icone.alt} />
+                                                <img src={icone.img} alt={icone.alt} onClick={() => icone.click(objetivo)}/>
                                             </div>
                                         ))}
                                     </Icons>
@@ -572,9 +632,9 @@ function Objetivos(props) {
 
                     </div>
 
-                    {isModalOpen && <Adiciona
-                        isOpen={isModalOpen}
-                        onClose={closeModal} />}
+                    {isModalOpen && <Adiciona onClose={closeModal} />}
+                    {editar && <Edita onClose={closeModal} objetivo={objetivoAtual}/>}
+                    {depositar && <Depositar onClose={closeModal} objetivo={objetivoAtual}/>}
 
                 </Social>
                 <FloatingButton />
