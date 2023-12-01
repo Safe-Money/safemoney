@@ -383,7 +383,9 @@ function Objetivos(props) {
     const [editar, setEditar] = useState(false);
     const [depositar, setDepositar] = useState(false);
     const [objetivoAtual, setObjetivoAtual] = useState({});
+    const [objetivoProximo, setObjetivoProximo] = useState({});
     const [listaObjetivos, setListaObjetivos] = useState([]);
+    const [saldoTotal, setSaldoTotal] = useState(0);
     const id = sessionStorage.getItem("id");
     const icones = [
         {
@@ -485,6 +487,22 @@ function Objetivos(props) {
                     console.log("Erro ao listar objetivos do usuário");
                     console.log(error);
                 })
+
+            await api.get(`/objetivos/proximoObjetivo/${id}`).then(response => {
+                console.log(response.data);
+                setObjetivoProximo(response.data);
+            }).catch(error => {
+                console.log("Erro ao listar próximo objetivo");
+                console.log(error);
+            })
+
+            await api.get(`/objetivos/saldoTotal/${id}`).then(response => {
+                setSaldoTotal(response.data);
+                console.log(`Saldo total: ${response.data}`)
+            }).catch(error => {
+                console.log("Erro ao listar saldo total");
+                console.log(error);
+            })
         };
 
         fetchContas();
@@ -507,10 +525,10 @@ function Objetivos(props) {
                                     <img src={contas} alt="aaa" />
                                 </div>
 
-                                <TitleCard>Faltam X meses:</TitleCard>
+                                <TitleCard>Objetivo mais próximo:</TitleCard>
 
                                 <div className="info-texto">
-                                    <span>Para atingir o objetivo</span>
+                                    <span>{objetivoProximo.nome}</span>
                                 </div>
                             </Info>
 
@@ -560,10 +578,10 @@ function Objetivos(props) {
                                     <img src={saldo} alt="saldo" />
                                 </div>
 
-                                <TitleCard>Salto Total</TitleCard>
+                                <TitleCard>Total investido:</TitleCard>
 
                                 <div className="info-texto">
-                                    <span>R${props.saldo},00</span>
+                                    <span>R$ {formatarMoeda(saldoTotal)}</span>
                                 </div>
                             </Info>
                             <div className="imagem">
