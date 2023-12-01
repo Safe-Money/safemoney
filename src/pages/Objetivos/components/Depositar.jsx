@@ -81,6 +81,10 @@ function Depositar(props) {
         setValor(valorFormatado);
     };
 
+    const mostrarValor = (saldo) =>{
+        return saldo.toFixed(2);
+    }
+
     const formatarMoeda = (saldo) => {
         const valorNumerico = parseFloat(saldo) / 100;
         return valorNumerico.toFixed(2);
@@ -126,7 +130,7 @@ function Depositar(props) {
 
                 <Dados>
                     <span className="title">Valor já investido:</span>
-                    <span> R${formatarMoeda(objetivo.valorInvestido)}</span>
+                    <span> R${mostrarValor(objetivo.valorInvestido)}</span>
                 </Dados>
 
                 <Dados>
