@@ -108,18 +108,11 @@ function ModalEditar(props) {
 
   const editarConta = async () => {
     if (!nome || !selectedBanco || tipo === 'sel' || !saldo) {
-      props.onClose()
       setCamposTocados({
         nome: !nome,
         banco: !selectedBanco,
         tipoConta: tipo === 'sel',
         saldo: !saldo
-      });
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Campo(s) Nulo(s)!',
-        text: 'Clique em "Nova Conta" novamente e insira todos os campos solicitados.',
       });
 
       return;
@@ -207,7 +200,6 @@ function ModalEditar(props) {
           value={tipo}
           onChange={(e) => {
             setTipo(e.target.value);
-            console.log(tipo)
             setCamposTocados({ ...camposTocados, tipoConta: true })
           }}
           style={{ borderColor: tipo === 'sel' && camposTocados.tipoConta ? 'red' : '' }}>

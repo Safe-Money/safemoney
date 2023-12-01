@@ -8,9 +8,11 @@ import edit from "./assets/edit.svg"
 import money from "./assets/money.svg"
 import trash from "./assets/trash.svg"
 import add from "./assets/add.svg"
-import playstation from "./assets/playstation.svg"
 import LateralHeader from "../visaoGeral/Componentes/LateralHeader"
 import FloatingButton from '../Cartoes/Components/FloatingButton';
+import { useState, useEffect } from "react";
+import Adiciona from "./components/Adiciona"
+import api from "../../api"
 import { Icon } from '../visaoGeral/funcoes/icons';
 
 
@@ -185,7 +187,7 @@ const ObjDiv = styled.div`
             border-radius: 10px;
             background-color:  #08632D;
         }
-    `;
+    `
 
 const CardObj = styled.div`
     display: flex;
@@ -374,19 +376,9 @@ const Meta = styled.div`
     `
 
 function Objetivos(props) {
-    const listaObjetivos = [
-        {
-            img: null,
-            nome: "Viagem para o Caribe",
-            saldoAtual: 2000.0,
-            custoTotal: 5000.0,
-            dtInicio: "01/01/2021",
-            dtFim: "01/01/2022",
-        }
-    ]
-
-    const progresso = (listaObjetivos[0].saldoAtual / listaObjetivos[0].custoTotal) * 100;
-
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [listaObjetivos, setListaObjetivos] = useState([]);
+    const id = sessionStorage.getItem("id");
     const icones = [
         {
             img: edit,
@@ -404,6 +396,40 @@ function Objetivos(props) {
             link: "excluir"
         }
     ]
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
+    const retornarProgresso = (objetivo) => {
+        const progresso = (objetivo.valorInvestido / objetivo.valorFinal) * 100;
+
+        return progresso;
+    }
+
+    const retornarDataFormatada = (data) => {
+        const dataFormatada = data.split("-").reverse().join("/");
+
+        return dataFormatada;
+    }
+
+    useEffect(() => {
+        const fetchContas = async () => {
+            await api.get(`/objetivos/usuario/${id}`)
+                .then(response => {
+                    console.log(response.data);
+                    setListaObjetivos(response.data);
+                }).catch(error => {
+                    console.log("Erro ao listar objetivos do usuário");
+                    console.log(error);
+                })
+        };
+
+        fetchContas();
+    }, []);
+
+
 
     return (
         <>
@@ -489,175 +515,54 @@ function Objetivos(props) {
 
                     <div className="bloco2" id="opt">
                         <ObjDiv>
-                           
-                            <CardObj>
-                                <div className="imagem">
-                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
-                                    <img src={playstation} alt="" />
-                                </div>
+                            {listaObjetivos.length != 0 ? listaObjetivos.map((objetivo) => (
+                                <CardObj key={objetivo.id}>
+                                    <div className="imagem">
+                                        <img src={objetivo.urlImagem} alt="Imagem" />
+                                    </div>
 
-                                <InfoObj>
-                                    <TitleObj>Playstation 5 + Valhalla</TitleObj>
+                                    <InfoObj>
+                                        <TitleObj>{objetivo.nome}</TitleObj>
 
-                                    <SubInfo>
-                                        <div className="saldoObj">
-                                            <span>{listaObjetivos[0].saldoAtual},00 / {listaObjetivos[0].custoTotal},00</span>
-                                            <h1>{progresso.toFixed(1)}%</h1>
-                                        </div>
-
-                                        <progress className="progressBar" value={progresso} max="100"></progress>
-
-                                        <Datas>
-                                            <div className="data" id="inicio">
-                                                <p className="inicio">Inicio: </p>
-                                                <span> {listaObjetivos[0].dtInicio}</span>
+                                        <SubInfo>
+                                            <div className="saldoObj">
+                                                <span> R${objetivo.valorInvestido}/ R${objetivo.valorFinal}</span>
+                                                <h1>{retornarProgresso(objetivo).toFixed(1)}%</h1>
                                             </div>
 
-                                            <div className="data" id="fim">
-                                                <p className="fim">Término:</p>
-                                                <span>{listaObjetivos[0].dtFim}</span>
+                                            <progress className="progressBar" value={retornarProgresso(objetivo)} max="100"></progress>
+
+                                            <Datas>
+                                                <div className="data" id="inicio">
+                                                    <p className="inicio">Inicio: </p>
+                                                    <span>{retornarDataFormatada(objetivo.dataInicio)}</span>
+                                                </div>
+
+                                                <div className="data" id="fim">
+                                                    <p className="fim">Término:</p>
+                                                    <span>{retornarDataFormatada(objetivo.dataTermino)}</span>
+                                                </div>
+                                            </Datas>
+                                        </SubInfo>
+                                    </InfoObj>
+
+                                    <Icons>
+                                        {icones.map((icone) => (
+                                            <div className="border">
+                                                <img src={icone.img} alt={icone.alt} />
                                             </div>
-                                        </Datas>
-                                    </SubInfo>
-                                </InfoObj>
+                                        ))}
+                                    </Icons>
 
-                                <Icons>
-                                    {icones.map((icone) => (
-                                        <div className="border">
-                                            <img src={icone.img} alt={icone.alt} />
-                                        </div>
-                                    ))}
-                                </Icons>
+                                </CardObj>
+                            )) : <span>Não há objetivos cadastrados</span>}
 
-                            </CardObj>
-                            <CardObj>
-                                <div className="imagem">
-                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
-                                    <img src={playstation} alt="" />
-                                </div>
-
-                                <InfoObj>
-                                    <TitleObj>Playstation 5 + Valhalla</TitleObj>
-
-                                    <SubInfo>
-                                        <div className="saldoObj">
-                                            <span>{listaObjetivos[0].saldoAtual},00 / {listaObjetivos[0].custoTotal},00</span>
-                                            <h1>{progresso.toFixed(1)}%</h1>
-                                        </div>
-
-                                        <progress className="progressBar" value={progresso} max="100"></progress>
-
-                                        <Datas>
-                                            <div className="data" id="inicio">
-                                                <p className="inicio">Inicio: </p>
-                                                <span> {listaObjetivos[0].dtInicio}</span>
-                                            </div>
-
-                                            <div className="data" id="fim">
-                                                <p className="fim">Término:</p>
-                                                <span>{listaObjetivos[0].dtFim}</span>
-                                            </div>
-                                        </Datas>
-                                    </SubInfo>
-                                </InfoObj>
-
-                                <Icons>
-                                    {icones.map((icone) => (
-                                        <div className="border">
-                                            <img src={icone.img} alt={icone.alt} />
-                                        </div>
-                                    ))}
-                                </Icons>
-
-                            </CardObj>
-                            <CardObj>
-                                <div className="imagem">
-                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
-                                    <img src={playstation} alt="" />
-                                </div>
-
-                                <InfoObj>
-                                    <TitleObj>Playstation 5 + Valhalla</TitleObj>
-
-                                    <SubInfo>
-                                        <div className="saldoObj">
-                                            <span>{listaObjetivos[0].saldoAtual},00 / {listaObjetivos[0].custoTotal},00</span>
-                                            <h1>{progresso.toFixed(1)}%</h1>
-                                        </div>
-
-                                        <progress className="progressBar" value={progresso} max="100"></progress>
-
-                                        <Datas>
-                                            <div className="data" id="inicio">
-                                                <p className="inicio">Inicio: </p>
-                                                <span> {listaObjetivos[0].dtInicio}</span>
-                                            </div>
-
-                                            <div className="data" id="fim">
-                                                <p className="fim">Término:</p>
-                                                <span>{listaObjetivos[0].dtFim}</span>
-                                            </div>
-                                        </Datas>
-                                    </SubInfo>
-                                </InfoObj>
-
-                                <Icons>
-                                    {icones.map((icone) => (
-                                        <div className="border">
-                                            <img src={icone.img} alt={icone.alt} />
-                                        </div>
-                                    ))}
-                                </Icons>
-
-                            </CardObj>
-                       
-                            <CardObj>
-                                <div className="imagem">
-                                    {/* <img src={listaObjetivos[0].img} alt="Imagem Objetivo" /> */}
-                                    <img src={playstation} alt="" />
-                                </div>
-
-                                <InfoObj>
-                                    <TitleObj>Playstation 5 + Valhalla</TitleObj>
-
-                                    <SubInfo>
-                                        <div className="saldoObj">
-                                            <span>{listaObjetivos[0].saldoAtual},00 / {listaObjetivos[0].custoTotal},00</span>
-                                            <h1>{progresso.toFixed(1)}%</h1>
-                                        </div>
-
-                                        <progress className="progressBar" value={progresso} max="100"></progress>
-
-                                        <Datas>
-                                            <div className="data" id="inicio">
-                                                <p className="inicio">Inicio: </p>
-                                                <span> {listaObjetivos[0].dtInicio}</span>
-                                            </div>
-
-                                            <div className="data" id="fim">
-                                                <p className="fim">Término:</p>
-                                                <span>{listaObjetivos[0].dtFim}</span>
-                                            </div>
-                                        </Datas>
-                                    </SubInfo>
-                                </InfoObj>
-
-                                <Icons>
-                                    {icones.map((icone) => (
-                                        <div className="border">
-                                            <img src={icone.img} alt={icone.alt} />
-                                        </div>
-                                    ))}
-                                </Icons>
-
-                            </CardObj>
-                       
 
                         </ObjDiv>
 
                         <Meta>
                             <div className="metaCard">
-                                <div className="borda">
+                                <div className="borda" onClick={() => setIsModalOpen(true)}>
                                     <img src={add} alt="add" />
                                 </div>
 
@@ -666,6 +571,11 @@ function Objetivos(props) {
                         </Meta>
 
                     </div>
+
+                    {isModalOpen && <Adiciona
+                        isOpen={isModalOpen}
+                        onClose={closeModal} />}
+
                 </Social>
                 <FloatingButton />
             </AllContainers>

@@ -6,8 +6,6 @@ import api from "../../../api";
 import ModalEditar from "./ModalEditar";
 import { useState } from "react";
 
-
-
 const ContainerConta = styled.div`
 display:flex;
 width:100%;

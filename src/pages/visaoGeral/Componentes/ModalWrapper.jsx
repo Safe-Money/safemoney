@@ -233,18 +233,11 @@ const ModalWrapper = ({ isOpen, onClose }) => {
 
   async function inserirConta() {
     if (!nome || !selectedBanco || tipo === 'sel' || !saldo) {
-      onClose()
       setCamposTocados({
         nome: !nome,
         banco: !selectedBanco,
         tipoConta: tipo === 'sel',
         saldo: !saldo
-      });
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Campo(s) Nulo(s)!',
-        text: 'Clique em "Nova Conta" novamente e insira todos os campos solicitados.',
       });
 
       return;
