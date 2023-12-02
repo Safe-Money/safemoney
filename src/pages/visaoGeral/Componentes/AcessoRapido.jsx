@@ -3,6 +3,9 @@ import { Icon } from "../funcoes/icons";
 import Notification from "./Notification";
 import Swal from 'sweetalert2';
 import React, { useState } from 'react';
+import ModalDespesa from './ModalDespesa';
+import ModalReceita from './ModalReceita';
+import ModalTransferencia from "./ModalTransferencia";
 
 
 const ContainerAcessoRapido = styled.div`
@@ -275,8 +278,6 @@ function AcessoRapido() {
                 svgAtivar.addEventListener('click', toggleAtivacao);
 
 
-
-
                 const inputValorPlano = document.getElementById('valorPlano');
                 inputValorPlano.addEventListener('input', () => formatarValor(inputValorPlano));
 
@@ -386,7 +387,7 @@ function AcessoRapido() {
                 inputSwal.style.height = '38px';
                 inputSwal.style.position = 'relative';
                 inputSwal.style.marginTop = '2.5%';
-                
+
 
 
 
@@ -436,13 +437,6 @@ function AcessoRapido() {
                     text: "Sua Despesa foi criada.",
                     icon: "success"
                 });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelada",
-                    text: "Sua criação de Despesa foi cancelada! :)",
-                    icon: "error"
-                });
-
             }
         });
 
@@ -720,7 +714,7 @@ function AcessoRapido() {
                 inputSwal.style.height = '38px';
                 inputSwal.style.position = 'relative';
                 inputSwal.style.marginTop = '2.5%';
-                
+
 
 
 
@@ -1023,6 +1017,16 @@ function AcessoRapido() {
 
     };
 
+    const [selectedModal, setSelectedModal] = useState(null);
+
+    const openModal = (modalType) => {
+        setSelectedModal(modalType);
+    };
+
+    const closeModal = () => {
+        setSelectedModal(null);
+    };
+
 
     return (
         <>
@@ -1038,18 +1042,16 @@ function AcessoRapido() {
                 <div className="area-conteudo">
                     <div className="conteudoBloco1">
                         <div className="box-tree">
-                            <span className="box">
-                                <img src={Icon('negativoIcon')} onClick={showSweetDespesas} />
+                            <span className="box" onClick={() => openModal('despesa')}>
+                                <img src={Icon('negativoIcon')} />
                                 <span className="action">Nova despesa</span>
                             </span>
-
-                            <span className="box">
-                                <img src={Icon('positivoIcon')} onClick={showSweetReceita} />
+                            <span className="box" onClick={() => openModal('receita')}>
+                                <img src={Icon('positivoIcon')} />
                                 <span className="action">Nova receita</span>
                             </span>
-
-                            <span className="box">
-                                <img src={Icon('transferenciaIcon')} onClick={showSweetTransition} />
+                            <span className="box" onClick={() => openModal('transferencia')}>
+                                <img src={Icon('transferenciaIcon')} />
                                 <span className="action">Transferir</span>
                             </span>
 
@@ -1058,6 +1060,10 @@ function AcessoRapido() {
                             </span>
                         </div>
                     </div>
+      
+                    {selectedModal === 'despesa' && <ModalDespesa onClose={closeModal} />}
+                    {selectedModal === 'receita' && <ModalReceita onClose={closeModal} />}
+                    {selectedModal === 'transferencia' && <ModalTransferencia onClose={closeModal} />}
 
                 </div>
             </ContainerAcessoRapido>

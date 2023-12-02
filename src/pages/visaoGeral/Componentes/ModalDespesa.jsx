@@ -1,9 +1,28 @@
-import Modal from "../../../components/Modal";
+import Modal from "../../../components/Modal2";
 import styled from "styled-components";
 import { useState } from "react";
 
+const LocalConteudo = styled.div`
+display:flex;
+height:70%;
+width:100%;
+flex-direction:column;
+justify-content:space-around;
+align-items:center;
+`
+
+const LocalElementos = styled.div`
+display:flex;
+align-items:center;
+width:90%;
+height:30%;
+`
+
+
 const BancoSelect = styled.select`
-width: 100%;
+display:flex;
+margin:auto;
+width: 80%;
 padding: 10px;
 border: 1px solid rgba(0, 0, 0, 1);
 box-sizing: border-box;
@@ -24,18 +43,60 @@ position: relative;
 border: none;
 cursor: pointer;
 margin: 3% 0;
-width:50%;
-box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
+width:86%;
 
 .label {
   position: absolute;
+  top: -10px;
+  left:0; 
+  transform: translateX(22%);
+  background-color: white; 
+  padding: 0 10px;
+  
+}
+
+.input-field {
+  width: 80%;
+  margin-right:25px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 1); 
+  box-sizing: border-box;
+  box-shadow: 1 1 1 1;
+  border-radius:5px;
+  letter-spacing: 0.8px;
+  box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+
+.label_description{
+  position: absolute;
   top: -10px; 
-  transform: translateX(-50%);
+  transform: translateX(-130%);
   background-color: white; 
   padding: 0 10px;
 }
 
-.input-field {
+.input-date{
+  width: 90%;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 1); 
+  box-sizing: border-box;
+  box-shadow: 1 1 1 1;
+  border-radius:5px;
+  letter-spacing: 0.8px;
+  box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+#label_date{
+  margin-left:5px;
+}
+`;
+
+const DescricaoInput = styled.div`
+width:100%;
+
+
+.input-description{
   width: 100%;
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 1); 
@@ -43,8 +104,9 @@ box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
   box-shadow: 1 1 1 1;
   border-radius:5px;
   letter-spacing: 0.8px;
+  box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
 }
-`;
+`
 
 function ModalDespesa(props) {
   // const contas = props.contas;
@@ -69,55 +131,176 @@ function ModalDespesa(props) {
       style: 'currency',
       currency: 'BRL'
     });
-    
+
     return valorFormatado;
+  };
+
+  const [desativadoDisplay, setDesativadoDisplay] = useState('block');
+  const [ativarDisplay, setAtivarDisplay] = useState('none');
+
+  const toggleSVG = () => {
+    setDesativadoDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
+    setAtivarDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
+
   };
 
   return (
     <Modal title="Adicionar Despesa" cancelar={props.onClose} salvar={props.salvar}>
-      <LabelInput>
-        <div className="label">Selecione a conta</div>
-        <BancoSelect
-          id="select_conta"
-          value={selectedBanco}
-          onChange={(e) => {
-            setContaSelecionada(e.target.value);
-          }}
-        >
-          
-        </BancoSelect>
-      </LabelInput>
+      <LocalConteudo>
+        <LocalElementos>
 
-      <LabelInput>
-        <div className="label">Valor (R$)</div>
-        <input
-          id="select_saldo"
-          type="text"
-          className="input-field"
-          name="saldo"
-          value={saldo}
-          onChange={(e) => {
-           handleValorChange(e);
-          }}
+          <LabelInput>
+            <div className="label">Categoria</div>
+            <BancoSelect
+              id="select_categoria"
+              value={selectedCategoria}
+              onChange={(e) => {
+                setCategoria(e.target.value);
+              }}
+            >
+              <option value="bradesco">Lazer</option>
+              <option value="itau">Comida</option>
+              <option value="santander">Saúde</option>
+              <option value="santander">Viagem</option>
+            </BancoSelect>
+          </LabelInput>
 
-        />
-      </LabelInput>
+          <LabelInput>
+            <div className="label">Origem</div>
+            <BancoSelect
+              id="select_conta"
+              value={selectedBanco}
+              onChange={(e) => {
+                setContaSelecionada(e.target.value);
+              }}
+            >
+              <option value="origem">Origem</option>
+              <option value="banco">banco</option>
+              <option value="credito">credito</option>
 
-      <LabelInput>
-        <div className="label">Qual a categoria?</div>
-        <BancoSelect
-          id="select_categoria"
-          value={selectedCategoria}
-          onChange={(e) => {
-            setCategoria(e.target.value);
-          }}
-        >
-          <option value="bradesco">Lazer</option>
-          <option value="itau">Comida</option>
-          <option value="santander">Saúde</option>
-          <option value="santander">Viagem</option>
-        </BancoSelect>
-      </LabelInput>
+            </BancoSelect>
+          </LabelInput>
+
+
+        </LocalElementos>
+        <LocalElementos>
+
+          <LabelInput>
+            <div className="label">Valor (R$)</div>
+            <input
+              id="select_saldo"
+              type="text"
+              className="input-field"
+              name="saldo"
+              value={saldo}
+              onChange={(e) => {
+                handleValorChange(e);
+              }}
+            />
+          </LabelInput>
+
+          <LabelInput>
+            <div className="label" id="label_date">Date</div>
+            <input
+              id="input_date"
+              type="date"
+              className="input-date"
+              name="description"
+
+            />
+          </LabelInput>
+
+        </LocalElementos>
+
+        <LocalElementos>
+
+          <LabelInput>
+            <LabelInput>
+              <label style={{
+                width:'150px',
+                marginLeft: '31%',
+                padding: '0 8px',
+                color: '#08632D',
+                fontSize: '12px',
+                position: 'absolute',
+                backgroundColor: 'white',
+                left: 0,
+                top: 0
+              }} htmlFor="nomePlano">Despesa Fixa</label>
+
+<svg
+              id="desativado"
+              style={{
+                display: desativadoDisplay,
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                cursor: 'pointer',
+              }}
+              width="36"
+              height="15"
+              viewBox="0 0 36 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              onClick={toggleSVG}
+            >
+              <rect width="36" height="15" rx="7.5" fill="#E6E6E6" />
+              <ellipse cx="8" cy="7.5" rx="8" ry="7.5" fill="#568C6D" />
+            </svg>
+
+            <svg
+              id="ativar"
+              style={{
+                display: ativarDisplay,
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                cursor: 'pointer',
+              }}
+              width="36"
+              height="15"
+              viewBox="0 0 36 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              onClick={toggleSVG}
+            >
+              <rect width="36" height="15" rx="7.5" fill="#E6E6E6" />
+              <ellipse cx="28" cy="7.5" rx="8" ry="7.5" fill="#3ABA6F" />
+            </svg>
+            </LabelInput>
+          </LabelInput>
+
+          <LabelInput>
+          <div className="label">Parcelas</div>
+            <BancoSelect
+              id="select_conta"
+              value={selectedBanco}
+              onChange={(e) => {
+                setContaSelecionada(e.target.value);
+              }}
+            >
+              <option value="one">1 vez</option>
+              <option value="two">2 vezes</option>
+              <option value="three">3 vezes</option>
+
+            </BancoSelect>
+          </LabelInput>
+
+        </LocalElementos>
+
+        <LabelInput>
+          <div className="label_description">Descrição</div>
+          <DescricaoInput>
+            <input
+              id="input_description"
+              type="text"
+              className="input-description"
+              name="description"
+
+            />
+          </DescricaoInput>
+        </LabelInput>
+      </LocalConteudo>
     </Modal>
   )
 }
