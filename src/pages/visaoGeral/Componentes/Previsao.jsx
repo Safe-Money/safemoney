@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer,CartesianGrid } from "recharts";
-
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer, CartesianGrid } from "recharts";
+import api from "../../../api";
 
 const ContainerPrevisao = styled.div`
   display: flex;
@@ -94,9 +94,37 @@ const TextoBox = styled.div`
 
 
 function Previsao() {
+  const idUser = sessionStorage.getItem('id');
+
+  const [receita, setReceita] = useState(0);
+  const [despesa, setDespesa] = useState(0);
+  const [saldo, setSaldo] = useState(0);
+
+  useEffect(() => {
+    listarPrevisao();
+  }, []);
+
+  function listarPrevisao() {
+    api
+      .get(`/graficos/previsto/${idUser}`)
+      .then((respostaObtida) => {
+        console.log(respostaObtida);
+        console.log(respostaObtida.status);
+        console.log(respostaObtida.data);
+
+        setReceita(respostaObtida.data.receita);
+        setDespesa(respostaObtida.data.despesa);
+        setSaldo(respostaObtida.data.saldo);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
+
+
   const dadosGrafico = [
-    { name: "Receita", valor: 4500, cor: "#51D474" },
-    { name: "Despesa", valor: 3000, cor: "rgba(252, 1, 1, 1)" },
+    { name: "Receita", valor: receita, cor: "#51D474" },
+    { name: "Despesa", valor: despesa, cor: "rgba(252, 1, 1, 1)" },
   ];
 
   function CustomYAxisLabel(props) {
@@ -130,13 +158,13 @@ function Previsao() {
           <div className="grafico-container">
             <ResponsiveContainer width="100%" height="200%" position="absolute" marginLeft="100px">
               <BarChart data={dadosGrafico} margin={{ top: 20, right: 180, bottom: 20, left: 0 }} barCategoryGap={30}>
-              <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis label={<CustomYAxisLabel />}
                   tickMargin={20}
                   axisLine={true} // Remove the axis line
                 />
-                 {/* <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} /> */}
+                {/* <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} /> */}
                 <Tooltip />
                 <Bar dataKey="valor">
                   {dadosGrafico.map((entry, index) => (
@@ -147,9 +175,9 @@ function Previsao() {
             </ResponsiveContainer>
           </div>
           <TextoBox>
-            <div className="receitaBox"><span>Receita:</span> R$ 4500,00</div>
-            <div className="despesaBox"><span>Despesa:</span> R$ 3000,00</div>
-            <div className="saldoBox"><span>Saldo:</span> R$ 4500,00</div>
+            <div className="receitaBox"><span>Receita:</span> R$ {receita}</div>
+            <div className="despesaBox"><span>Despesa:</span> R$ {despesa}</div>
+            <div className="saldoBox"><span>Saldo:</span> R$ {saldo}</div>
           </TextoBox>
         </div>
       </ContainerPrevisao>

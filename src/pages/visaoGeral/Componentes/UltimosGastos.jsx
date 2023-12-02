@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
+import DespesaContainer from "./DespesaContainer";
+import React, { useEffect, useState } from 'react';
+import api from "../../../api";
 
 const ContainerUltimosGastos = styled.div`
 display:flex;
@@ -172,6 +175,27 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 function UltimosGastos() {
+    const idUser = sessionStorage.getItem('id');
+    const [gastos, setGastos] = useState([]);
+
+    useEffect(() => {
+        listarGastos();
+    }, []);
+
+    function listarGastos() {
+        api
+            .get(`transacoes/listar-gastos/${idUser}`)
+            .then((respostaObtida) => {
+                console.log(respostaObtida);
+                console.log(respostaObtida.status);
+                console.log(respostaObtida.data);
+                setGastos(respostaObtida.data);
+            })
+            .catch((erroOcorrido) => {
+                console.log(erroOcorrido);
+            });
+    }
+
 
     return (
         <>
@@ -215,6 +239,21 @@ function UltimosGastos() {
                     <div className="container-lista-scroll">
 
 
+
+                        {gastos?.map((gasto, index) => (
+                            <DespesaContainer
+                                key={gasto.id}
+                                nome={gasto.nome}
+                                valor={gasto.valor}
+                                data={gasto.data}
+                                parcelas={gasto.conta == null ? gasto.parcelas : 0}
+                                parcelaAtual={gasto.conta == null ? gasto.parcelaAtual : 0}
+                                cartao={gasto.conta == null ? gasto.fatura.fkCartao.nome : gasto.conta.banco}
+                                id={gasto.id}
+                            />
+                        ))}
+
+{/* 
                         <div className="container-lista">
                             <span className="icone-lista">
                                 <img src={Icon('lazerIcon')} />
@@ -284,7 +323,7 @@ function UltimosGastos() {
                             <span className="data-lista">22/08</span>
                             <span className="parcelas-lista">1/2</span>
                             <span className="conta-lista">Itaú</span>
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>

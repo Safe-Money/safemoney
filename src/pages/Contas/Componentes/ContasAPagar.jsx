@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { Icon } from "../../visaoGeral/funcoes/icons";
 import ContainerCartaoBanco from "./ContainerCartaoBanco";
 import Cartoes from "../../visaoGeral/Componentes/CartaoCredito"
-
+import CartaoContainer from "../../visaoGeral/Componentes/CartaoContainer";
+import api  from "../../../api";
+import React, { useEffect, useState } from 'react';
 
 const ContainerContasAPagar = styled.div`
 display:flex;
@@ -208,8 +210,40 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 function ContasAPagar() {
-    const contasSalvas = JSON.parse(sessionStorage.getItem('CONTA')) || [];
+    const [cartoes, setCartoes] = useState([
+    ]);
 
+    useEffect(() => {
+        listarCartoes();
+    }, []);
+
+    const idUser = sessionStorage.getItem('id');
+
+    function listarCartoes() {
+        api
+            .get(`/cartao-credito/listar-cartoes-conta/${idUser}`)
+            .then((respostaObtida) => {
+                console.log(respostaObtida);
+                console.log(respostaObtida.status);
+                console.log(respostaObtida.data);
+                setCartoes(respostaObtida.data);
+            })
+            .catch((erroOcorrido) => {
+                console.log(erroOcorrido);
+            });
+    }
+
+    const cartoesRenderizadas = cartoes.map((cartao, index) => (
+        <CartaoContainer 
+          key={index} 
+          nome={cartao.nome}
+          origem={cartao.bancoVinculado} 
+          valor={cartao.faturaValor} 
+          bandeira={cartao.bandeira} 
+          vencimento={cartao.vencimento} 
+          
+        />
+      ));
 
     return (
         <>
@@ -235,7 +269,7 @@ function ContasAPagar() {
                 </div>
                     <div className="container-lista-scroll">
                         <div className="containerBanco">
-                            <ContainerCartaoBanco conta={sessionStorage.CONTA} />
+                            {cartoesRenderizadas}
                         </div>
 
 

@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalCartao from "./ModalCartao";
 import CartaoContainer from "./CartaoContainer";
 import ContainerCartaoBradesco from '../../Contas/Componentes/ContainerCartaoBanco';
+import api  from "../../../api";
 
 const ContainerCartaoCredito = styled.div`
 display:flex;
@@ -191,22 +192,45 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 function CartaoCredito() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [contas, setContas] = useState([
-        { valor: "350,00", origem: "Bradesco",  bandeira: "master", vencimento:'21/23'},
-        { valor: "350,00", origem: "Santander", bandeira: "elo", vencimento:'21/23'},
-        { valor: "350,00", origem: "Itau", bandeira: "visa", vencimento:'21/23'},
+
+    const [cartoes, setCartoes] = useState([
     ]);
-    const [novaConta, setNovaConta] = useState({
+
+    useEffect(() => {
+        listarCartoes();
+    }, []);
+
+    const idUser = sessionStorage.getItem('id');
+
+    function listarCartoes() {
+        api
+            .get(`/cartao-credito/listar-cartoes/${idUser}`)
+            .then((respostaObtida) => {
+                console.log(respostaObtida);
+                console.log(respostaObtida.status);
+                console.log(respostaObtida.data);
+                setCartoes(respostaObtida.data);
+            })
+            .catch((erroOcorrido) => {
+                console.log(erroOcorrido);
+            });
+    }
+
+
+
+    const [novoCartao, setNovoCartao] = useState({
         // categoria: '',
         valor: '',
         origem: '',
         bandeira: '',
         vencimento: ''
     })
+
     const openModal = () => {
         setIsModalOpen(true);
     };
-    sessionStorage.setItem('CONTA', JSON.stringify(contas));
+
+    sessionStorage.setItem('Cartoes', JSON.stringify(cartoes));
 
 
     const closeModal = () => {
@@ -215,17 +239,19 @@ function CartaoCredito() {
 
     
 
-    const handleSalvarConta = (novaConta) => {
-        console.log(novaConta)
-        const valorString = novaConta.valor.toString();
+    const handleSalvarConta = (novoCartao) => {
+        console.log(novoCartao)
+        const valorString = novoCartao.valor.toString();
         console.log(valorString)
         
         const valorNumerico = parseFloat(valorString.replace(/[^\d.-]/g, '')); // Remove caracteres não numéricos
         console.log(valorNumerico)
 
-        novaConta.valor = parseFloat(valorNumerico);
-        setContas([...contas, novaConta]);
-        setNovaConta({
+        novoCartao.valor = parseFloat(valorNumerico);
+
+        setCartoes([...cartoes, novoCartao]);
+
+        setNovoCartao({
             // categoria: '',
             valor: '',
             origem: '',
@@ -239,19 +265,21 @@ function CartaoCredito() {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setNovaConta({
-            ...novaConta,
+        setNovoCartao({
+            ...novaCartao,
             [name]: value
         });
     };
 
-    const contasRenderizadas = contas.map((conta, index) => (
+    const cartoesRenderizadas = cartoes.map((cartao, index) => (
         <CartaoContainer 
           key={index} 
-          origem={conta.origem} 
-          valor={conta.valor} 
-          bandeira={conta.bandeira} 
-          vencimento={conta.vencimento} 
+          nome={cartao.nome}
+          origem={cartao.bancoVinculado} 
+          valor={cartao.faturaValor} 
+          bandeira={cartao.bandeira} 
+          vencimento={cartao.vencimento} 
+          
         />
       ));
 
@@ -281,7 +309,7 @@ function CartaoCredito() {
                 <div className="containerBancoScroll">
 
                     <div className="containerBanco">
-                        {contasRenderizadas}
+                        {cartoesRenderizadas}
                     </div>
                 </div>
                 <div className="localAdicionaConta">
@@ -301,7 +329,7 @@ function CartaoCredito() {
                             handleSalvarConta(data);
                             closeModal();
                         }}
-                        formData={novaConta}
+                        formData={novoCartao}
                         onChange={handleInputChange}
                     />
                 </div>

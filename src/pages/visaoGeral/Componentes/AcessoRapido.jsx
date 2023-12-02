@@ -436,14 +436,7 @@ function AcessoRapido() {
                     text: "Sua Despesa foi criada.",
                     icon: "success"
                 });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelada",
-                    text: "Sua criação de Despesa foi cancelada! :)",
-                    icon: "error"
-                });
-
-            }
+            } 
         });
 
     };

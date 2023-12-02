@@ -15,10 +15,10 @@ function formatarValorMoeda(valor) {
 }
 
 
-const CartaoContainer = ({ origem, valor,bandeira,vencimento }) => {
+const CartaoContainer = (props) => {
 
-  console.log('Props no CartaoContainer:', { origem, valor, bandeira, vencimento });
-  const origemCartao = origem;
+  console.log('Props no CartaoContainer:', props.nome, props.origem, props.valor, props.bandeira, props.vencimento);
+  const origemCartao = props.origem;
 
   const origemAbreviada = origemCartao.slice(0, 4).charAt(0).toUpperCase() + origemCartao.slice(1, 4);
 
@@ -26,11 +26,11 @@ const CartaoContainer = ({ origem, valor,bandeira,vencimento }) => {
   return (
     <div className="containers">
       <div className="icon">
-        <img src={Icon(`${bandeira.toLowerCase()}Icon`)} alt={bandeira} />
+        <img src={Icon(`${props.bandeira.toLowerCase()}Icon`)} alt={props.bandeira} />
       </div>
-      <div className="nomeBanco">Cartão-{origemAbreviada}<span>Vinculada a {origem}</span></div>
-      <div className="vencimentoBanco">{vencimento}</div>
-      <div className="saldoBanco">{formatarValorMoeda(parseFloat(valor))}</div>
+      <div className="nomeBanco">{props.nome}<span>Vinculada a {props.origem}</span></div>
+      <div className="vencimentoBanco">{props.vencimento}</div>
+      <div className="saldoBanco">{formatarValorMoeda(parseFloat(props.valor))}</div>
     </div>
   );
 };
