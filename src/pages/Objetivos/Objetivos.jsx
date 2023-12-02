@@ -600,7 +600,7 @@ function Objetivos() {
                                     <img src={obj} alt="aaa" />
                                 </div>
 
-                                <TitleCard>Objetivos iniciados:</TitleCard>
+                                <TitleCard>Objetivos investidos:</TitleCard>
 
                                 <div className="info-texto" id="card-2">
                                     <span>{iniciados === 0 ? "Nenhum" : iniciados}</span>
