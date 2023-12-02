@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import ModalCartao from "./ModalCartao";
 import CartaoContainer from "./CartaoContainer";
 import ContainerCartaoBradesco from '../../Contas/Componentes/ContainerCartaoBanco';
-import api  from "../../../api";
+import api from "../../../api";
 
 const ContainerCartaoCredito = styled.div`
 display:flex;
@@ -237,13 +237,13 @@ function CartaoCredito() {
         setIsModalOpen(false);
     };
 
-    
+
 
     const handleSalvarConta = (novoCartao) => {
         console.log(novoCartao)
         const valorString = novoCartao.valor.toString();
         console.log(valorString)
-        
+
         const valorNumerico = parseFloat(valorString.replace(/[^\d.-]/g, '')); // Remove caracteres não numéricos
         console.log(valorNumerico)
 
@@ -271,19 +271,22 @@ function CartaoCredito() {
         });
     };
 
-    const cartoesRenderizadas = cartoes.map((cartao, index) => (
-        <CartaoContainer 
-          key={index} 
-          nome={cartao.nome}
-          origem={cartao.bancoVinculado} 
-          valor={cartao.faturaValor} 
-          bandeira={cartao.bandeira} 
-          vencimento={cartao.vencimento} 
-          
-        />
-      ));
+    if (cartoes.length > 0) {
+        const cartoesRenderizadas = cartoes.map((cartao, index) => (
+            <CartaoContainer
+                key={index}
+                nome={cartao.nome}
+                origem={cartao.bancoVinculado}
+                valor={cartao.faturaValor}
+                bandeira={cartao.bandeira}
+                vencimento={cartao.vencimento}
 
-      
+            />
+        ));
+    } else {
+        cartoesRenderizadas = <p>Nenhum cartão cadastrado.</p>;
+    }
+
 
     return (
         <>
@@ -313,7 +316,7 @@ function CartaoCredito() {
                     </div>
                 </div>
                 <div className="localAdicionaConta">
-                <div className="adicionaConta" onClick={(event) => { event.preventDefault(); openModal(); }}>
+                    <div className="adicionaConta" onClick={(event) => { event.preventDefault(); openModal(); }}>
                         <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6.125 10H12.8758" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M9.5 13.3754V6.62463" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />

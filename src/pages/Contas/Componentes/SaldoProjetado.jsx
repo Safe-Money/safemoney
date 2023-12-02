@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Icon } from "../../visaoGeral/funcoes/icons";
-
+import LancamentoFixoContainer from "./LancamentoFixoContainer";
+import React, { useEffect, useState } from 'react';
+import api from "../../../api";
 
 const ContainerSaldoProjetado = styled.div`
 display:flex;
@@ -57,20 +59,20 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
   justify-content:center;
 }
 
+.titulos-categoria .nome{
+  display:flex;
+  width:30%;
+  justify-content:center;
+
+}
 .titulos-categoria .valor{
   display:flex;
   width:30%;
   justify-content:center;
 
 }
+
 .titulos-categoria .data{
-  display:flex;
-  width:30%;
-  justify-content:center;
-
-}
-
-.titulos-categoria .conta{
   display:flex;
   width:30%;
   justify-content:center;
@@ -123,20 +125,20 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
   width:45%;
 }
 
+.container-lista .nome-lista{
+  width:30%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 .container-lista .valor-lista{
   width:30%;
   display:flex;
   justify-content:center;
   align-items:center;
 }
-.container-lista .data-lista{
-  width:30%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
 
-.container-lista .conta-lista{
+.container-lista .data-lista{
   width:30%;
   display:flex;
   justify-content:center;
@@ -148,6 +150,28 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 function SaldoProjetado() {
+  const idUser = sessionStorage.getItem('id');
+
+  const [lanFixos, setLanFixos] = useState([]);
+
+  useEffect(() => {
+    listarLanFixos();
+  }, []);
+
+  function listarLanFixos() {
+    api
+      .get(`lancamento-fixo/buscar-fixos/${idUser}`)
+      .then((respostaObtida) => {
+        console.log(respostaObtida);
+        console.log(respostaObtida.status);
+        console.log(respostaObtida.data);
+        setLanFixos(respostaObtida.data);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
+
 
   return (
     <>
@@ -164,30 +188,35 @@ function SaldoProjetado() {
 
         <div className="conteudo-lista">
           <div className="titulos-categoria">
+
             <div className="categoria">
               Categoria
             </div>
-
+            <div className="nome">
+              Nome
+            </div>
             <div className="valor">
               Valor
             </div>
             <div className="data">
               Data
             </div>
-            <div className="conta">
-              Conta
-            </div>
+
           </div>
 
           <div className="container-lista-scroll">
-            <div className="container-lista">
-              <span className="icone-lista">
-                <img src={Icon('lazerIcon')} />
-              </span>
-              <span className="valor-lista">R$50,00</span>
-              <span className="data-lista">22/08</span>
-              <span className="conta-lista">Cartão 1</span>
-            </div>
+
+            {lanFixos?.map((fixo, index) => (
+              <LancamentoFixoContainer
+                key={fixo.id}
+                nome={fixo.nome}
+                valor={fixo.valor}
+                data={fixo.data}
+                categoria={fixo.fkCategoria.nome}
+                id={fixo.id}
+              />
+            ))}
+
           </div>
         </div>
       </ContainerSaldoProjetado>
