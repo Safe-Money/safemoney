@@ -423,7 +423,15 @@ function Objetivos(props) {
     };
 
     const formatarMoeda = (saldo) => {
-        return saldo.toFixed(2);
+        const saldoNumero = parseFloat(saldo);
+    
+    if (isNaN(saldoNumero)) {
+        // Tratar o caso em que saldo não é um número
+        return 'Erro: saldo não é um número válido';
+    }
+
+    const formatado = saldoNumero.toFixed(2);
+    return formatado;
     };
 
 
