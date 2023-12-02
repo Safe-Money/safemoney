@@ -271,8 +271,9 @@ function CartaoCredito() {
         });
     };
 
+    let cartoesRenderizadas = <p>Nenhum cartão cadastrado.</p>;
     if (cartoes.length > 0) {
-        const cartoesRenderizadas = cartoes.map((cartao, index) => (
+        cartoesRenderizadas = cartoes.map((cartao, index) => (
             <CartaoContainer
                 key={index}
                 nome={cartao.nome}
@@ -283,8 +284,6 @@ function CartaoCredito() {
 
             />
         ));
-    } else {
-        cartoesRenderizadas = <p>Nenhum cartão cadastrado.</p>;
     }
 
 

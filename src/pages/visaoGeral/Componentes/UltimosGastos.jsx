@@ -196,142 +196,71 @@ function UltimosGastos() {
             });
     }
 
+    let dados = <p>Nenhum cartão cadastrado.</p>;;
+    if (gastos.length > 0) {
+        dados = gastos?.map((gasto, index) => (
+            <DespesaContainer
+                key={gasto.id}
+                nome={gasto.nome}
+                valor={gasto.valor}
+                data={gasto.data}
+                parcelas={gasto.conta == null ? gasto.parcelas : 0}
+                parcelaAtual={gasto.conta == null ? gasto.parcelaAtual : 0}
+                cartao={gasto.conta == null ? gasto.fatura.fkCartao.nome : gasto.conta.banco}
+                id={gasto.id}
+            />
+        ))
 
-    return (
-        <>
-            <ContainerUltimosGastos>
-                {/* {ouvido.map((conta) =>(
+
+        return (
+            <>
+                <ContainerUltimosGastos>
+                    {/* {ouvido.map((conta) =>(
                     <div>{conta.nome}</div>
                 ))} */}
 
-                <div className="titulo-icone">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="20" height="20" rx="8" fill="#2FED42" fillOpacity="0.3" />
-                        <path d="M6 7H14" stroke="#08632D" strokeLinecap="round" />
-                        <path d="M6 10H14" stroke="#08632D" strokeLinecap="round" />
-                        <path d="M6 13H14" stroke="#08632D" strokeLinecap="round" />
-                    </svg>
-                    Últimos gastos
-                </div>
+                    <div className="titulo-icone">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="20" height="20" rx="8" fill="#2FED42" fillOpacity="0.3" />
+                            <path d="M6 7H14" stroke="#08632D" strokeLinecap="round" />
+                            <path d="M6 10H14" stroke="#08632D" strokeLinecap="round" />
+                            <path d="M6 13H14" stroke="#08632D" strokeLinecap="round" />
+                        </svg>
+                        Últimos gastos
+                    </div>
 
-                <div className="conteudo-lista">
-                    <div className="titulos-categoria">
-                        <div className="categoria">
-                            Categoria
+                    <div className="conteudo-lista">
+                        <div className="titulos-categoria">
+                            <div className="categoria">
+                                Categoria
+                            </div>
+                            <div className="descricao">
+                                Descrição
+                            </div>
+                            <div className="valor">
+                                Valor
+                            </div>
+                            <div className="data">
+                                Data
+                            </div>
+                            <div className="parcelas">
+                                Parcelas
+                            </div>
+                            <div className="conta">
+                                Conta
+                            </div>
+
                         </div>
-                        <div className="descricao">
-                            Descrição
-                        </div>
-                        <div className="valor">
-                            Valor
-                        </div>
-                        <div className="data">
-                            Data
-                        </div>
-                        <div className="parcelas">
-                            Parcelas
-                        </div>
-                        <div className="conta">
-                            Conta
+                        <div className="container-lista-scroll">
+                            {dados}
                         </div>
 
                     </div>
-                    <div className="container-lista-scroll">
-
-
-
-                        {gastos?.map((gasto, index) => (
-                            <DespesaContainer
-                                key={gasto.id}
-                                nome={gasto.nome}
-                                valor={gasto.valor}
-                                data={gasto.data}
-                                parcelas={gasto.conta == null ? gasto.parcelas : 0}
-                                parcelaAtual={gasto.conta == null ? gasto.parcelaAtual : 0}
-                                cartao={gasto.conta == null ? gasto.fatura.fkCartao.nome : gasto.conta.banco}
-                                id={gasto.id}
-                            />
-                        ))}
-
-{/* 
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('lazerIcon')} />
-                            </span>
-                            <span className="descricao-lista">Carrefour Express</span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista">1/2</span>
-                            <span className="conta-lista">Itaú</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('comidaIcon')} />
-                            </span>
-                            <span className="descricao-lista">Carrefour Express</span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista">1/2</span>
-                            <span className="conta-lista">Itaú</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('comidaIcon')} />
-                            </span>
-                            <span className="descricao-lista">Carrefour Express</span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista">1/2</span>
-                            <span className="conta-lista">Itaú</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('medicoIcon')} />
-                            </span>
-                            <span className="descricao-lista">Carrefour Express</span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista">1/2</span>
-                            <span className="conta-lista">Itaú</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('lazerIcon')} />
-                            </span>
-                            <span className="descricao-lista">Carrefour Express</span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista">1/2</span>
-                            <span className="conta-lista">Itaú</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('lazerIcon')} />
-                            </span>
-                            <span className="descricao-lista">Carrefour Express</span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista">1/2</span>
-                            <span className="conta-lista">Itaú</span>
-                        </div>
-                        <div className="container-lista">
-                            <span className="icone-lista">
-                                <img src={Icon('lazerIcon')} />
-                            </span>
-                            <span className="descricao-lista">Carrefour Express</span>
-                            <span className="valor-lista">R$50,00</span>
-                            <span className="data-lista">22/08</span>
-                            <span className="parcelas-lista">1/2</span>
-                            <span className="conta-lista">Itaú</span>
-                        </div> */}
-                    </div>
-
-                </div>
-            </ContainerUltimosGastos>
-        </>
-    )
+                </ContainerUltimosGastos>
+            </>
+        )
+    }
 }
-
 
 
 export default UltimosGastos;
