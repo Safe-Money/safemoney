@@ -178,11 +178,13 @@ function MinhasContas() {
     const [contas, setContas] = useState([
     ]);
     const idUser = sessionStorage.getItem('id');
+
     const [novaConta, setNovaConta] = useState({
         banco: '',
         tipoConta: '',
         saldo: ''
     })
+    
     const openModal = () => {
         setIsModalOpen(true);
     };
