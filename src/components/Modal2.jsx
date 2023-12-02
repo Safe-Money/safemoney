@@ -55,7 +55,7 @@ display:flex;
 flex-direction:column;
 align-items:center;
 color:#08632D;
-height:20%;
+height:25%;
 width:100%;
 
 span{
@@ -100,8 +100,14 @@ button{
 `
 
 function Modal2(props) {
+
+    const handleCancelarClick2 = (e) => {
+        if (e.target.classList.contains('ModalWrap')) {
+          props.onClose();
+        }
+      };
   return (
-    <ModalWrap>
+    <ModalWrap className='MoralWrap' onClick={handleCancelarClick2} >
       <ModalContent>
 
         <LogoNome>

@@ -75,7 +75,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 width:60%;
-margin-top:3%;
+margin-top:5%;
 
 button{
   padding:10px;

@@ -49,7 +49,7 @@ width:86%;
   position: absolute;
   top: -10px;
   left:0; 
-  transform: translateX(22%);
+  transform: translateX(20%);
   background-color: white; 
   padding: 0 10px;
   
@@ -71,24 +71,52 @@ width:86%;
 .label_description{
   position: absolute;
   top: -10px; 
-  transform: translateX(-130%);
+  transform: translateX(-170%);
   background-color: white; 
   padding: 0 10px;
 }
 
 .input-date{
-  width: 90%;
+  width: 80%;
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 1); 
   box-sizing: border-box;
   box-shadow: 1 1 1 1;
   border-radius:5px;
   letter-spacing: 0.8px;
+  margin-left:27px;
   box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
 #label_date{
   margin-left:5px;
+  transform: translateX(70%);
+}
+#label_origem{
+  transform: translateX(60%);
+
+}
+#label_parcelas{
+  transform: translateX(56%);
+}
+
+#select_categoria{
+  margin-right:38px;
+  box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+#select_origem{
+  margin-left:38px;
+  box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+#select_parcelas{
+  margin-left:38px;
+  box-shadow: 4px 10px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+.despesaFixa{
+  width:20px;
 }
 `;
 
@@ -113,6 +141,12 @@ function ModalDespesa(props) {
   const [selectedBanco, setContaSelecionada] = useState(null);
   const [saldo, setSaldo] = useState("");
   const [selectedCategoria, setCategoria] = useState(null);
+  const [date, setDate] = useState(""); // Adicionei o estado para a data
+  const [description, setDescription] = useState(""); // Adicionei o estado para a descrição
+  const [parcelasDisplay, setParcelasDisplay] = useState('none');
+  const [desativadoDisplay, setDesativadoDisplay] = useState('block');
+  const [ativarDisplay, setAtivarDisplay] = useState('none');
+
 
   const handleValorChange = (e) => {
     const valorDigitado = e.target.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
@@ -135,13 +169,28 @@ function ModalDespesa(props) {
     return valorFormatado;
   };
 
-  const [desativadoDisplay, setDesativadoDisplay] = useState('block');
-  const [ativarDisplay, setAtivarDisplay] = useState('none');
 
   const toggleSVG = () => {
     setDesativadoDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
     setAtivarDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
 
+  };
+
+  const handleSalvar = () => {
+    // Aqui você pode fazer o que quiser com os dados, como enviá-los para o servidor ou atualizar o estado no componente pai.
+    const dadosASalvar = {
+      categoria: selectedCategoria,
+      origem: selectedBanco,
+      valor: saldo,
+      date: date,
+      description: description,
+    };
+
+    // Exemplo: enviando os dados para uma função de salvamento fornecida como propriedade
+    props.salvarDados(dadosASalvar);
+
+    // Fechar o modal após salvar
+    props.onClose();
   };
 
   return (
@@ -166,18 +215,19 @@ function ModalDespesa(props) {
           </LabelInput>
 
           <LabelInput>
-            <div className="label">Origem</div>
+            <div className="label" id="label_origem">Origem</div>
             <BancoSelect
-              id="select_conta"
+              id="select_origem"
               value={selectedBanco}
               onChange={(e) => {
                 setContaSelecionada(e.target.value);
+                const isCartao = e.target.value === 'credito';
+                setParcelasDisplay(isCartao ? 'block' : 'none');
               }}
             >
               <option value="origem">Origem</option>
-              <option value="banco">banco</option>
-              <option value="credito">credito</option>
-
+              <option value="banco">Banco</option>
+              <option value="credito">Cartão de Crédito</option>
             </BancoSelect>
           </LabelInput>
 
@@ -216,73 +266,79 @@ function ModalDespesa(props) {
 
           <LabelInput>
             <LabelInput>
-              <label style={{
-                width:'150px',
-                marginLeft: '31%',
-                padding: '0 8px',
-                color: '#08632D',
-                fontSize: '12px',
-                position: 'absolute',
-                backgroundColor: 'white',
-                left: 0,
-                top: 0
-              }} htmlFor="nomePlano">Despesa Fixa</label>
+              <div className="despesaFixa">
+                <label style={{
+                  width: '150px',
+                  marginLeft: '50px',
+                  padding: '0 8px',
+                  color: '#08632D',
+                  fontSize: '12px',
+                  position: 'absolute',
+                  backgroundColor: 'white',
+                  left: 0,
+                  top: 0,
+                  marginTop: -9,
+                }} htmlFor="nomePlano">Despesa Fixa</label>
 
-<svg
-              id="desativado"
-              style={{
-                display: desativadoDisplay,
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                cursor: 'pointer',
-              }}
-              width="36"
-              height="15"
-              viewBox="0 0 36 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              onClick={toggleSVG}
-            >
-              <rect width="36" height="15" rx="7.5" fill="#E6E6E6" />
-              <ellipse cx="8" cy="7.5" rx="8" ry="7.5" fill="#568C6D" />
-            </svg>
+                <svg
+                  id="desativado"
+                  style={{
+                    display: desativadoDisplay,
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    marginTop: -9,
+                    cursor: 'pointer',
+                  }}
+                  width="36"
+                  height="15"
+                  viewBox="0 0 36 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={toggleSVG}
+                >
+                  <rect width="36" height="15" rx="7.5" fill="#E6E6E6" />
+                  <ellipse cx="8" cy="7.5" rx="8" ry="7.5" fill="#568C6D" />
+                </svg>
 
-            <svg
-              id="ativar"
-              style={{
-                display: ativarDisplay,
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                cursor: 'pointer',
-              }}
-              width="36"
-              height="15"
-              viewBox="0 0 36 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              onClick={toggleSVG}
-            >
-              <rect width="36" height="15" rx="7.5" fill="#E6E6E6" />
-              <ellipse cx="28" cy="7.5" rx="8" ry="7.5" fill="#3ABA6F" />
-            </svg>
+                <svg
+                  id="ativar"
+                  style={{
+                    display: ativarDisplay,
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    marginTop: -9,
+                    cursor: 'pointer',
+                  }}
+                  width="36"
+                  height="15"
+                  viewBox="0 0 36 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={toggleSVG}
+                >
+                  <rect width="36" height="15" rx="7.5" fill="#E6E6E6" />
+                  <ellipse cx="28" cy="7.5" rx="8" ry="7.5" fill="#3ABA6F" />
+                </svg>
+              </div>
             </LabelInput>
           </LabelInput>
 
-          <LabelInput>
-          <div className="label">Parcelas</div>
+          <LabelInput 
+           onChange={(e) => {
+            setContaSelecionada(e.target.value);
+          }}
+          style={{ display: parcelasDisplay }}>
+            <div className="label" id="label_parcelas">Parcelas</div>
             <BancoSelect
-              id="select_conta"
+              id="select_parcelas"
               value={selectedBanco}
-              onChange={(e) => {
-                setContaSelecionada(e.target.value);
-              }}
+             
             >
               <option value="one">1 vez</option>
               <option value="two">2 vezes</option>
               <option value="three">3 vezes</option>
-
             </BancoSelect>
           </LabelInput>
 

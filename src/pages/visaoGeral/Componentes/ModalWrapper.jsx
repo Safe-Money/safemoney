@@ -67,7 +67,7 @@ span{
 div{
   font-size:27px;
   font-weight: 600;
-  margin-bottom:15%;
+  margin-bottom:25%;
 
 }
 
@@ -78,6 +78,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 width:60%;
+margin-top:4%;
 
 button{
   padding:10px;
