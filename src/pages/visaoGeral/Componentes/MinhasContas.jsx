@@ -177,8 +177,7 @@ function MinhasContas() {
     const idUser = sessionStorage.getItem('id');
     
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [contas, setContas] = useState([
-    ]);
+    const [contas, setContas] = useState([]);
     
     
     const [novaConta, setNovaConta] = useState({

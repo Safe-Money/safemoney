@@ -72,8 +72,6 @@ const AllContainers = styled.div`
   }
 `;
 
-
-
 const Content = styled.div`
   margin-top: 3%;
   margin-left: 3%;
@@ -122,7 +120,6 @@ const Content = styled.div`
     text-align: center;
   }
 `;
-
 
 const Text = styled.span`
   color: #000;
@@ -180,7 +177,6 @@ const CardGeralCard = styled.div`
     width: 80vw;
   }
 `;
-
 
 const CardContainer = styled.div` 
 cursor: pointer;

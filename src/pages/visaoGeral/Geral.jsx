@@ -6,8 +6,6 @@ import UltimosGastos from "./Componentes/UltimosGastos";
 import Previsao from "./Componentes/Previsao";
 import LateralHeader from "./Componentes/LateralHeader";
 
- 
-
 const AllContainers = styled.div`
   display: flex;
   margin: 0;
@@ -20,8 +18,6 @@ const AllContainers = styled.div`
     box-sizing: border-box;
   }
 `;
-
-
 
 const Social = styled.div`
 display:flex;
@@ -45,8 +41,6 @@ justify-content:space-between;
     justify-content:space-between;
 }
 `
-
-
 
 function Geral() {
     return (

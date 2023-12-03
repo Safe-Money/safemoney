@@ -18,7 +18,6 @@ width:90%;
 height:30%;
 `
 
-
 const BancoSelect = styled.select`
 display:flex;
 margin:auto;
@@ -146,7 +145,13 @@ function ModalDespesa(props) {
   const [parcelasDisplay, setParcelasDisplay] = useState('none');
   const [desativadoDisplay, setDesativadoDisplay] = useState('block');
   const [ativarDisplay, setAtivarDisplay] = useState('none');
+  const [fixo, setFixo] = useState('false');
 
+  const toggleSVG = () => {
+    setDesativadoDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
+    setAtivarDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
+    setFixo(fixo == true ? setFixo(false) : setFixo(true));
+  };
 
   const handleValorChange = (e) => {
     const valorDigitado = e.target.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
@@ -170,35 +175,47 @@ function ModalDespesa(props) {
   };
 
 
-  const toggleSVG = () => {
-    setDesativadoDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
-    setAtivarDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
+  
 
+  // Aqui está a lógica de saber se eu selecionei um cartão ou não junto com a aparição do input de parcelas
+
+  const [idConta, setIdConta] = useState(null);
+  const [idCartao, setIdCartao] = useState(null);
+
+  const handleSelectChange = (selectedValue) => {
+    // Verifica se é um cartão
+    const isCartao = selectedValue.includes('cartao-');
+    setParcelasDisplay(isCartao ? 'block' : 'none');
+
+    if (isCartao) {
+      const cartaoId = selectedValue.replace('cartao-', '');
+      console.log('Selecionou um cartão com ID:', setIdCartao(cartaoId));
+      // Lógica para cartão selecionado (por exemplo, chamar um endpoint para cartões)
+    } else {
+      const contaId = selectedValue.replace('conta-', '');
+      console.log('Selecionou uma conta com ID:', setIdConta(contaId));
+      // Lógica para conta selecionada (por exemplo, chamar um endpoint para contas)
+    }
   };
 
-  const handleSalvar = () => {
-    // Aqui você pode fazer o que quiser com os dados, como enviá-los para o servidor ou atualizar o estado no componente pai.
-    const dadosASalvar = {
-      categoria: selectedCategoria,
-      origem: selectedBanco,
+    let dadosSalvar = {
+      nome: description,
+      data: date,
       valor: saldo,
-      date: date,
-      description: description,
+      categoria: selectedCategoria,
+      origem: idConta != null ? idConta : idCartao, 
+      parcelas: parcelasDisplay,
+      fixo: fixo,
+      despesa: "despesa"
     };
 
-    // Exemplo: enviando os dados para uma função de salvamento fornecida como propriedade
-    props.salvarDados(dadosASalvar);
-
-    // Fechar o modal após salvar
-    props.onClose();
-  };
 
   return (
-    <Modal title="Adicionar Despesa" cancelar={props.onClose} salvar={props.salvar}>
+    <Modal title="Adicionar Despesa" cancelar={props.onClose} dados={dadosSalvar}>
       <LocalConteudo>
         <LocalElementos>
-
           <LabelInput>
+
             <div className="label">Categoria</div>
             <BancoSelect
               id="select_categoria"
@@ -207,32 +224,43 @@ function ModalDespesa(props) {
                 setCategoria(e.target.value);
               }}
             >
-              <option value="bradesco">Lazer</option>
-              <option value="itau">Comida</option>
-              <option value="santander">Saúde</option>
-              <option value="santander">Viagem</option>
+              <option value="0">-- Selecione --</option>
+              <option value="1">Lazer</option>
+              <option value="2">Alimentação</option>
+              <option value="3">Saúde</option>
+              <option value="4">Estudos</option>
             </BancoSelect>
+
           </LabelInput>
 
           <LabelInput>
+
             <div className="label" id="label_origem">Origem</div>
             <BancoSelect
               id="select_origem"
               value={selectedBanco}
               onChange={(e) => {
                 setContaSelecionada(e.target.value);
-                const isCartao = e.target.value === 'credito';
-                setParcelasDisplay(isCartao ? 'block' : 'none');
+                handleSelectChange(e.target.value);
               }}
             >
-              <option value="origem">Origem</option>
-              <option value="banco">Banco</option>
-              <option value="credito">Cartão de Crédito</option>
+              <option value="0">-- Selecione --</option>
+              {/* Opções de contas */}
+              {props.contas.map(conta => (
+                <option key={conta.id} value={`conta-${conta.id}`}>{conta.banco}</option>
+              ))}
+
+              {/* Opções de cartões */}
+              {props.cartoes.map(cartao => (
+                <option key={cartao.id} value={`cartao-${cartao.id}`}>{cartao.nome}</option>
+              ))}
+
             </BancoSelect>
+
           </LabelInput>
 
-
         </LocalElementos>
+
         <LocalElementos>
 
           <LabelInput>
@@ -249,6 +277,8 @@ function ModalDespesa(props) {
             />
           </LabelInput>
 
+          {/* INPUT DE DATA */}
+
           <LabelInput>
             <div className="label" id="label_date">Date</div>
             <input
@@ -256,7 +286,9 @@ function ModalDespesa(props) {
               type="date"
               className="input-date"
               name="description"
-
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
             />
           </LabelInput>
 
@@ -325,20 +357,21 @@ function ModalDespesa(props) {
             </LabelInput>
           </LabelInput>
 
-          <LabelInput 
-           onChange={(e) => {
-            setContaSelecionada(e.target.value);
-          }}
-          style={{ display: parcelasDisplay }}>
+          <LabelInput
+            onChange={(e) => {
+              setContaSelecionada(e.target.value);
+            }}
+            style={{ display: parcelasDisplay }}>
             <div className="label" id="label_parcelas">Parcelas</div>
             <BancoSelect
               id="select_parcelas"
               value={selectedBanco}
-             
+
             >
-              <option value="one">1 vez</option>
-              <option value="two">2 vezes</option>
-              <option value="three">3 vezes</option>
+              <option value="0">-- Selecione --</option>
+              <option value="1">1 vez</option>
+              <option value="2">2 vezes</option>
+              <option value="3">3 vezes</option>
             </BancoSelect>
           </LabelInput>
 
@@ -352,7 +385,9 @@ function ModalDespesa(props) {
               type="text"
               className="input-description"
               name="description"
-
+              onChange={(e) => {
+                setDescription(e.target.value)
+              }}
             />
           </DescricaoInput>
         </LabelInput>

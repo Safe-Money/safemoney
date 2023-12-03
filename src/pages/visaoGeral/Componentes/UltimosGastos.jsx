@@ -208,6 +208,7 @@ function UltimosGastos() {
                 parcelaAtual={gasto.conta == null ? gasto.parcelaAtual : 0}
                 cartao={gasto.conta == null ? gasto.fatura.fkCartao.nome : gasto.conta.banco}
                 id={gasto.id}
+                categoria={gasto.categoria.nome}
             />
         ))
 

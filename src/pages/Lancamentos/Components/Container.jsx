@@ -5,9 +5,10 @@ import styled from 'styled-components';
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 import { ApexChart, ApexAxis, ApexDataLabels, ApexPlotOptions, ApexTitleSubtitle } from 'react-apexcharts';
-import api from "../../../API";
+import api from '../../../api';
 import { ca } from 'date-fns/locale';
 import GraficoPizzaApex from './GraficoPizza';
+import { set } from 'date-fns';
 
 const PieChartContainer = styled.div`
   width: 100%;
@@ -303,6 +304,7 @@ const AllContainers = styled.div`
   }
 `
 const TableIcon = styled.img`
+  height: 40px;
   margin-left:10px;
   margin: 0;
   vertical-align: middle;
@@ -379,7 +381,8 @@ function ContainerGeral() {
 
   useEffect(() => {
     listarGraficoPizza();
-    listarDadosGraficoLine()
+    listarDadosGraficoLine();
+    listarGraficoLinhaKpi();
   }, []);
 
 
@@ -395,11 +398,31 @@ function ContainerGeral() {
       });
   }
 
+
+
   function listarDadosGraficoLine() {
     api.get(`graficos/grafico-linha-geral/${idUser}`)
       .then((respostaObtida) => {
         console.log("Dados do gráfico de linha: ", respostaObtida.data);
         setDataLine(respostaObtida.data);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
+
+  const [menorValor, setMenorValor] = useState([]);
+  const [maiorValor, setMaiorValor] = useState([]);
+  const [variacaoPercentual, setVariacaoPercentual] = useState([]);
+
+  function listarGraficoLinhaKpi() {
+    api.get(`graficos/grafico-linha-kpi/${idUser}`)
+      .then((respostaObtida) => {
+        console.log("Dados da KPI do grafico de linha ", respostaObtida.data);
+
+        setMenorValor(respostaObtida.data.menorValor);
+        setMaiorValor(respostaObtida.data.maiorValor);
+        setVariacaoPercentual(respostaObtida.data.variacaoPercentual);
       })
       .catch((erroOcorrido) => {
         console.log(erroOcorrido);
@@ -457,7 +480,7 @@ function ContainerGeral() {
                 {dadosExibidos.map((item, index) => (
                   <TableRow key={index}>
                     <td class>
-                      <TableIcon src={Icon(item.categoria.nome + "Icon")} alt="Ícone" />
+                      <TableIcon src={Icon(item.categoria.nome)} alt="Ícone" />
                     </td>
 
                     <td>{item.valor}</td>
@@ -509,13 +532,13 @@ function ContainerGeral() {
 
               <div className="info">
                 <div className="info-box">
-                  <p className='p'>Maior gasto:<span className='limite'> R$ 300</span></p>
+                  <p className='p'>Maior gasto:<span className='limite'>{maiorValor}</span></p>
                 </div>
                 <div className="info-box">
-                  <p className='p' >Menor gasto: <span className='gasto'>R$ 300</span></p>
+                  <p className='p' >Menor gasto: <span className='gasto'>{menorValor}</span></p>
                 </div>
                 <div className="info-box">
-                  <p className='p'>Variação percentual: <span className='livre'>R$ 300</span></p>
+                  <p className='p'>Variação percentual: <span className='livre'>{variacaoPercentual}%</span></p>
                 </div>
               </div>
             </SideDiv>

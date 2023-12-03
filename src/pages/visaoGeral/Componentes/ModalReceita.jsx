@@ -18,7 +18,6 @@ width:90%;
 height:30%;
 `
 
-
 const BancoSelect = styled.select`
 display:flex;
 margin:auto;

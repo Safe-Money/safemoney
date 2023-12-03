@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { Icon } from "../pages/visaoGeral/funcoes/icons";
+import api from "../api";
+import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ModalWrap = styled.div`
   position: fixed;
@@ -101,12 +105,60 @@ button{
 `
 
 function Modal2(props) {
+  const navigate = useNavigate();
 
-    const handleCancelarClick2 = (e) => {
-        if (e.target.classList.contains('ModalWrap')) {
-          props.onClose();
+  function validarDespesa() {
+    if (props.dados.fixo == true) {
+      console.log("Despesa Fixa");
+    } else if (props.dados.parcelas == "block") {
+      console.log("Despesa no crédito");
+    } else {
+      console.log("Despesa normal");
+      console.log(props.dados)
+
+      const valorLimpo = props.dados.valor.replace(/[^\d.,]/g, '').replace(',', '.');
+      const valorDouble = parseFloat(valorLimpo).toFixed(1);
+      console.log(valorDouble);
+
+      const corpo = {
+        nome: props.dados.nome,
+        data: props.dados.data,
+        valor: valorDouble,
+        conta: {
+          id: props.dados.origem
+        },
+        categoria: {
+          id: props.dados.categoria
+        },
+        tipo: {
+          id : 1
         }
-      };
+      }
+      console.log(corpo);
+      api.post(`transacoes/despesa`, corpo)
+      .then((respostaObtida) => {
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Conta adicionada!',
+          text: 'Sua conta foi adicionada com sucesso!!.',
+        });
+
+        navigate('/visao-geral');
+        
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+    }
+  }
+
+
+  const handleCancelarClick2 = (e) => {
+    if (e.target.classList.contains('ModalWrap')) {
+      props.onClose();
+    }
+  };
   return (
     <ModalWrap className='MoralWrap' onClick={handleCancelarClick2} >
       <ModalContent>
@@ -120,12 +172,12 @@ function Modal2(props) {
         </LogoNome>
 
 
-        {props.children} 
+        {props.children}
 
 
         <Button>
           <button onClick={props.cancelar} className='cancelar'>Cancelar</button>
-          <button className='adicionar-btn' onClick={props.salvar} >Salvar</button>
+          <button className='adicionar-btn' onClick={props.dados.despesa == "despesa" ? validarDespesa : validarDespesa}>Salvar</button>
         </Button>
 
       </ModalContent>

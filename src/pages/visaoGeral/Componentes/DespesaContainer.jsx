@@ -8,7 +8,7 @@ function DespesaContainer(props) {
         <>
             <div className="container-lista">
                 <span className="icone-lista">
-                   <img src={Icon('lazerIcon')} />
+                   <img src={Icon(props.categoria)} />
                 </span>
                 <span className="descricao-lista">{props.nome}</span>
                 <span className="valor-lista">{props.valor}</span>

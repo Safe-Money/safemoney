@@ -17,7 +17,6 @@ import positivoIcon from '../../../assets/positivo 2.svg';
 import transferenciaIcon from '../../../assets/transferencia.svg';
 import notificacaoIcon from '../../../assets/sino-de-notificacao 2.svg';
 import contasIcon from '../../../assets/ContasIcon.svg';
-import lazerIcon from '../../../assets/lazer.svg';
 import medicoIcon from '../../../assets/medico.svg';
 import comidaIcon from '../../../assets/comida.svg';
 import visaoDesativa from '../../../assets/visaoDesactive.png'
@@ -38,7 +37,7 @@ import cartoesIcon from '../../../assets/cartoesIcon.png';
 import cartoesAtiva from '../../../assets/cartoesAtiva.png';
 import Logo2 from '../../../assets/logo2.png';
 import moneyRecive from '../../../assets/money_recive.svg';
-import lazer from '../../../assets/lazer.svg';
+import lazer from '../../../assets/lazer.png';
 import gym from '../../../assets/gym.png';
 import pet from '../../../assets/pet.png';
 import saude from '../../../assets/remedio.png';
@@ -46,11 +45,6 @@ import alimentacao from '../../../assets/restaurante.png';
 import vestuario from '../../../assets/vestuario.png';
 import transporte from '../../../assets/transporte.png';
 import economia from '../../../assets/poupanca.png';
-
-
-
-
-
 
 
 const icons = {
@@ -77,7 +71,6 @@ const icons = {
     transferenciaIcon,
     notificacaoIcon,
     contasIcon,
-    lazerIcon,
     medicoIcon,
     comidaIcon,
     maisIcon,
@@ -96,7 +89,6 @@ const icons = {
     moneyRecive,
     lazer,
     gym,
-
     pet,
     saude,
     alimentacao, 

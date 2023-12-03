@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
 import Notification from "./Notification";
 import Swal from 'sweetalert2';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import api from "../../../api";
 import ModalDespesa from './ModalDespesa';
 import ModalReceita from './ModalReceita';
 import ModalTransferencia from "./ModalTransferencia";
@@ -114,6 +115,39 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 function AcessoRapido() {
+    const idUser = sessionStorage.getItem('id');
+
+    const [contas, setContas] = useState([]);
+    const [cartoes, setCartoes] = useState([]);
+
+  useEffect(() => {
+    listarContas();
+    listarCartoes()
+  }, []);
+
+
+  function listarContas() {
+    api.get(`/contas/listar-contas/${idUser}`)
+      .then((respostaObtida) => {
+        console.log("Dados do gráfico de pizza: ", respostaObtida.data);
+        setContas(respostaObtida.data);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
+
+  function listarCartoes() {
+    api.get(`/cartao-credito/listar-cartoes/${idUser}`)
+      .then((respostaObtida) => {
+        console.log("Dados do gráfico de pizza: ", respostaObtida.data);
+        setCartoes(respostaObtida.data);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
+
     const [isAtivado, setIsAtivado] = useState(true);
     
     const [selectedModal, setSelectedModal] = useState(null);
@@ -160,9 +194,9 @@ function AcessoRapido() {
                         </div>
                     </div>
       
-                    {selectedModal === 'despesa' && <ModalDespesa onClose={closeModal} />}
-                    {selectedModal === 'receita' && <ModalReceita onClose={closeModal} />}
-                    {selectedModal === 'transferencia' && <ModalTransferencia onClose={closeModal} />}
+                    {selectedModal === 'despesa' && <ModalDespesa onClose={closeModal} contas={contas} cartoes={cartoes} />}
+                    {selectedModal === 'receita' && <ModalReceita onClose={closeModal} contas={contas} cartoes={cartoes}/>}
+                    {selectedModal === 'transferencia' && <ModalTransferencia onClose={closeModal} contas={contas}/>}
 
                 </div>
             </ContainerAcessoRapido>
