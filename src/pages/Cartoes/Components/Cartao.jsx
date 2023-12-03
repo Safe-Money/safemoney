@@ -665,8 +665,9 @@ const CartoesGeral = () => {
                     </ProgressBar>
                   </ProgressBarWrapper>
                   <CardDates>
-                    <CardDetail>Vencimento: <span className='negri'>{cartao.vencimento}</span></CardDetail>
-                    <CardDetail className='fechamento'>Fechamento: <span className='negri'>{cartao.fechamento}</span></CardDetail>
+                  <CardDetail >Fechamento: <span className='negri'>{cartao.fechamento}</span></CardDetail>
+                    <CardDetail className='fechamento'>Vencimento: <span className='negri'>{cartao.vencimento}</span></CardDetail>
+                    
                   </CardDates>
                 </CardContainer>
               ))}
