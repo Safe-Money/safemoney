@@ -153,6 +153,10 @@ function ModalFatura(props) {
     const [selectedCategoriaId, setCategoriaSelecionadaId] = useState(null);
     const [categorias, setCategorias] = useState([]);
     const [selectedParcelas, setParcelas] = useState(1);
+
+    const [selectedCartao, setSelectedCartao] = useState(null);
+    const [selectedCartaoId, setCartaoSelecionado] = useState(null);
+
    
 
  
@@ -202,7 +206,7 @@ function ModalFatura(props) {
                 id: 3, 
             },
             cartao: {
-                id: parseInt(selectedBanco), 
+                id: parseInt(selectedCartaoId),
             },
         };
         api.post("/transacoes/despesa-credito", dadosASalvar)
@@ -292,19 +296,17 @@ function ModalFatura(props) {
                     <LabelInput>
                         <div className="label" id="label_origem">Origem</div>
                         <BancoSelect
-                            id="select_origem"
-                            value={selectedBanco}
-                            onChange={(e) => {
-                                setContaSelecionada(e.target.value);
-                            }}
-                        >
-                            <option value="">Selecione um cartão</option>
-                            {cartoesUsuario.map((cartao) => (
-                                <option key={cartao.id} value={cartao.id}>
-                                    {cartao.nome} - {cartao.bandeira}
-                                </option>
-                            ))}
-                        </BancoSelect>
+  id="select_origem"
+  value={selectedCartao ? selectedCartao.id : ''}
+  onChange={(e) => setCartaoSelecionado(e.target.value)}
+>
+  <option value="">Selecione um cartão</option>
+  {cartoesUsuario.map((cartao) => (
+    <option key={cartao.id} value={cartao.id}>
+      {cartao.nome} - {cartao.bandeira}
+    </option>
+  ))}
+</BancoSelect>
                     </LabelInput>
 
                 </LocalElementos>

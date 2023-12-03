@@ -17,6 +17,10 @@ import positivoIcon from '../../../assets/positivo 2.svg';
 import transferenciaIcon from '../../../assets/transferencia.svg';
 import notificacaoIcon from '../../../assets/sino-de-notificacao 2.svg';
 import contasIcon from '../../../assets/ContasIcon.svg';
+<<<<<<< HEAD
+=======
+import lazerIcon from '../../../assets/lazer.png';
+>>>>>>> 0a559005d4360ed7091c12bd514532e1364bd6c4
 import medicoIcon from '../../../assets/medico.svg';
 import comidaIcon from '../../../assets/comida.svg';
 import visaoDesativa from '../../../assets/visaoDesactive.png'
@@ -98,6 +102,6 @@ const icons = {
 }
 
 export const Icon = (icon) => {
- 
+    console.log('Ícone solicitado:', icon);
     return icon ? icons[icon] : null
 }
