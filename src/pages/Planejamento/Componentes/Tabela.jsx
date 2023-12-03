@@ -288,21 +288,24 @@ function Tabela() {
     const excluirConta = (index) => {
         console.log(index);
         Swal.fire({
-            title: "Voce tem certeza?",
+            title: "Você tem certeza?",
             text: "Você não vai poder reverter isso!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sim, delete isso!"
+            cancelButtonText: "Cancelar",
+            cancelButtonColor: "#D0112B",
+            confirmButtonText: "Sim, deletar!",
+            confirmButtonColor: "#08632D",
+            reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
+                // Código para deletar a conta aqui
                 setListaDados((prevLista) => {
                     const novaLista = [...prevLista];
                     novaLista.splice(index, 1);
                     return novaLista;
                 });
-
+    
                 Swal.fire({
                     title: "Deletado!",
                     text: "Seu planejamento foi deletado.",
@@ -311,6 +314,10 @@ function Tabela() {
             }
         });
     };
+    
+
+  
+    
 
     const [selectedModal, setSelectedModal] = useState(null);
 
