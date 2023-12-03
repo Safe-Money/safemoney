@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Icon } from "../../visaoGeral/funcoes/icons";
 import Swal from 'sweetalert2';
 import Container from "./Container";
+import ModalEditar from "./ModalEditar";
+import ModalCriar from "./ModalCriar";
 
 const LocalTabela = styled.div`
 display:flex;
@@ -273,284 +275,7 @@ function Tabela() {
 
     const iconHtml = `<img src="${Icon('logo')}" style="width:110px" />`;
 
-    /*
-      Modal para criar novo plano
-  
-    */
-    const showSweetAlert = () => {
-        const styleInput = `
-            width: 100%;
-            padding: 10px;
-            margin: 0;
-            box-sizing: border-box;
-        `;
 
-        const styleSwal2Input = `
-            margin: 0 !important;
-        `;
-
-
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-success custom-btn",
-                cancelButton: "btn btn-danger custom-btn"
-            },
-            buttonsStyling: false
-        });
-
-        swalWithBootstrapButtons.fire({
-            title: "Criar Plano",
-            text: "You won't be able to revert this!",
-            customClass: {
-                input: 'swal2-input custom-input',
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
-            },
-            html: `
-            <div style="width:90%; display:flex; justify-content:center; flex-direction:column; margin:auto; border-sizing:border-box">
-                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                    <label style="margin-right:64%" for="nomePlano">Categoria</label>
-                    <select style="{styleInput};margin:0.4em 2em 3px" id="categoriaPlano" class="swal2-input">
-                    <option value="lazer">Lazer</option>
-                    <option value="comida">Comida</option>
-                    <option value="medico">Médico</option>
-                    </select>
-                </div>
-          
-                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                    <label  style="margin-right:43%" style="justify-content:flex-start" for="valorPlano">Valor Planejado</label>
-                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="valorPlano" class="swal2-input" placeholder="Digite o valor do plano">
-                </div>
-                
-                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                    <label  style="margin-right:53%" style="justify-content:flex-start" for="valorPlano">Total Gasto</label>
-                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="totalGasto" class="swal2-input" placeholder="Digite o valor do plano">
-                </div>
-            </div>
-        `,
-            // iconHtml:``,
-            // imageUrl: Icon('logo'),
-            iconHtml: `${iconHtml}`,
-            showCancelButton: true,
-            confirmButtonText: "Adicionar",
-            cancelButtonText: "Cancelar",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const categoriaSelecionada = document.getElementById("categoriaPlano").value;
-                const valorSelecionadoString = document.getElementById("valorPlano").value;
-                const totalGastoSelecionadoString = document.getElementById("totalGasto").value;
-
-                if (!categoriaSelecionada || !valorSelecionadoString || !totalGastoSelecionadoString) {
-                    Swal.fire({
-                        title: "Erro",
-                        text: "Preencha todos os campos corretamente.",
-                        icon: "error",
-                    });
-                    return; // Impede a criação da nova conta se houver erros
-                }
-
-                const valorSelecionado = parseFloat(valorSelecionadoString.replace(',', '.'));
-                const totalGastoSelecionado = parseFloat(totalGastoSelecionadoString.replace(',', '.'));
-
-
-                if (isNaN(valorSelecionado) || isNaN(totalGastoSelecionado) || valorSelecionado < 0 || totalGastoSelecionado < 0) {
-                    Swal.fire({
-                        title: "Erro",
-                        text: "Os valores informados são inválidos.",
-                        icon: "error",
-                    });
-                    return; // Impede a criação da nova conta se houver erros
-                }
-
-                if (!isNaN(valorSelecionado) && valorSelecionado >= 0) {
-                    const novaConta = {
-                        categoria: categoriaSelecionada,
-                        valor: `R$${valorSelecionado.toFixed(2)}`, // Format o valor como moeda
-                        data: `R$${totalGastoSelecionado.toFixed(2)}`, // Substitua pelo valor real
-                        progresso: "70%", // Substitua pelo valor real
-                    }
-                };
-                adicionarConta(categoriaSelecionada, valorSelecionado, totalGastoSelecionado);
-                swalWithBootstrapButtons.fire({
-                    title: "Criada!",
-                    text: "Seu Planejamento foi criado.",
-                    icon: "success"
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelada",
-                    text: "Sua criação de Planejamento foi cancelada! :)",
-                    icon: "error"
-                });
-
-            }
-        });
-
-        const confirmButton = document.querySelector('.swal2-confirm');
-        const cancelButton = document.querySelector('.swal2-cancel');
-
-        if (confirmButton && cancelButton) {
-            confirmButton.style.padding = '10px 20px 10px 20px';
-            confirmButton.style.borderRadius = '5px';
-            confirmButton.style.color = '#fff';
-            confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
-            confirmButton.style.marginLeft = '10px';
-
-
-            cancelButton.style.padding = '10px 20px 10px 20px';
-            cancelButton.style.borderRadius = '5px';
-            cancelButton.style.color = '#fff';
-            cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
-            cancelButton.style.marginRight = '10px';
-        }
-    };
-
-
-    const sweetEditar = (index) => {
-        setEditingPlan(listaDados[index]);
-    
-        const { categoria, valor, data } = listaDados[index];
-
-    
-
-        const styleInput = `
-        width: 100%;
-        padding: 10px;
-        margin: 0;
-        box-sizing: border-box;
-    `;
-
-        const styleSwal2Input = `
-    margin: 0 !important;
-    `;
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-                confirmButton: "btn btn-success custom-btn",
-                cancelButton: "btn btn-danger custom-btn"
-            },
-            buttonsStyling: false
-        });
-    
-        swalWithBootstrapButtons.fire({
-            title: "Editar Plano",
-            text: "Você não poderá reverter isso!",
-    
-            customClass: {
-                input: 'swal2-input custom-input',
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
-            },
-            html: `
-            <div style="width:90%; display:flex; justify-content:center; flex-direction:column; margin:auto; border-sizing:border-box">
-                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                    <label style="margin-right:64%" for="nomePlano">Categoria</label>
-                    <select style="{styleInput};margin:0.4em 2em 3px" id="categoriaPlano" class="swal2-input" >
-                    <option value="lazer" ${categoria === 'lazer' ? 'selected' : ''}>Lazer</option>
-                    <option value="comida" ${categoria === 'comida' ? 'selected' : ''}>Comida</option>
-                    <option value="medico" ${categoria === 'medico' ? 'selected' : ''}>Médico</option>
-                    </select>
-                </div>
-          
-                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                    <label  style="margin-right:43%" style="justify-content:flex-start" for="valorPlano">Valor Planejado</label>
-                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="valorPlano" class="swal2-input" value="${parseFloat(valor.replace('R$', ''))}" placeholder="Digite o valor do plano">
-                </div>
-                
-                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                    <label  style="margin-right:53%" style="justify-content:flex-start" for="valorPlano">Total Gasto</label>
-                    <input  style="{styleInput};margin:0.4em 2em 3px" type="number" id="totalGasto" class="swal2-input" 
-                    value="${parseFloat(data.replace('R$', ''))}" placeholder="Digite o valor do plano">
-                </div>
-            </div>
-        `,
-        iconHtml: `${iconHtml}`,
-            showCancelButton: true,
-            confirmButtonText: "Alterar",
-            cancelButtonText: "Cancelar",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const categoriaSelecionada = document.getElementById("categoriaPlano").value;
-                const valorSelecionadoString = document.getElementById("valorPlano").value;
-                const totalGastoSelecionadoString = document.getElementById("totalGasto").value;
-
-                if (!categoriaSelecionada || !valorSelecionadoString || !totalGastoSelecionadoString) {
-                    Swal.fire({
-                        title: "Erro",
-                        text: "Preencha todos os campos corretamente.",
-                        icon: "error",
-                    });
-                    return; // Impede a criação da nova conta se houver erros
-                }
-
-                const valorSelecionado = parseFloat(valorSelecionadoString.replace(',', '.'));
-                const totalGastoSelecionado = parseFloat(totalGastoSelecionadoString.replace(',', '.'));
-
-
-                if (isNaN(valorSelecionado) || isNaN(totalGastoSelecionado) || valorSelecionado < 0 || totalGastoSelecionado < 0) {
-                    Swal.fire({
-                        title: "Erro",
-                        text: "Os valores informados são inválidos.",
-                        icon: "error",
-                    });
-                    return; // Impede a criação da nova conta se houver erros
-                }
-
-                const progresso = (valorSelecionado !== 0 && totalGastoSelecionado !== 0) ? ((totalGastoSelecionado / valorSelecionado) * 100).toFixed(2) + "%" : "0%";
-
-                const updatedList = listaDados.map((conta, i) => {
-                    if (i === index) {
-                        console.log(progresso);
-                        return {
-                            ...conta,
-                            categoria: categoriaSelecionada,
-                            valor: `R$${valorSelecionado.toFixed(2)}`,
-                            data: `R$${totalGastoSelecionado.toFixed(2)}`,
-                            progresso: 2,
-                        };
-                    }
-                    return conta;
-                });
-                
-        
-                setListaDados(updatedList);
-                swalWithBootstrapButtons.fire({
-                    title: "Atualizado!",
-                    text: "Seu planejamento foi atualizado.",
-                    icon: "success"
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelada",
-                    text: "A edição do planejamento foi cancelada! :)",
-                    icon: "error"
-                });
-            }
-        });
-
-        const confirmButton = document.querySelector('.swal2-confirm');
-        const cancelButton = document.querySelector('.swal2-cancel');
-
-        if (confirmButton && cancelButton) {
-            confirmButton.style.padding = '10px 20px 10px 20px';
-            confirmButton.style.borderRadius = '5px';
-            confirmButton.style.color = '#fff';
-            confirmButton.style.backgroundColor = 'rgba(9, 180, 81, 1)';
-            confirmButton.style.marginLeft = '10px';
-
-
-            cancelButton.style.padding = '10px 20px 10px 20px';
-            cancelButton.style.borderRadius = '5px';
-            cancelButton.style.color = '#fff';
-            cancelButton.style.backgroundColor = 'rgba(255, 0, 0, 1)';
-            cancelButton.style.marginRight = '10px';
-        }
-    };
-
-    /*
-    Modal para excluir plano
-    */
     const excluirConta = (index) => {
         console.log(index);
         Swal.fire({
@@ -577,6 +302,17 @@ function Tabela() {
             }
         });
     };
+
+    const [selectedModal, setSelectedModal] = useState(null);
+
+    const openModal = (modalType) => {
+        setSelectedModal(modalType);
+    };
+
+    const closeModal = () => {
+        setSelectedModal(null);
+    };
+
 
     const contasRenderizadas = listaDados.map((conta, index) => (
         <Container
@@ -616,8 +352,8 @@ function Tabela() {
                             </span>
                         </div>
 
-                        <div className="Plano" >
-                            <div className="cardPlano" onClick={showSweetAlert}>
+                        <div className="Plano" >      
+                            <div className="cardPlano" onClick={() => openModal('criar')}>
                                 <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                                     <path d="M6 7.28767V3.71228" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -627,6 +363,7 @@ function Tabela() {
                             </div>
                         </div>
                     </MesPlano>
+                    {selectedModal === 'criar' && <ModalCriar onClose={closeModal} />}
 
                     <Lista>
                         <div className="conteudo-lista">

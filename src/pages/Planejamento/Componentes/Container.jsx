@@ -2,11 +2,13 @@ import styled from "styled-components";
 import React, { useState, useEffect } from 'react';
 import { Icon } from "../../visaoGeral/funcoes/icons";
 import Tabela from "./Tabela"
+import ModalEditar from "./ModalEditar";
+import Modal from "../../../components/Modal2";
 
 
 
 
-const createContainer = ({ id, categoria, valor, data, progresso, excluirConta,sweetEditar }) => {
+const createContainer = ({ id, categoria, valor, data, progresso, excluirConta }) => {
     const [containerIds, setContainerIds] = useState([]);
     progresso = ((parseFloat(data.replace('R$', '').replace(',', '.')) / parseFloat(valor.replace('R$', '').replace(',', '.'))) * 100).toFixed(2) + "%";
 
@@ -40,6 +42,16 @@ const createContainer = ({ id, categoria, valor, data, progresso, excluirConta,s
 
     };
 
+    const [selectedModal, setSelectedModal] = useState(null);
+
+    const openModal = (modalType) => {
+        setSelectedModal(modalType);
+    };
+
+    const closeModal = () => {
+        setSelectedModal(null);
+    };
+
 
     return (
         <>
@@ -58,8 +70,9 @@ const createContainer = ({ id, categoria, valor, data, progresso, excluirConta,s
             {progresso}
         </span>
         <span className="acoes-lista">
-        <img src={Icon('editar1Icon')} alt="Editar" onClick={() => sweetEditar({ categoria, valor, data, progresso })} />
-            <img src={Icon('botaoApagarIcon')} onClick={() => excluirConta('someContainerId')}/>
+        <img src={Icon('editar1Icon')} alt="Editar" onClick={() => openModal('editar')} />
+          <img src={Icon('botaoApagarIcon')} onClick={() => excluirConta('someContainerId')} />
+          {selectedModal === 'editar' && <ModalEditar onClose={closeModal} />}
         </span>
         </div> 
     </>

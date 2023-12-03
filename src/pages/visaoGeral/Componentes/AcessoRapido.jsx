@@ -66,12 +66,13 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     padding:3%;
     width:70vw;
     height:100%;
-    font-size:11px;
+    font-size:13px;
     cursor:pointer;
+    font-weight:500;
 }
 
 .box img{
-    width:40%;
+    width:30%;
     margin: 8px 0;
 }
 
