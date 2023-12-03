@@ -19,8 +19,8 @@ const ModalContent = styled.div`
   padding: 50px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  width:40em;
-  height: 550px;
+  width:40em  !important;
+  height: 550px  !important;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -58,7 +58,8 @@ color:#08632D;
 height:25%;
 width:100%;
 
-span{
+span img{
+    width:100%  !important;
 }
 
 div{

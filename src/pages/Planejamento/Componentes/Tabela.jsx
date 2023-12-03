@@ -73,8 +73,14 @@ padding: 0 0 1px 0;
 }
 
 .Mes svg{
+    display:flex;
     cursor:pointer;
     width:70%;
+}
+
+#svg2{
+    display:flex;
+    justify-content:flex-end;
 }
 
 `
@@ -160,7 +166,7 @@ height:85%;
     height:17%;
     justify-content:center;
     align-items:center;
-    font-size:12px;
+    // font-size:12px;
     border-bottom: solid 1px #D4D4D4;
     flex-shrink: 0;
 
@@ -184,6 +190,7 @@ height:85%;
     // justify-content:center;
     align-items:center;
     padding:0 0 0 2%;
+    font-size:12px;
 }
 .container-lista .data-lista{
     width:20%;
@@ -191,6 +198,7 @@ height:85%;
     // justify-content:center;
     align-items:center;
     padding:0 0 0 1%;
+    font-size:12px;
 
 }
 
@@ -201,6 +209,7 @@ height:85%;
     align-items:center;
     color:#08632D;
     font-weight:700;
+    font-size:12px;
 }
 .container-lista .acoes-lista{
     width:15%;
@@ -249,7 +258,7 @@ function Tabela() {
     ]);
 
 
-
+    const [selectedItem, setSelectedItem] = useState(null);
     const [editingPlan, setEditingPlan] = useState(null);
 
     const changeMonth = (increment) => {
@@ -279,13 +288,13 @@ function Tabela() {
     const excluirConta = (index) => {
         console.log(index);
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Voce tem certeza?",
+            text: "Você não vai poder reverter isso!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Sim, delete isso!"
         }).then((result) => {
             if (result.isConfirmed) {
                 setListaDados((prevLista) => {
@@ -295,8 +304,8 @@ function Tabela() {
                 });
 
                 Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    title: "Deletado!",
+                    text: "Seu planejamento foi deletado.",
                     icon: "success"
                 });
             }
@@ -305,7 +314,8 @@ function Tabela() {
 
     const [selectedModal, setSelectedModal] = useState(null);
 
-    const openModal = (modalType) => {
+    const openModal = (modalType, selectedItem) => {
+        setSelectedItem(selectedItem);
         setSelectedModal(modalType);
     };
 
@@ -316,15 +326,15 @@ function Tabela() {
 
     const contasRenderizadas = listaDados.map((conta, index) => (
         <Container
-            key={index}
-            id={`someContainerId${index}`}
-            categoria={conta.categoria}
-            valor={conta.valor}
-            data={conta.data}
-            progresso={conta.progresso}
-            excluirConta={() => excluirConta(index)}
-            sweetEditar={() => sweetEditar(index)}
-        />
+        key={index}
+        id={`someContainerId${index}`}
+        categoria={conta.categoria}
+        valor={conta.valor}
+        data={conta.data}
+        progresso={conta.progresso}
+        excluirConta={() => excluirConta(index)}
+        sweetEditar={() => openModal('editar', conta)}
+    />
     ));
 
 
@@ -344,7 +354,7 @@ function Tabela() {
                             </span>
                             <p id="textoMes">{currentMonth}</p>
 
-                            <span onClick={() => changeMonth(1)}>
+                            <span onClick={() => changeMonth(1)} id="svg2">
                                 <svg width="59" height="23" viewBox="0 0 59 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M47.712 20.5625L56.9932 11.2813L47.712 2" stroke="#08632D" strokeWidth="3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                                     <path d="M2 11.2813L56.7334 11.2812" stroke="#08632D" strokeWidth="3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />

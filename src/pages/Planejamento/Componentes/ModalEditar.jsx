@@ -1,6 +1,7 @@
 import Modal from "../../../components/Modal2";
 import styled from "styled-components";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+
 
 
 const LocalConteudo = styled.div`
@@ -82,16 +83,19 @@ width:100%;
 function ModalEditar(props) {
     // const contas = props.contas;
     const [selectedBanco, setContaSelecionada] = useState(null);
-    const [saldo, setSaldo] = useState("");
-    const [total, setTotal] = useState("");
-    const [selectedCategoria, setCategoria] = useState(null);
+    const [saldo, setSaldo] = useState(props.selectedItem ? props.selectedItem.valor : "");
+    const [total, setTotal] = useState(props.selectedItem ? props.selectedItem.data : "");
+    const [selectedCategoria, setCategoria] = useState(props.selectedItem ? props.selectedItem.categoria : null);
+    
 
 
   
     const handleValorChange = (e) => {
-      const valorDigitado = e.target.value.replace(/\D/g, "");
-      formatarValorNoInput(valorDigitado);
+        const valorDigitado = e.target.value.replace(/\D/g, "");
+        formatarValorNoInput(valorDigitado);
+        setSaldo(e.target.value);
     };
+    
   
     const formatarValorNoInput = (valor) => {
       const valorFormatado = formatarMoeda(valor);
@@ -108,8 +112,9 @@ function ModalEditar(props) {
     };
 
     const handleValorChange2 = (e) => {
-      const valorDigitado = e.target.value.replace(/\D/g, "");
-      formatarValorNoInput2(valorDigitado);
+        const valorDigitado = e.target.value.replace(/\D/g, "");
+        formatarValorNoInput2(valorDigitado);
+        setTotal(e.target.value);
     };
   
     const formatarValorNoInput2 = (total) => {
@@ -143,8 +148,17 @@ function ModalEditar(props) {
         props.onClose();
     };
 
+    useEffect(() => {
+        if (props.selectedItem) {
+            // Defina os valores iniciais com base no item selecionado
+            setCategoria(props.selectedItem.categoria);
+            setSaldo(props.selectedItem.valor);
+            setTotal(props.selectedItem.data);
+        }
+    }, [props.selectedItem]);
+
     return (
-        <Modal title="Adicionar Planejamento" cancelar={props.onClose} salvar={props.handleSalvar}>
+        <Modal title="Editar Planejamento" cancelar={props.onClose} salvar={props.handleSalvar}>
             <LocalConteudo>
                 <LocalElementos>
 

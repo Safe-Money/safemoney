@@ -16,7 +16,7 @@ const LocalElementos = styled.div`
 display:flex;
 align-items:center;
 justify-content:center;
-width:60%;
+width:85%;
 height:30%;
 `
 
