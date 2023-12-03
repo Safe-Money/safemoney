@@ -38,6 +38,19 @@ import cartoesIcon from '../../../assets/cartoesIcon.png';
 import cartoesAtiva from '../../../assets/cartoesAtiva.png';
 import Logo2 from '../../../assets/logo2.png';
 import moneyRecive from '../../../assets/money_recive.svg';
+import lazer from '../../../assets/lazer.svg';
+import gym from '../../../assets/gym.png';
+import pet from '../../../assets/pet.png';
+import saude from '../../../assets/remedio.png';
+import alimentacao from '../../../assets/restaurante.png';
+import vestuario from '../../../assets/vestuario.png';
+import transporte from '../../../assets/transporte.png';
+import economia from '../../../assets/poupanca.png';
+
+
+
+
+
 
 
 const icons = {
@@ -80,9 +93,19 @@ const icons = {
     cartoesIcon,
     cartoesAtiva,
     Logo2,
-    moneyRecive
+    moneyRecive,
+    lazer,
+    gym,
+
+    pet,
+    saude,
+    alimentacao, 
+    vestuario,
+    transporte,
+    economia
 }
 
 export const Icon = (icon) => {
+ 
     return icon ? icons[icon] : null
 }

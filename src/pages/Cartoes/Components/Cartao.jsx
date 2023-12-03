@@ -3,7 +3,17 @@ import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 import styled from "styled-components";
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import api from '../../../API';
+import ModalFatura from "../Components/ModalFatura";
+import poupancaImg from '../../../assets/poupanca.png';
+import saudeImg from '../../../assets/medico.png';
+import vesteImg from '../../../assets/vestuario.png';
+import petImg from '../../../assets/pet.png';
+import alimentacaoImg from '../../../assets/restaurante.png';
+import carroImg from '../../../assets/transporte.png';
+import gymImg from '../../../assets/gym.png';
+import viagemImg from '../../../assets/viagem.png';
+
 
 const Container = styled.div`
   position: relative;
@@ -96,6 +106,13 @@ const Content = styled.div`
     align-items: center;
   }
 
+  .botaoSuperiorDireito.disabled {
+    opacity: 0.5; /* Opacidade reduzida */
+    /* Ou ajuste a cor do texto para torná-lo mais claro */
+    /* color: #999; */
+  }
+  
+
   svg {
     margin-right: 5px;
   }
@@ -165,8 +182,8 @@ const CardGeralCard = styled.div`
 `;
 
 
-const CardContainer = styled.div`
- 
+const CardContainer = styled.div` 
+cursor: pointer;
   margin-left: auto;
   display: flex;
   flex-direction: column;
@@ -178,6 +195,9 @@ const CardContainer = styled.div`
   background-color: #fff;
   margin-bottom:-10px;
   margin-right:3px;
+
+
+
 `;
 const CardInfo = styled.div`
   display: flex;
@@ -185,7 +205,9 @@ const CardInfo = styled.div`
 `;
 
 const CardTitle = styled.span`
+  position: absolute;
   font-family: Montserrat;
+  left: 79px;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -195,7 +217,7 @@ const CardTitle = styled.span`
 const CardSub = styled.span`
   position: relative;
   top: 20px;
-  right: 134px;
+  right: 17px;
   font-family: Montserrat;
   font-size: 12px;
   font-style: normal;
@@ -226,9 +248,7 @@ const CardDetail = styled.span`
     margin: 0; 
   }
 
-  &:nth-child(2) {
-    margin-left: 10px;  
-  }
+ 
 `;
 
 const CardFatura = styled(CardDetail)`
@@ -251,6 +271,11 @@ const CardDates = styled.div`
   .negri{
     font-weight:900;
   }
+
+  .fechamento{
+    margin-left:32px;
+  }
+  
 `;
 
 const ProgressBar = styled.div`
@@ -288,6 +313,8 @@ const CardButton = styled.button`
   svg{
     margin-right:5px;
   }
+
+  button
 `;
 
 
@@ -356,7 +383,6 @@ const TableContainer = styled.div`
   }
 `;
 
-
 const Wrapper = styled.div`
   display: flex;
   position: relative;
@@ -365,6 +391,7 @@ const Wrapper = styled.div`
     flex-direction: column;
   }
 `;
+
 const TituloContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -372,8 +399,7 @@ const TituloContainer = styled.div`
 
 `;
 
-const TituloCardCategoria = styled.h2`
-  
+const TituloCardCategoria = styled.h2`  
   top: 0; 
   color: #000;
   font-family: Montserrat;
@@ -390,6 +416,7 @@ const TituloCardCategoria = styled.h2`
   button{
     background:transparent;
     border:none;
+    cursor: pointer; 
   }
  
   .setaL {
@@ -406,10 +433,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom:20px;
-
-
-  
+  margin-bottom:20px;  
 `;
 
 const Table = styled.table`
@@ -463,86 +487,117 @@ const TableCell = styled.td`
   padding: 10px;
 `;
 
-
-
-function CartoesGeral() {
+const CartoesGeral = () => {
   const [cartoes, setCartoes] = useState([]);
   const [progressos, setProgressos] = useState([]);
   const [dadosTabela, setDadosTabela] = useState([]);
-
-
-  const fetchData = async () => {
-    try {
-      console.log('Chamando fetchCartoes...');
-      await fetchCartoes();
-
-      console.log('Chamando endpoint dadostabela...');
-      const responseTabela = await axios.get('http://localhost:3001/dadostabela');
-      const dataTabela = responseTabela.data;
-      console.log('Dados do endpoint dadostabela:', dataTabela);
-
-
-      setDadosTabela(dataTabela);
-    } catch (error) {
-      console.error('Erro ao buscar dados da API:', error);
-    }
-  };
-
-
-
-
-
-
-  const fetchCartoes = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/cartoes');
-
-      const data = response.data;
-
-
-      if (Array.isArray(data) && data.length > 0) {
-
-        const primeiroCartao = data[0];
-
-
-        if ('fatura' in primeiroCartao && 'limite' in primeiroCartao) {
-
-          setCartoes(data);
-
-        } else {
-          console.error('Propriedades necessárias não encontradas no objeto da API:', primeiroCartao);
-        }
-      } else {
-        console.error('Formato de resposta da API inválido:', data);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar dados da API:', error);
-    }
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cartaoSelecionado, setCartaoSelecionado] = useState(null);
+  const [mesAtualIndex, setMesAtualIndex] = useState(10);
+  const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState("Nenhuma");
+  const [isBotaoSuperiorHabilitado, setIsBotaoSuperiorHabilitado] = useState(false);
+  const [cartaoClicadoIndex, setCartaoClicadoIndex] = useState(null);
 
   useEffect(() => {
-    const fetchDataAndCartoes = async () => {
-      await fetchCartoes();
-      await fetchData();
-      atualizarProgressos();
-    };
+    setIsBotaoSuperiorHabilitado(cartaoClicadoIndex !== null);
+  }, [cartaoClicadoIndex]);
+  
+  const handleRemoverCartao = () => {
+    if (cartaoSelecionado) {
+      Swal.fire({
+        title: 'Você tem certeza?',
+        text: 'Esta ação não pode ser desfeita!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#D0112B',
+        cancelButtonColor: '#08632D',
+        confirmButtonText: 'Sim, remover!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          api.delete(`/cartao-credito/${cartaoSelecionado}`)
+            .then(response => {
+              console.log('Cartão removido com sucesso:', response.data);
+              setCartoes(prevCartoes => prevCartoes.filter(cartao => cartao.id !== cartaoSelecionado));
+              
+            })
+            .catch(error => {
+              console.error('Erro ao remover cartão:', error);
+            });
+        }
+      });
+    }
+  };
+  
+  useEffect(() => {
+    const userId = sessionStorage.getItem('id');
 
-    fetchDataAndCartoes();
+
+  
+
+    if (userId) {
+      api.get(`/cartao-credito/listar-cartoes/${userId}`)
+        .then(response => {
+          console.log('Resposta da API (Cartões):', response.data);
+          setCartoes(Array.isArray(response.data) ? response.data : []);
+        })
+        .catch(error => {
+          console.error('Erro ao buscar dados da API (Cartões):', error);
+        });
+    } else {
+      console.error('ID do usuário não encontrado na sessionStorage.');
+    }
   }, []);
 
+  useEffect(() => {
+    if (cartaoSelecionado) {
+      api.get(`/cartao-credito/listar-fatura/${cartaoSelecionado}/${mesAtualIndex + 1}`)
+        .then(responseFatura => {
+          console.log('Resposta da API (Fatura):', responseFatura.data);
+          setDadosTabela(Array.isArray(responseFatura.data) ? responseFatura.data : []);
+        })
+        .catch(error => {
+          console.error('Erro ao buscar dados da API (Fatura):', error);
+        });
+    }
+  }, [cartaoSelecionado, mesAtualIndex]);
 
-
-
-  const calcularPorcentagem = (fatura, limite) => {
-    return (fatura / limite) * 100;
+  const handleCartaoClick = (idDoCartao, index) => {
+    setCartaoSelecionado(idDoCartao);
+    setCartaoClicadoIndex(index); 
   };
+  const handleMesChange = (increment) => {
 
-  const atualizarProgressos = () => {
-    const novosProgressos = cartoes.map((cartao) => {
-      return calcularPorcentagem(cartao.fatura, cartao.limite);
+    setMesAtualIndex((prevIndex) => {
+      let newIndex = prevIndex + increment;
+
+
+      if (newIndex < 0) {
+        newIndex = meses.length - 1;
+      } else if (newIndex >= meses.length) {
+        newIndex = 0;
+      }
+
+      return newIndex;
     });
-    setProgressos(novosProgressos);
   };
+
+  const getCardIcon = (bandeira) => {
+    switch (bandeira) {
+      case 'visa':
+        return Icon('visaIcon');
+      case 'master':
+        return Icon('masterIcon');
+      case 'elo':
+        return Icon('eloIcon');
+      case 'bradesco':
+        return Icon('bradescoIcon');
+      default:
+        return Icon('defaultIcon');
+    }
+  };
+
 
 
   return (
@@ -550,14 +605,24 @@ function CartoesGeral() {
       <AllContainers>
         <LateralHeader selecionado="cartoes" />
         <Container>
+
           <Content>
-            <button className="botaoSuperiorDireito" onClick={() => alert("Botão Superior Direito Clicado!")}>
+          <button
+              className={`botaoSuperiorDireito ${isBotaoSuperiorHabilitado ? '' : 'disabled'}`}
+              onClick={() => {
+                if (isBotaoSuperiorHabilitado) {
+                  handleRemoverCartao();  // Chama a função correta aqui
+                }
+              }}
+              disabled={!isBotaoSuperiorHabilitado}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
                 <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M6 7.28755V3.71216" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               Remover cartão
+
             </button>
             <Image src={Icon('cardIcon')} />
             <Text>Cartões</Text>
@@ -567,76 +632,108 @@ function CartoesGeral() {
           <Wrapper>
             <CardGeralCard>
               {cartoes.map((cartao, index) => (
-                <CardContainer key={index}>
+                <CardContainer
+                key={index}
+                onClick={() => handleCartaoClick(cartao.id, index)} 
+                className={index === cartaoClicadoIndex ? 'cartao-selecionado' : ''}
+              >
                   <CardInfo>
-                    <CardLogo src={Icon(cartao.logo)} />
-                    <CardTitle>{cartao.title}</CardTitle>
-                    <CardSub>{cartao.sub}</CardSub>
-                    <CardButton>
+                    <CardLogo src={getCardIcon(cartao.bandeira)} />
+                    <CardTitle>{cartao.nome}</CardTitle>
+                    <CardSub>{cartao.bandeira}</CardSub>
+                    <CardButton onClick={() => setIsModalOpen(true)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
-                        <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M6 7.28755V3.71216" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6 7.28755V3.71216" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M4.65972 9.96924H7.34126C9.57588 9.96924 10.4697 9.07539 10.4697 6.84077V4.15923C10.4697 1.92461 9.57588 1.03076 7.34126 1.03076H4.65972C2.4251 1.03076 1.53125 1.92461 1.53125 4.15923V6.84077C1.53125 9.07539 2.4251 9.96924 4.65972 9.96924Z" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       Adicionar fatura
                     </CardButton>
                   </CardInfo>
                   <CardDetails>
-                    <CardFatura>Fatura R$: {cartao.fatura}</CardFatura>
-                    <CardLimite>Limite R$: {cartao.limite}</CardLimite>
+                    <CardFatura>Fatura R$: {cartao.faturaValor.toFixed(2)}</CardFatura>
+                    <CardLimite>Limite R$: {cartao.limite.toFixed(2)}</CardLimite>
                   </CardDetails>
                   <ProgressBarWrapper>
                     <ProgressBar>
-                      <ProgressFill style={{ width: `${progressos[index] || 0}%` }} />
+                      <ProgressFill style={{ width: `${(cartao.faturaValor / cartao.limite) * 100}%` }} />
                     </ProgressBar>
                   </ProgressBarWrapper>
                   <CardDates>
                     <CardDetail>Vencimento: <span className='negri'>{cartao.vencimento}</span></CardDetail>
-                    <CardDetail>Fechamento: <span className='negri'>{cartao.fechamento}</span></CardDetail>
+                    <CardDetail className='fechamento'>Fechamento: <span className='negri'>{cartao.fechamento}</span></CardDetail>
                   </CardDates>
                 </CardContainer>
               ))}
             </CardGeralCard>
 
             <CardCategoria>
-            <TituloContainer>
-            <TituloCardCategoria>
-  <button className='setaL' onClick={() => alert("Botão Clicado!")}>
-    <img src={Icon('seta22')} alt="Seta" />
-  </button>
-  Fatura - Novembro
-  <button className='setaR'>
-    <img src={Icon('seta33')} alt="Seta" />
-  </button>
-</TituloCardCategoria>
-            </TituloContainer>
-            <TableContainer>
-              <Table>
-                <thead>
-                  <TableRow>
-                  <th>Ícone</th>
-                  <th>Descrição</th>
-                  <th>Valor</th>
-                  <th>Data</th>
-                  </TableRow>
-                </thead>
-                <tbody>
-                  {dadosTabela.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell>
-                        <img src={Icon(item.icone)} alt="Ícone" />
-                      </TableCell>
-                      <td>{item.descricao}</td>
-                      <td>{item.valor}</td>
-                      <td>{item.data}</td>
+              <TituloContainer>
+                <TituloCardCategoria>
+                  <button className='setaL' onClick={() => handleMesChange(-1)}>
+                    <img src={Icon('seta22')} alt="Seta" />
+                  </button>
+                  Fatura - {meses[mesAtualIndex]}
+                  <button className='setaR' onClick={() => handleMesChange(1)}>
+                    <img src={Icon('seta33')} alt="Seta" />
+                  </button>
+                </TituloCardCategoria>
+              </TituloContainer>
+              <TableContainer>
+                <Table>
+                  <thead>
+                    <TableRow>
+                      <th>Ícone</th>
+                      <th>Nome</th>
+                      <th>Valor</th>
+                      <th>Data</th>
                     </TableRow>
-                  ))}
-                </tbody>
-              </Table>
-            </TableContainer>
-          </CardCategoria>
+                  </thead>
+                  <tbody>
+                    {dadosTabela.map((item, index) => {
+
+                      return (
+                        <TableRow key={index}>
+                          <TableCell>
+                            {item.categoria.nome === 'Economia' && (
+                              <img src={poupancaImg} alt="Economia" />
+                            )}
+                            {item.categoria.nome === 'Transporte' && (
+                              <img src={carroImg} alt='Transporte' />
+                            )}
+                            {item.categoria.nome === 'Vestuario' && (
+                              <img src={vesteImg} alt='Vestuario' />
+                            )}
+                             {item.categoria.nome === 'Alimentação' && (
+                              <img src={alimentacaoImg} alt='Alimento' />
+                            )}
+                             {item.categoria.nome === 'Saúde' && (
+                              <img src={saudeImg} alt='Saúde' />
+                            )} 
+                            {item.categoria.nome === 'Gym' && (
+                              <img src={gymImg} alt='Gym' />
+                            )}
+                             {item.categoria.nome === 'Pet' && (
+                              <img src={petImg} alt='PEt' />
+                            )}
+
+
+                            
+                          </TableCell>
+                          <td>{item.nome}</td>
+                          <td>R$ {item.valor}</td>
+                          <td>{item.data}</td>
+                        </TableRow>
+                      );
+                    })}
+
+                  </tbody>
+                </Table>
+              </TableContainer>
+            </CardCategoria>
+            {isModalOpen && <ModalFatura onClose={() => setIsModalOpen(false)} />}
           </Wrapper>
-   
+
 
         </Container>
       </AllContainers>

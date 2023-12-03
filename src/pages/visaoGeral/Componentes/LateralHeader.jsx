@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "../funcoes/icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from '../../../API';
 
 const Header = styled.div`
 width: 165px;
@@ -167,6 +168,21 @@ img{
 function LateralHeader(props) {
     const [selecionado, setSelecionado] = useState(props.selecionado);
     const navigate = useNavigate();
+    const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        const id = sessionStorage.getItem("id");
+        if (id) {
+            api.get(`/usuarios/${id}`)
+                .then(response => {
+                    const userData = response.data;
+                    setUserData(userData);
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do usuário:', error);
+                });
+        }
+    }, []);
 
     const handleClick = (selecionado) => {
         setSelecionado(selecionado);
@@ -185,9 +201,7 @@ function LateralHeader(props) {
                     <div className="bem-vindo">
                         Olá,
                     </div>
-                    <div className="nome">
-                        {sessionStorage.getItem("nome")}
-                    </div>
+                    < div className = "nome" > { userData.nome } </div>
 
                 </PerfilNome>
                 <NavbarLateral>
@@ -214,7 +228,7 @@ function LateralHeader(props) {
                         }
                     >
                         <div className="selecoes-icone">
-                            {selecionado === "cartoes" ? <img   src={Icon("cartoesAtiva")} /> : <img src={Icon("cartoesIcon")} />}
+                            {selecionado === "cartoes" ? <img src={Icon("cartoesAtiva")} /> : <img src={Icon("cartoesIcon")} />}
                         </div>
 
                         <div className="selecoes-texto">Cartões</div>
@@ -229,14 +243,14 @@ function LateralHeader(props) {
                         }
                     >
                         <div className="selecoes-icone">
-                            {selecionado === "lancamentos" ? <img   src={Icon("lancamentosAtiva")} /> : <img src={Icon("lancamentosIcon")} />}
+                            {selecionado === "lancamentos" ? <img src={Icon("lancamentosAtiva")} /> : <img src={Icon("lancamentosIcon")} />}
                         </div>
 
                         <div className="selecoes-texto">Lançamentos</div>
                     </Selecao>
 
                     <Selecao
-                    
+
                         className={selecionado === "planejamentos" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("planejamentos")
@@ -244,7 +258,7 @@ function LateralHeader(props) {
                         }}
                     >
                         <div className="selecoes-icone">
-                            {selecionado === "planejamentos" ? <img  className="planejamentosAtiva" src={Icon("planejamentosAtiva")} /> : <img src={Icon("planejamentosIcon")} />}
+                            {selecionado === "planejamentos" ? <img className="planejamentosAtiva" src={Icon("planejamentosAtiva")} /> : <img src={Icon("planejamentosIcon")} />}
                         </div>
                         <div className="selecoes-texto">Planejamentos</div>
                     </Selecao>
@@ -262,7 +276,7 @@ function LateralHeader(props) {
                         <div className="selecoes-texto">Objetivos</div>
                     </Selecao>
 
-                   
+
                     <Selecao
                         className={selecionado === "config" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
@@ -275,13 +289,14 @@ function LateralHeader(props) {
                         </div>
                         <div className="selecoes-texto">Configurações</div>
                     </Selecao>
-                    
+
                 </NavbarLateral>
 
 
                 <Sair onClick={() => {
                     sessionStorage.clear()
-                    navigate("/")}}>
+                    navigate("/")
+                }}>
                     <img src={Icon('sairIcon')} />
                     Sair
                 </Sair>
