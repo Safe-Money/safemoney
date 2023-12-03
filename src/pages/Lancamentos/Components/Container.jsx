@@ -1,12 +1,12 @@
 import ReactApexChart from 'react-apexcharts';
-import GraficoLinha from './GraficoLinha'; 
+import GraficoLinha from './GraficoLinha';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 import { ApexChart, ApexAxis, ApexDataLabels, ApexPlotOptions, ApexTitleSubtitle } from 'react-apexcharts';
-
-
+import api from "../../../API";
+import { ca } from 'date-fns/locale';
 
 
 const PieChartContainer = styled.div`
@@ -43,8 +43,6 @@ const DivsChartsContainer = styled.div`
  height:88vh; 
  margin-top: -20px;
 `;
-
-
 
 const SideDiv = styled.div`
   margin-bottom: 20px;
@@ -151,8 +149,6 @@ const SideDiv = styled.div`
 
 `;
 
-
-
 const Content = styled.div`
   margin-top: 3%;
   margin-left: 3%;
@@ -216,7 +212,6 @@ const TableHeader = styled.thead`
   
 `;
 
-
 const TableRow = styled.tr`
   th {
     text-align: center;
@@ -236,7 +231,6 @@ const TableRow = styled.tr`
 
   
 `;
-
 
 const TableFooter = styled.div`
   width: 47%;
@@ -285,7 +279,6 @@ const SelecionarOrdenacao = styled.select`
   
 `;
 
-
 const AllContainers = styled.div`
   display: flex;
   height:100vh;
@@ -325,47 +318,6 @@ const opcoesGraficoPizza = {
   cores: ['#C568F6', '#53246B', '#F81F1F', '#FFA588', '#00F828'],
 };
 
-const GraficoPizzaApex = () => {
-  return (
-    <ApexChart
-      type="pie"
-      options={{
-        labels: opcoesGraficoPizza.labels,
-        colors: opcoesGraficoPizza.cores,
-      }}
-      series={[300, 300, 300, 300, 300]} // Substitua pelos seus dados reais
-    />
-  );
-};
-
-const data2 = [
-  {
-    icon: 'icone1',
-    categoria: 'Lazer',
-    valor: 'R$ 100.00',
-  },
-  {
-    icon: 'icone1',
-    categoria: 'Comida',
-    valor: 'R$ 200.00',
-  },
-  {
-    icon: 'icone1',
-    categoria: 'Comida',
-    valor: 'R$ 2030.00',
-  },
-  {
-    icon: 'icone1',
-    categoria: 'Estudos',
-    valor: 'R$ 200.00',
-  },
-  {
-    icon: 'icone1',
-    categoria: 'Médico',
-    valor: 'R$ 200.00',
-  },
-];
-
 const lineChartData = [
   { data: 'Jan', valor: 100 },
   { data: 'Fev', valor: 10 },
@@ -378,10 +330,11 @@ const lineChartData = [
 const itensPorPagina = 8;
 
 function ContainerGeral() {
+  const idUser = sessionStorage.getItem('id');
+
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('Valor');
   const [dadosTabela, setDadosTabela] = useState([]);
-
 
   const totalItens = dadosTabela.length;
   const totalPaginas = Math.ceil(totalItens / itensPorPagina);
@@ -408,28 +361,67 @@ function ContainerGeral() {
   };
 
   useEffect(() => {
-    fetchData();
+    listar()
   }, []);
-  
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/dadostabela');
-      const data = await response.json();
-      setDadosTabela(data);
-    } catch (error) {
-      console.error('Erro ao buscar dados da API', error);
-    }
-  };
+
+  function listar() {
+    api
+      .get(`transacoes/listar-gastos/${idUser}`)
+      .then((respostaObtida) => {
+        console.log(respostaObtida.data);
+        setDadosTabela(respostaObtida.data);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
 
 
+  const [data2, setData2] = useState([]);
 
-  
+
+  useEffect(() => {
+    listarGraficoPizza();
+  }, []);
+
+  const [categorias, setCategorias] = useState([]);
+  const [valores, setValores] = useState([]);
+
+  function listarGraficoPizza() {
+    api
+      .get(`graficos/gastos-por-categoria/${idUser}`)
+      .then((respostaObtida) => {
+        console.log("TESTEEEE", respostaObtida.data);
+        setData2(respostaObtida.data);
+
+        const categoriasArray = data2.map(item => item.categoria);
+        const valoresArray = data2.map(item => item.valor);
+        
+        setCategorias(categoriasArray);
+        setValores(valoresArray);
+
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+
+
+      // Extrair categorias e valores do JSON
+    
+
+    // Definir os estados com os dados do JSON
+    
+
+    console.log("teste", categorias);
+  }
+
+
   const GraficoPizzaApex = () => {
     return (
       <ReactApexChart
         type="pie"
         options={{
-          labels: opcoesGraficoPizza.labels,
+          labels: categorias,
           colors: opcoesGraficoPizza.cores,
           legend: {
             show: false,
@@ -440,12 +432,12 @@ function ContainerGeral() {
               return opts.w.globals.series[opts.seriesIndex];
             },
             style: {
-              fontSize: '0px', 
+              fontSize: '0px',
               colors: ['white', '#333', '#555', '#777', '#999'],
             },
           },
         }}
-        series={[100, 200, 150, 300, 250]} 
+        series={valores}
         style={{
           position: 'absolute',
           left: 20,
@@ -456,7 +448,7 @@ function ContainerGeral() {
       />
     );
   };
-  
+
 
   const styleCss = {
     position: 'absolute',
@@ -470,103 +462,103 @@ function ContainerGeral() {
   return (
     <AllContainers>
       <LateralHeader selecionado="lancamentos" />
-      
+
       <Container>
         <Content>
-        
+
           <Image src={Icon('maisIcon')} />
           <Text>Lançamentos</Text>
-          
-  <Text className="filtro">
-    <FiltroContainer onClick={() => console.log('Clicou no filtro')}>
-    Ordenar por:{" "}
-    <SelecionarOrdenacao
-  value={opcaoSelecionada}
-  onChange={(e) => setOpcaoSelecionada(e.target.value)}
->
-  <option value="Valor">Valor</option>
-  <option value="Data">Data</option>
-  <option value="Categoria">Categoria</option>
-</SelecionarOrdenacao>
-  </FiltroContainer>
-  </Text>
+
+          <Text className="filtro">
+            <FiltroContainer onClick={() => console.log('Clicou no filtro')}>
+              Ordenar por:{" "}
+              <SelecionarOrdenacao
+                value={opcaoSelecionada}
+                onChange={(e) => setOpcaoSelecionada(e.target.value)}
+              >
+                <option value="Valor">Valor</option>
+                <option value="Data">Data</option>
+                <option value="Categoria">Categoria</option>
+              </SelecionarOrdenacao>
+            </FiltroContainer>
+          </Text>
 
         </Content>
         <MainContent>
-        <TableContainer>
-          
-          <StyledTable id="machineTable">
-            <TableHeader>
-            <TableRow>   
-                <th>Categoria</th>             
-                <th>Valor</th>
-                <th>Data</th>
-                <th className='tdEspacoConta'>Conta</th>
-              </TableRow>
-            </TableHeader>
-            <tbody>
-              {dadosExibidos.map((item, index) => (
-                <TableRow key={index}>
-                  <td class>
-                    <TableIcon src={Icon(item.icone)} alt="Ícone" />
-                  </td>
-                  
-                  <td>{item.valor}</td>
-                  <td >{item.data}</td>
-                  <td className='tdEspacoConta'>{item.descricao}</td>
-                </TableRow>
-              ))}
-            </tbody>
-          </StyledTable>
-         
-        </TableContainer>
-        
-        <DivsChartsContainer>
-        <SideDiv>
-  {/* Cabeçalho */}
-  <div className='cabeçalho'>
-    <Image src={Icon('iconChart1')} />
-    <Text className='textSide'>Gastos por categoria</Text>
-  </div>
-  <PieChartContainer>
-    <GraficoPizzaApex />
-  </PieChartContainer>
-  <table>
-            <thead>
-              <tr>
-                <th colSpan="2" style={{ textAlign: "center" }}>TOP 5 Gastos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data2.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.categoria}</td>
-                  <td className='valor'>{item.valor}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-</SideDiv>
+          <TableContainer>
 
-  <SideDiv>
- 
-    <Image src={Icon('iconChart1')} />
-    <Text className='textSide'>Gastos com cartão de crédito</Text>
- 
-    <GraficoLinha style={styleCss}/>
-    <div className="info">
-            <div className="info-box">
-              <p  className='p'>Limite:<span className='limite'> R$ 300</span></p>
-            </div>
-            <div className="info-box">
-              <p className='p' >Gasto: <span className='gasto'>R$ 300</span></p>
-            </div>
-            <div className="info-box">
-              <p className='p'>Livre: <span className='livre'>R$ 300</span></p>
-            </div>
-          </div>
-  </SideDiv>
-</DivsChartsContainer>
+            <StyledTable id="machineTable">
+              <TableHeader>
+                <TableRow>
+                  <th>Categoria</th>
+                  <th>Valor</th>
+                  <th>Data</th>
+                  <th className='tdEspacoConta'>Conta</th>
+                </TableRow>
+              </TableHeader>
+              <tbody>
+                {dadosExibidos.map((item, index) => (
+                  <TableRow key={index}>
+                    <td class>
+                      <TableIcon src={Icon(item.categoria.nome + "Icon")} alt="Ícone" />
+                    </td>
+
+                    <td>{item.valor}</td>
+                    <td >{item.data}</td>
+                    <td className='tdEspacoConta'>{item.conta != null ? item.conta.banco : item.fatura.fkCartao.nome}</td>
+                  </TableRow>
+                ))}
+              </tbody>
+            </StyledTable>
+
+          </TableContainer>
+
+          <DivsChartsContainer>
+            <SideDiv>
+              {/* Cabeçalho */}
+              <div className='cabeçalho'>
+                <Image src={Icon('iconChart1')} />
+                <Text className='textSide'>Gastos por categoria</Text>
+              </div>
+              <PieChartContainer>
+                <GraficoPizzaApex />
+              </PieChartContainer>
+              <table>
+                <thead>
+                  <tr>
+                    <th colSpan="2" style={{ textAlign: "center" }}>TOP 5 Gastos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data2.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.categoria}</td>
+                      <td className='valor'>{item.valor}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </SideDiv>
+
+            <SideDiv>
+
+              <Image src={Icon('iconChart1')} />
+              <Text className='textSide'>Gastos com cartão de crédito</Text>
+
+              <GraficoLinha style={styleCss} />
+              <div className="info">
+                <div className="info-box">
+                  <p className='p'>Limite:<span className='limite'> R$ 300</span></p>
+                </div>
+                <div className="info-box">
+                  <p className='p' >Gasto: <span className='gasto'>R$ 300</span></p>
+                </div>
+                <div className="info-box">
+                  <p className='p'>Livre: <span className='livre'>R$ 300</span></p>
+                </div>
+              </div>
+            </SideDiv>
+          </DivsChartsContainer>
         </MainContent>
         <TableFooter>
           <BotaoAnterior onClick={irParaPaginaAnterior}>&lt; </BotaoAnterior>
@@ -589,7 +581,7 @@ function ContainerGeral() {
           })}
           <BotaoAnterior onClick={irParaProximaPagina}> &gt;</BotaoAnterior>
         </TableFooter>
-      </Container>     
+      </Container>
     </AllContainers>
   );
 }
