@@ -598,6 +598,10 @@ const CartoesGeral = () => {
     }
   };
 
+  const handleCartaoSelect = (cartao) => {
+    setSelectedCartao(cartao);
+    setCartaoSelecionado(cartao.id);
+  };
 
 
   return (
@@ -611,7 +615,7 @@ const CartoesGeral = () => {
               className={`botaoSuperiorDireito ${isBotaoSuperiorHabilitado ? '' : 'disabled'}`}
               onClick={() => {
                 if (isBotaoSuperiorHabilitado) {
-                  handleRemoverCartao();  // Chama a função correta aqui
+                  handleRemoverCartao();  
                 }
               }}
               disabled={!isBotaoSuperiorHabilitado}
@@ -632,12 +636,13 @@ const CartoesGeral = () => {
           <Wrapper>
             <CardGeralCard>
               {cartoes.map((cartao, index) => (
-                <CardContainer
-                key={index}
-                onClick={() => handleCartaoClick(cartao.id, index)} 
-                className={index === cartaoClicadoIndex ? 'cartao-selecionado' : ''}
-              >
-                  <CardInfo>
+             <CardContainer
+             key={index}
+             onClick={() => handleCartaoClick(cartao.id, index)}
+             onSelectCartao={() => handleCartaoSelect(cartao)}
+             className={index === cartaoClicadoIndex ? 'cartao-selecionado' : ''}
+           >
+               <CardInfo>
                     <CardLogo src={getCardIcon(cartao.bandeira)} />
                     <CardTitle>{cartao.nome}</CardTitle>
                     <CardSub>{cartao.bandeira}</CardSub>

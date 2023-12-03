@@ -81,7 +81,7 @@ const Text = styled.div`
     width: 40vw;
     justify-content: left;
     height: 350px;
-    margin: auto;
+    margin-left:40px;
     margin-top: 6%;
 
     .title {

@@ -17,7 +17,7 @@ import positivoIcon from '../../../assets/positivo 2.svg';
 import transferenciaIcon from '../../../assets/transferencia.svg';
 import notificacaoIcon from '../../../assets/sino-de-notificacao 2.svg';
 import contasIcon from '../../../assets/ContasIcon.svg';
-import lazerIcon from '../../../assets/lazer.svg';
+import lazerIcon from '../../../assets/lazer.png';
 import medicoIcon from '../../../assets/medico.svg';
 import comidaIcon from '../../../assets/comida.svg';
 import visaoDesativa from '../../../assets/visaoDesactive.png'
@@ -38,7 +38,7 @@ import cartoesIcon from '../../../assets/cartoesIcon.png';
 import cartoesAtiva from '../../../assets/cartoesAtiva.png';
 import Logo2 from '../../../assets/logo2.png';
 import moneyRecive from '../../../assets/money_recive.svg';
-import lazer from '../../../assets/lazer.svg';
+import lazer from '../../../assets/lazer.png';
 import gym from '../../../assets/gym.png';
 import pet from '../../../assets/pet.png';
 import saude from '../../../assets/remedio.png';
@@ -106,6 +106,6 @@ const icons = {
 }
 
 export const Icon = (icon) => {
- 
+    console.log('Ícone solicitado:', icon);
     return icon ? icons[icon] : null
 }
