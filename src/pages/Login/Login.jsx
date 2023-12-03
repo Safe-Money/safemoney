@@ -25,11 +25,11 @@ function Login() {
       sessionStorage.setItem('email', response.data.email);
       sessionStorage.setItem('id', response.data.id);
   
-      Swal.fire({
-        icon: 'success',
-        title: 'Login bem-sucedido!',
-        text: 'Você foi autenticado com sucesso.',
-      });
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: 'Login bem-sucedido!',
+      //   text: 'Você foi autenticado com sucesso.',
+      // });
   
       navigate(`/visao-geral/`);
     } catch (error) {

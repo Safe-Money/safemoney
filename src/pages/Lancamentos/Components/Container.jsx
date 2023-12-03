@@ -7,7 +7,7 @@ import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 import { ApexChart, ApexAxis, ApexDataLabels, ApexPlotOptions, ApexTitleSubtitle } from 'react-apexcharts';
 import api from "../../../API";
 import { ca } from 'date-fns/locale';
-
+import GraficoPizzaApex from './GraficoPizza';
 
 const PieChartContainer = styled.div`
   width: 100%;
@@ -313,10 +313,7 @@ const FiltroContainer = styled.div`
 `;
 
 
-const opcoesGraficoPizza = {
-  labels: ['Categoria1', 'Categoria2', 'Categoria3', 'Categoria4', 'Categoria5'],
-  cores: ['#C568F6', '#53246B', '#F81F1F', '#FFA588', '#00F828'],
-};
+
 
 const lineChartData = [
   { data: 'Jan', valor: 100 },
@@ -377,78 +374,37 @@ function ContainerGeral() {
   }
 
 
-  const [data2, setData2] = useState([]);
-
+  const [dataPizza, setDataPizza] = useState([]);
+  const [dataLine, setDataLine] = useState([]);
 
   useEffect(() => {
     listarGraficoPizza();
+    listarDadosGraficoLine()
   }, []);
 
-  const [categorias, setCategorias] = useState([]);
-  const [valores, setValores] = useState([]);
 
   function listarGraficoPizza() {
     api
       .get(`graficos/gastos-por-categoria/${idUser}`)
       .then((respostaObtida) => {
-        console.log("TESTEEEE", respostaObtida.data);
-        setData2(respostaObtida.data);
-
-        const categoriasArray = data2.map(item => item.categoria);
-        const valoresArray = data2.map(item => item.valor);
-        
-        setCategorias(categoriasArray);
-        setValores(valoresArray);
-
+        console.log("Dados do gráfico de pizza: ", respostaObtida.data);
+        setDataPizza(respostaObtida.data);
       })
       .catch((erroOcorrido) => {
         console.log(erroOcorrido);
       });
-
-
-      // Extrair categorias e valores do JSON
-    
-
-    // Definir os estados com os dados do JSON
-    
-
-    console.log("teste", categorias);
   }
 
-
-  const GraficoPizzaApex = () => {
-    return (
-      <ReactApexChart
-        type="pie"
-        options={{
-          labels: categorias,
-          colors: opcoesGraficoPizza.cores,
-          legend: {
-            show: false,
-          },
-          dataLabels: {
-            enabled: true,
-            formatter: function (val, opts) {
-              return opts.w.globals.series[opts.seriesIndex];
-            },
-            style: {
-              fontSize: '0px',
-              colors: ['white', '#333', '#555', '#777', '#999'],
-            },
-          },
-        }}
-        series={valores}
-        style={{
-          position: 'absolute',
-          left: 20,
-          top: 60,
-          width: '50%',
-          height: '50%',
-        }}
-      />
-    );
-  };
-
+  function listarDadosGraficoLine() {
+    api.get(`graficos/grafico-linha-geral/${idUser}`)
+      .then((respostaObtida) => {
+        console.log("Dados do gráfico de linha: ", respostaObtida.data);
+        setDataLine(respostaObtida.data);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
 
   const styleCss = {
     position: 'absolute',
@@ -484,6 +440,7 @@ function ContainerGeral() {
           </Text>
 
         </Content>
+
         <MainContent>
           <TableContainer>
 
@@ -521,7 +478,11 @@ function ContainerGeral() {
                 <Text className='textSide'>Gastos por categoria</Text>
               </div>
               <PieChartContainer>
-                <GraficoPizzaApex />
+
+                {/* Gráfico de Pizza (não é GPT, sou eu msm comentando)*/}
+                <GraficoPizzaApex dados={dataPizza} />
+
+
               </PieChartContainer>
               <table>
                 <thead>
@@ -530,7 +491,7 @@ function ContainerGeral() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data2.map((item, index) => (
+                  {dataPizza.map((item, index) => (
                     <tr key={index}>
                       <td>{item.categoria}</td>
                       <td className='valor'>{item.valor}</td>
@@ -541,25 +502,28 @@ function ContainerGeral() {
             </SideDiv>
 
             <SideDiv>
-
               <Image src={Icon('iconChart1')} />
-              <Text className='textSide'>Gastos com cartão de crédito</Text>
+              <Text className='textSide'>Gastos com débito ao longo do tempo</Text>
 
-              <GraficoLinha style={styleCss} />
+              <GraficoLinha style={styleCss} dados={dataLine} />
+
               <div className="info">
                 <div className="info-box">
-                  <p className='p'>Limite:<span className='limite'> R$ 300</span></p>
+                  <p className='p'>Maior gasto:<span className='limite'> R$ 300</span></p>
                 </div>
                 <div className="info-box">
-                  <p className='p' >Gasto: <span className='gasto'>R$ 300</span></p>
+                  <p className='p' >Menor gasto: <span className='gasto'>R$ 300</span></p>
                 </div>
                 <div className="info-box">
-                  <p className='p'>Livre: <span className='livre'>R$ 300</span></p>
+                  <p className='p'>Variação percentual: <span className='livre'>R$ 300</span></p>
                 </div>
               </div>
             </SideDiv>
+
           </DivsChartsContainer>
+
         </MainContent>
+
         <TableFooter>
           <BotaoAnterior onClick={irParaPaginaAnterior}>&lt; </BotaoAnterior>
           {Array.from({ length: totalPaginas }, (_, index) => {
