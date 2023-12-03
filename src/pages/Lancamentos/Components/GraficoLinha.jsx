@@ -1,15 +1,8 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const GraficoLinha = () => {
-  const lineChartData = [
-    { data: 'Jan', valor: 100 },
-    { data: 'Fev', valor: 10 },
-    { data: 'Mar', valor: 120 },
-    { data: 'Abr', valor: 10 },
-    { data: 'Mai', valor: 200 },
-    { data: 'Jun', valor: 20 },
-  ];
+const GraficoLinha = (props) => {
+  const lineChartData = props.dados;
 
   const options = {
     chart: {
@@ -19,31 +12,22 @@ const GraficoLinha = () => {
     series: [
       {
         name: 'Gastos',
-        data: lineChartData.map((item) => item.valor),
+        data: lineChartData != null ? lineChartData.map((item) => item.valor) : 0,
       },
     ],
     xaxis: {
-      categories: lineChartData.map((item) => item.data),
+      categories: lineChartData != null ? lineChartData.map((item) => item.data) : 0,
       labels: {
-        show: false,
+        show: true,
       },
     },
     stroke: {
       width: 2, // Ajuste o valor conforme necessário para diminuir a espessura da linha
       colors: ['#08632D'],
     },
-  };
+  };  
 
-  const style = {
-    position: 'absolute',
-    padding: '30px 20px 20px 20px',
-    left: 0,
-    top: 10,
-    width: '70%',
-    height: '70%',
-  };
-
-  return <ReactApexChart options={options} series={options.series} type="line" style={style} />;
+  return <ReactApexChart options={options} series={options.series} type="line" style={props.style} />;
 };
 
 export default GraficoLinha;

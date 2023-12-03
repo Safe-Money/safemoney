@@ -5,6 +5,7 @@ import Cartoes from "../../visaoGeral/Componentes/CartaoCredito"
 import CartaoContainer from "../../visaoGeral/Componentes/CartaoContainer";
 import api  from "../../../api";
 import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 
 const ContainerContasAPagar = styled.div`
 display:flex;
@@ -217,14 +218,12 @@ function ContasAPagar() {
         listarCartoes();
     }, []);
 
-    const idUser = sessionStorage.getItem('id');
+    const {id} = useParams();
 
     function listarCartoes() {
         api
-            .get(`/cartao-credito/listar-cartoes-conta/${idUser}`)
+            .get(`/cartao-credito/listar-cartoes-conta/${id}`)
             .then((respostaObtida) => {
-                console.log(respostaObtida);
-                console.log(respostaObtida.status);
                 console.log(respostaObtida.data);
                 setCartoes(respostaObtida.data);
             })

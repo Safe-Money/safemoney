@@ -3,8 +3,10 @@ import styled from "styled-components";
 // import React from 'react';
 // import CanvasJSReact from '@canvasjs/react-charts';
 import WaterfallChart from '@keyvaluesystems/react-waterfall-chart';
-
-
+import React, { useEffect, useState } from 'react';
+import api from "../../../api";
+import GraficoLinha from "../../Lancamentos/Components/GraficoLinha";
+import { useParams } from "react-router-dom";
 
 const ContainerBalanco = styled.div`
 display:flex;
@@ -24,7 +26,6 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
     font-weight: 700;
     height: 10%;
     width: 100%;
-    margin-bottom:5%;
     font-size:15px;
 
   }
@@ -48,17 +49,14 @@ box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
   }
 
   .conteudo{
-    display:flex;
-    flex-direction:column;
-    height:90%;
-    position:relative;
+    display: flex;
+    height: 90%;
+    position: relative;
+  }  
 
+  .conteudo .grafico-container {
+    height: 500px;
   }
-
-  .custom-waterfall-chart text {
-    display: none; /* Oculta os números ao lado das barras */
-  }
-  
   `;
 
 
@@ -99,75 +97,29 @@ const TextoBox = styled.div`
 
 
 function Balanco() {
-  const transactionsList = [
-    {
-      label: "10.1",
-      value: 100
-    },
-    {
-      label: "11.1",
-      value: 90
-    },
-    {
-      label: "12.1",
-      value: -60
-    },
-    {
-      label: "13.1",
-      value: -60
-    },
-    {
-      label: "14.1",
-      value: -60
-    },
-    {
-      label: "15.1",
-      value: 150
-    },
-    {
-      label: "16.1",
-      value: 80
-    },
-    {
-      label: "17.1",
-      value: -80
-    },
-    {
-      label: "18.1",
-      value: -80
-    },
-    {
-      label: "19.1",
-      value: -80
-    },
-    {
-      label: "20.1",
-      value: 50
-    },
-    {
-      label: "21.1",
-      value: -50
-    },
-    {
-      label: "22.1",
-      value: 100
-    }
-  ];
+  const {id} = useParams();
+  
+  const [dados, setDados] = useState([]);
 
-  const customStyles = {
-    summaryBar: {
-      fill: '#4CAF50', // Cor da barra de resumo
-    },
-    positiveBar: {
-      width: '25px', // Cor das barras de valores positivos
-    },
-    negativeBar: {
-      fill: '#F44336',
-      width: '25px', // Cor das barras de valores negativos
-    },
-    text: {
-      display: 'none', // Oculta os números ao lado das barras
-    },
+    useEffect(() => {
+        listarDadosGraficoLine();
+    }, []);
+
+    function listarDadosGraficoLine() {
+        api.get(`graficos/grafico-linha-conta/${id}`)
+            .then((respostaObtida) => {
+                console.log("TESTE: ", respostaObtida.data);
+                setDados(respostaObtida.data);
+            })
+            .catch((erroOcorrido) => {
+                console.log(erroOcorrido);
+            });
+    }
+
+
+  const styleCss = {
+    width: '450px',
+    bottom: 45
   };
 
   return (
@@ -184,21 +136,16 @@ function Balanco() {
         </div>
         <div className="conteudo">
           <div className="grafico-container">
-            <WaterfallChart
-              transactions={transactionsList}
-              showYAxisScaleLines={false}
-              styles={customStyles}
-              className="custom-waterfall-chart" // Passa os estilos personalizados como propriedade
+            <GraficoLinha style={styleCss}
+              dados={dados}
             />
           </div>
-          <TextoBox>Receita: R$ 2.000,00
-          </TextoBox>
+          <TextoBox>Receita: R$ 2.000,00</TextoBox>
         </div>
       </ContainerBalanco>
     </>
   );
 }
-
 
 
 export default Balanco;

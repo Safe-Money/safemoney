@@ -16,8 +16,6 @@ function formatarValorMoeda(valor) {
 
 
 const CartaoContainer = (props) => {
-
-  console.log('Props no CartaoContainer:', props.nome, props.origem, props.valor, props.bandeira, props.vencimento);
   const origemCartao = props.origem;
 
   const origemAbreviada = origemCartao.slice(0, 4).charAt(0).toUpperCase() + origemCartao.slice(1, 4);

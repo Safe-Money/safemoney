@@ -458,7 +458,14 @@ function ContainerGeral() {
   };
   
 
-
+  const styleCss = {
+    position: 'absolute',
+    padding: '30px 20px 20px 20px',
+    left: 0,
+    top: 10,
+    width: '70%',
+    height: '70%',
+  };
 
   return (
     <AllContainers>
@@ -546,7 +553,7 @@ function ContainerGeral() {
     <Image src={Icon('iconChart1')} />
     <Text className='textSide'>Gastos com cartão de crédito</Text>
  
-    <GraficoLinha />
+    <GraficoLinha style={styleCss}/>
     <div className="info">
             <div className="info-box">
               <p  className='p'>Limite:<span className='limite'> R$ 300</span></p>

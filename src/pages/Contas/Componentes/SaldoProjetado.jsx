@@ -3,6 +3,7 @@ import { Icon } from "../../visaoGeral/funcoes/icons";
 import LancamentoFixoContainer from "./LancamentoFixoContainer";
 import React, { useEffect, useState } from 'react';
 import api from "../../../api";
+import { useParams } from "react-router-dom";
 
 const ContainerSaldoProjetado = styled.div`
 display:flex;
@@ -150,7 +151,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 function SaldoProjetado() {
-  const idUser = sessionStorage.getItem('id');
+  const {id} = useParams();
 
   const [lanFixos, setLanFixos] = useState([]);
 
@@ -160,10 +161,8 @@ function SaldoProjetado() {
 
   function listarLanFixos() {
     api
-      .get(`lancamento-fixo/buscar-fixos/${idUser}`)
+      .get(`lancamento-fixo/buscar-fixos/${id}`)
       .then((respostaObtida) => {
-        console.log(respostaObtida);
-        console.log(respostaObtida.status);
         console.log(respostaObtida.data);
         setLanFixos(respostaObtida.data);
       })

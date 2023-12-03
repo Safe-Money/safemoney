@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 import api from "../../../api";
 import ModalEditar from "./ModalEditar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ContainerConta = styled.div`
 display:flex;
@@ -114,11 +114,12 @@ cursor:pointer;
 
 function Conta(props) {
     const contaAtual = props.conta
+
+
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const navigate = useNavigate();
     const excluirConta = () => {
-
         Swal.fire({
             title: "Você tem certeza?",
             text: "Você não poderá recuperar essa conta!",
@@ -169,6 +170,7 @@ function Conta(props) {
         setIsModalOpen(false);
     };
 
+
     const nomeIcone = `${contaAtual.banco}Icon`;
 
     return (
@@ -206,11 +208,11 @@ function Conta(props) {
                 </TextoNumero>
                 <TextoNumero>
                     <span className="texto">Despesas</span>
-                    <span className="numeros">R$ 10.000,00</span>
+                    <span className="numeros">{props.info.despesa}</span>
                 </TextoNumero>
                 <TextoNumero>
                     <span className="texto">Receita</span>
-                    <span className="numeros">R$ 10.000,00</span>
+                    <span className="numeros">{props.info.receita}</span>
                 </TextoNumero>
             </Conteudo>
 

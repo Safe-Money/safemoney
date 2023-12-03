@@ -68,6 +68,24 @@ function Contas() {
         )
     }, []);
 
+
+    const [dados, setDados] = useState([]);
+
+    useEffect(() => {
+        listarInfoConta();
+    }, []);
+
+    function listarInfoConta() {
+        api.get(`contas/info-conta/${id}`)
+            .then((respostaObtida) => {
+                console.log(respostaObtida.data);
+                setDados(respostaObtida.data);
+            })
+            .catch((erroOcorrido) => {
+                console.log(erroOcorrido);
+            });
+    }
+
     return (
 
         <AllContainers>
@@ -75,7 +93,7 @@ function Contas() {
 
             <Social>
                 <div className="bloco1">
-                    <Conta conta={conta} saldo={saldoConta}/>
+                    <Conta conta={conta} saldo={saldoConta} info={dados}/>
                 </div>
                 <div className="bloco2">
                     <UltimosGastos />
