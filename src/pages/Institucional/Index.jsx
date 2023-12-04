@@ -73,6 +73,10 @@ const Bottoms = styled.div`
     justify-content: space-between;
     width: 60%;
     margin-left: 3%;
+
+
+   
+
 `
 
 const Text = styled.div`
@@ -160,11 +164,11 @@ function Index() {
                         </div>
 
                         <Bottoms className="scroll-reveal-element" >
-                            <Button bg='#08632D' color='white'className="scroll-reveal-element" onClick={() => navigate("/cadastro")} >
+                            <Button bg='#08632D' color='white'className="scroll-reveal-element"   onClick={() => navigate("/cadastro")} >
                                 Cadastre-se
                             </Button>
 
-                            <Button bg='white' color='#08632D' borda="#08632D"className="scroll-reveal-element" >
+                            <Button bg='white' color='#08632D' borda="#08632D"className="scroll-reveal-element" style={{ marginLeft: '10px' }} >
                                 Saiba mais
                             </Button>
                         </Bottoms>
