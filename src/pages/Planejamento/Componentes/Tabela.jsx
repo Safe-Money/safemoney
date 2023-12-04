@@ -5,7 +5,8 @@ import Swal from 'sweetalert2';
 import Container from "./Container";
 import ModalEditar from "./ModalEditar";
 import ModalCriar from "./ModalCriar";
-
+import { useEffect } from "react";
+import api from "../../../api";
 const LocalTabela = styled.div`
 display:flex;
 width:100%;
@@ -246,20 +247,10 @@ height:85%;
 
 function Tabela() {
     const months = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
-
     const [currentMonth, setCurrentMonth] = useState("AGOSTO");
-    const [listaDados, setListaDados] = useState([
-        { id: 1, categoria: "lazer", valor: "R$300,00", data: "R$50,00" },
-        { id: 2, categoria: "comida", valor: "R$150,00", data: "R$75,00" },
-        { id: 3, categoria: "medico", valor: "R$200,00", data: "R$100,00" },
-        { id: 4, categoria: "medico", valor: "R$200,00", data: "R$100,00" },
-        { id: 5, categoria: "medico", valor: "R$200,00", data: "R$100,00" },
-        { id: 6, categoria: "medico", valor: "R$200,00", data: "R$100,00" },
-    ]);
-
+    const [listaDados, setListaDados] = useState([]);
 
     const [selectedItem, setSelectedItem] = useState(null);
-    const [editingPlan, setEditingPlan] = useState(null);
 
     const changeMonth = (increment) => {
         const currentIndex = months.indexOf(currentMonth);
@@ -267,57 +258,39 @@ function Tabela() {
         setCurrentMonth(months[newIndex]);
     };
 
-    const adicionarConta = (categoria, valor, data) => {
-        const progresso = ((data / valor) * 100).toFixed(2) + "%";
-
-        const novaConta = {
-            id: Date.now(),
-            categoria,
-            valor: `R$${valor.toFixed(2)}`, // Format the value as currency
-            data: `R$${data.toFixed(2)}`,
-            progresso: 0,
-        };
-        setListaDados([...listaDados, novaConta]);
-    };
-
-
-
-    const iconHtml = `<img src="${Icon('logo')}" style="width:110px" />`;
-
-
-    const excluirConta = (index) => {
-        console.log(index);
+    const excluirConta = (id) => {
         Swal.fire({
-            title: "Você tem certeza?",
-            text: "Você não vai poder reverter isso!",
-            icon: "warning",
+            title: 'Você tem certeza?',
+            text: "Você não poderá reverter isso!",
+            icon: 'warning',
             showCancelButton: true,
-            cancelButtonText: "Cancelar",
-            cancelButtonColor: "#D0112B",
-            confirmButtonText: "Sim, deletar!",
-            confirmButtonColor: "#08632D",
-            reverseButtons: true,
+            confirmButtonColor: '#08632D',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim!',
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Código para deletar a conta aqui
-                setListaDados((prevLista) => {
-                    const novaLista = [...prevLista];
-                    novaLista.splice(index, 1);
-                    return novaLista;
+                api.delete(`/planejamento/${id}`).then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Conta excluída com sucesso!',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                    
+                }).catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Erro ao excluir conta!',
+                    });
+                    console.log(error);
                 });
-    
-                Swal.fire({
-                    title: "Deletado!",
-                    text: "Seu planejamento foi deletado.",
-                    icon: "success"
-                });
-            }
-        });
-    };
-    
-
-  
-    
+            }})
+    };  
 
     const [selectedModal, setSelectedModal] = useState(null);
 
@@ -330,19 +303,38 @@ function Tabela() {
         setSelectedModal(null);
     };
 
+    function removerAcentos(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
 
-    const contasRenderizadas = listaDados.map((conta, index) => (
+
+    const contasRenderizadas = listaDados.length > 0 ? listaDados.map((conta, index) => (
         <Container
         key={index}
         id={`someContainerId${index}`}
-        categoria={conta.categoria}
-        valor={conta.valor}
-        data={conta.data}
+        categoria={removerAcentos(conta.categoria.nome).toLowerCase()}
+        valor={"R$" + conta.valorPlanejado.toFixed(2)}
+        data={conta.data.split("-").reverse().join("/")}
         progresso={conta.progresso}
-        excluirConta={() => excluirConta(index)}
-        sweetEditar={() => openModal('editar', conta)}
+        excluirConta={() => excluirConta(conta.id)}
+        sweetEditar={() => openModal('editar', conta) }
     />
-    ));
+    )) : null;
+
+    useEffect(() => {
+        const procurar = async () => {
+            await api.get("/planejamento/").then((response) => {
+                setListaDados(response.data);
+                console.log(response.data);
+            }).catch((error) => {
+                console.log("Erro ao buscar planejamentos")
+                console.log(error);
+            }
+            );
+        };
+
+        procurar();
+    }, [])
 
 
     return (
@@ -381,9 +373,11 @@ function Tabela() {
                         </div>
                     </MesPlano>
                     {selectedModal === 'criar' && <ModalCriar onClose={closeModal} />}
+                    {selectedModal === 'editar' && <ModalEditar onClose={closeModal} planejamento={selectedItem} />}
 
                     <Lista>
-                        <div className="conteudo-lista">
+                        {listaDados.length > 0 ? (
+                            <div className="conteudo-lista">
                             <div className="titulos-categoria">
                                 <div className="categoria">
                                     Categoria
@@ -393,7 +387,7 @@ function Tabela() {
                                     Valor Planejado
                                 </div>
                                 <div className="data">
-                                    Total Gasto
+                                    Data Final
                                 </div>
                                 <div className="conta">
                                     Progresso
@@ -406,15 +400,10 @@ function Tabela() {
                             </div>
                             <div className="container-lista-scroll">
                                 {contasRenderizadas}
-                                {/* {<Container categoria="lazer" valor="R$100,00" data="R$50,00" progresso="50%" excluirConta={() => excluirConta(Date.now())} />}
-                                {<Container categoria="comida" valor="R$150,00" data="R$75,00" progresso="60%" excluirConta={() => excluirConta(Date.now())} />}
-                                {<Container categoria="medico" valor="R$200,00" data="R$100,00" progresso="70%" excluirConta={() => excluirConta(Date.now())} />}
-                                {<Container categoria="medico" valor="R$200,00" data="R$100,00" progresso="70%" excluirConta={() => excluirConta(Date.now())} />}
-                                {<Container categoria="medico" valor="R$200,00" data="R$100,00" progresso="70%" excluirConta={() => excluirConta(Date.now())} />}
-                                {<Container categoria="medico" valor="R$200,00" data="R$100,00" progresso="70%" excluirConta={() => excluirConta(Date.now())} />} */}
                             </div>
 
                         </div>
+                        ): (<p>Nenhum plano cadastrado</p>)}
                     </Lista>
 
                 </TabelaMensal>

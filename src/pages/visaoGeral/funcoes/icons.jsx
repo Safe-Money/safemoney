@@ -99,6 +99,5 @@ const icons = {
 }
 
 export const Icon = (icon) => {
-    console.log('Ícone solicitado:', icon);
     return icon ? icons[icon] : null
 }

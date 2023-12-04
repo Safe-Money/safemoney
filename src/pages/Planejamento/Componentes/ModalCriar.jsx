@@ -1,6 +1,8 @@
-import Modal from "../../../components/Modal2";
+import Modal from "../../../components/Modal";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import api from "../../../api";
 
 
 const LocalConteudo = styled.div`
@@ -90,128 +92,147 @@ width:70%;
 `;
 
 function ModalCriar(props) {
-    // const contas = props.contas;
-    const [selectedBanco, setContaSelecionada] = useState(null);
-    const [saldo, setSaldo] = useState("");
-    const [total, setTotal] = useState("");
-    const [selectedCategoria, setCategoria] = useState(null);
+  const [categorias, setCategorias] = useState([]);
+  const [selectedBanco, setContaSelecionada] = useState(null);
+  const [saldo, setSaldo] = useState("");
+  const [data, setData] = useState("");
+  const [selectedCategoria, setCategoria] = useState(null);
+  const idUser = sessionStorage.getItem("id");
 
 
-  
-    const handleValorChange = (e) => {
-      const valorDigitado = e.target.value.replace(/\D/g, "");
-      formatarValorNoInput(valorDigitado);
+  const handleValorChange = (e) => {
+    const valorDigitado = e.target.value.replace(/\D/g, '');
+    formatarValorNoInput(valorDigitado);
+  };
+
+  const formatarValorNoInput = (valor) => {
+    const valorFormatado = formatarMoeda(valor);
+    if (isNaN(valorFormatado)) return "";
+
+    setSaldo(valorFormatado);
+  };
+
+  const formatarMoeda = (saldo) => {
+    const valorNumerico = parseFloat(saldo) / 100;
+    return valorNumerico.toFixed(2);
+  };
+
+
+  const handleSalvar = async () => {
+
+    console.log("Saldo: ", saldo)
+    console.log("Data: ", data)
+    console.log("Categoria: ", selectedCategoria)
+    console.log("Usuario: ", idUser)
+
+    await api.post(`/planejamento/`, {
+      valorPlanejado: saldo,
+      data: data,
+      categoria: {
+        id: selectedCategoria,
+      },
+      usuario: {
+        id: idUser,
+      
+      },
+    }).then((response) => {
+      props.onClose()
+      console.log(response.data)
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Sucesso!',
+        text: 'Planejamento criado com sucesso!',
+      }).then(() => {
+        window.location.reload();
+      })
+    }).catch((error) => {
+      props.onClose()
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro!',
+        text: 'Erro ao criar planejamento!',
+      })
+    })
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/categoria/");
+        setCategorias(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar categorias:", error);
+      }
+
+      console.log(categorias);
     };
   
-    const formatarValorNoInput = (valor) => {
-      const valorFormatado = formatarMoeda(valor);
-      setSaldo(valorFormatado);
-    };
-  
-    const formatarMoeda = (valor) => {
-      const valorNumerico = parseFloat(valor) / 100;
-      const valorFormatado = valorNumerico.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      });
-      return valorFormatado;
-    };
+    fetchData();
+  }, []);
 
-    const handleValorChange2 = (e) => {
-      const valorDigitado = e.target.value.replace(/\D/g, "");
-      formatarValorNoInput2(valorDigitado);
-    };
-  
-    const formatarValorNoInput2 = (total) => {
-      const valorFormatado = formatarMoeda2(total);
-      setTotal(valorFormatado);
-    };
-  
-    const formatarMoeda2 = (total) => {
-      const valorNumerico = parseFloat(total) / 100;
-      const valorFormatado = valorNumerico.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      });
-      return valorFormatado;
-    };
+  return (
+    <Modal title="Adicionar Planejamento" cancelar={props.onClose} salvar={handleSalvar}>
+      <LocalConteudo>
+        <LocalElementos>
 
+          <LabelInput>
+            <div className="label">Categoria</div>
+            <BancoSelect
+              id="select_categoria"
+              value={selectedCategoria}
+              onChange={(e) => {
+                setCategoria(e.target.value);
+              }}
+            >
+             {categorias.length > 0 ? categorias.map((categoria) => (
+                <option key={categoria.id} value={categoria.id}>
+                  {categoria.nome}
+                </option>
+              )): null}
+            </BancoSelect>
+          </LabelInput>
 
-    
+        </LocalElementos>
+        <LocalElementos>
 
+          <LabelInput>
+            <div className="label">Valor Planejado(R$)</div>
+            <input
+              id="select_saldo"
+              type="text"
+              className="input-field"
+              name="saldo"
+              value={saldo}
+              onChange={(e) => {
+                handleValorChange(e);
+              }}
+            />
+          </LabelInput>
 
-    const handleSalvar = () => {
-        // Aqui você pode fazer o que quiser com os dados, como enviá-los para o servidor ou atualizar o estado no componente pai.
-        const dadosASalvar = {
-            categoria: selectedCategoria,
-            total: total,
-            valor: saldo,
-        };
+        </LocalElementos>
 
-        // Exemplo: enviando os dados para uma função de salvamento fornecida como propriedade
-        props.salvarDados(dadosASalvar);
+        <LocalElementos>
 
-        // Fechar o modal após salvar
-        props.onClose();
-    };
+          <LabelInput>
+            <div className="label">Data Final:</div>
+            <input
+              id="select_data"
+              type="date"
+              className="input-field"
+              name="data"
+              value={data}
+              onChange={(e) => {
+                setData(e.target.value);
+              }}
+            />
+          </LabelInput>
 
-    return (
-        <Modal title="Adicionar Planejamento" cancelar={props.onClose} salvar={props.handleSalvar}>
-            <LocalConteudo>
-                <LocalElementos>
-
-                    <LabelInput>
-                        <div className="label">Categoria</div>
-                        <BancoSelect
-                            id="select_categoria"
-                            value={selectedCategoria}
-                            onChange={(e) => {
-                                setCategoria(e.target.value);
-                            }}
-                        >
-                            <option value="bradesco">Lazer</option>
-                            <option value="itau">Comida</option>
-                            <option value="santander">Saúde</option>
-                            <option value="santander">Viagem</option>
-                        </BancoSelect>
-                    </LabelInput>
-
-                </LocalElementos>
-                <LocalElementos>
-
-                    <LabelInput>
-                        <div className="label">Valor (R$)</div>
-                        <input
-                            id="select_saldo"
-                            type="text"
-                            className="input-field"
-                            name="saldo"
-                            value={saldo}
-                            onChange={(e) => {
-                                handleValorChange(e);
-                            }}
-                        />
-                    </LabelInput>
-
-                </LocalElementos>
-                <LocalElementos>
-                    <LabelInput>
-                        <div className="label" id="label_total">Total Gasto (R$)</div>
-                        <input
-                            id="select_saldo"
-                            type="text"
-                            className="input-field"
-                            name="saldo"
-                            value={total}
-                            onChange={(e) => {
-                                handleValorChange2(e);
-                            }}
-                        />
-                    </LabelInput>
-                </LocalElementos>
-            </LocalConteudo>
-        </Modal>
-    )
+        </LocalElementos>
+      </LocalConteudo>
+    </Modal>
+  )
 }
 
 export default ModalCriar;
