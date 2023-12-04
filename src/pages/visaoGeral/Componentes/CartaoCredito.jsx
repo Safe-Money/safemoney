@@ -300,14 +300,14 @@ function CartaoCredito() {
                     </svg>
                     Cartão de Crédito
                 </div>
-                <div className="titulos-categoria">
+                {cartoes.length > 0 ? <div className="titulos-categoria">
                     <div className="Vencimento">
                         Vencimento
                     </div>
                     <div className="Fatura">
                         Fatura
                     </div>
-                </div>
+                </div>: null}
                 <div className="containerBancoScroll">
 
                     <div className="containerBanco">
