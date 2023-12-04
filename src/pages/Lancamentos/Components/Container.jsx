@@ -515,12 +515,14 @@ function ContainerGeral() {
                   </tr>
                 </thead>
                 <tbody>
-                  {dataPizza.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.categoria}</td>
-                      <td className='valor'>{item.valor}</td>
-                    </tr>
-                  ))}
+                  {dataPizza.length > 0 &&
+                    dataPizza.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.categoria}</td>
+                        <td className='valor'>{item.valor}</td>
+                      </tr>
+                    ))
+                  }
                 </tbody>
               </table>
             </SideDiv>

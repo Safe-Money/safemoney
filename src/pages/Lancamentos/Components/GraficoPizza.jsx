@@ -4,10 +4,10 @@ import ReactApexChart from 'react-apexcharts';
 const GraficoPizzaApex = (props) => {
     const opcoesGraficoPizza = {
         cores: ['#C568F6', '#53246B', '#F81F1F', '#FFA588', '#00F828'],
-      };
-      
+    };
+
     const options = {
-        labels: props.dados != null ? props.dados.map(item => item.categoria) : 0,
+        labels: Array.isArray(props.dados) ? props.dados.map(item => item.categoria) : [],
         colors: opcoesGraficoPizza.cores,
         legend: {
             show: true,
@@ -36,7 +36,7 @@ const GraficoPizzaApex = (props) => {
         <ReactApexChart
             type="pie"
             options={options}
-            series={props.dados != null ? props.dados.map(item => item.valor) : 0}
+            series={Array.isArray(props.dados) ? props.dados.map(item => item.valor) : 0}
             style={style}
         />
     );
