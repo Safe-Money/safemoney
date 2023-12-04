@@ -7,6 +7,7 @@ import ModalEditar from "./ModalEditar";
 import ModalCriar from "./ModalCriar";
 import { useEffect } from "react";
 import api from "../../../api";
+import { isUndefined } from "@grapecity/wijmo";
 const LocalTabela = styled.div`
 display:flex;
 width:100%;
@@ -225,38 +226,14 @@ height:85%;
     cursor:pointer;
 }
 
-.barra{
-    display:flex;
-    height:10px;
-    width:70%;
-    background-color:rgba(226, 232, 240, 1);
-    color:#08632D;
-    font-weight:700;
-    border-radius:10px;
-    margin-right:10px;
-}
-
-.progressoBarra{
-    height:100%;
-    width:50%;
-    background-color:rgba(152, 211, 137, 1);
-    border-radius:10px;
-}
-
 `
 
 function Tabela() {
-    const months = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
-    const [currentMonth, setCurrentMonth] = useState("AGOSTO");
     const [listaDados, setListaDados] = useState([]);
+    const [message, setMessage] = useState(null);
+    const id = sessionStorage.getItem("id")
 
     const [selectedItem, setSelectedItem] = useState(null);
-
-    const changeMonth = (increment) => {
-        const currentIndex = months.indexOf(currentMonth);
-        const newIndex = (currentIndex + increment + months.length) % months.length;
-        setCurrentMonth(months[newIndex]);
-    };
 
     const excluirConta = (id) => {
         Swal.fire({
@@ -304,33 +281,57 @@ function Tabela() {
     };
 
     function removerAcentos(str) {
-        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     }
 
+    const retornarProgresso = (planejamento) => {
+        const progresso = ((planejamento.totalGasto / planejamento.valorPlanejado) * 100).toFixed(2);
+        return progresso;
+    }
 
     const contasRenderizadas = listaDados.length > 0 ? listaDados.map((conta, index) => (
         <Container
         key={index}
         id={`someContainerId${index}`}
-        categoria={removerAcentos(conta.categoria.nome).toLowerCase()}
-        valor={"R$" + conta.valorPlanejado.toFixed(2)}
-        data={conta.data.split("-").reverse().join("/")}
-        progresso={conta.progresso}
-        excluirConta={() => excluirConta(conta.id)}
+        categoria={removerAcentos(conta.nomeCategoria)}
+        valor={"R$ " + conta.valorPlanejado.toFixed(2)}
+        totalGasto={"R$ "+ conta.totalGasto.toFixed(2)}
+        progresso={retornarProgresso(conta)}
+        excluirConta={() => excluirConta(conta.idPlanejamento)}
         sweetEditar={() => openModal('editar', conta) }
     />
     )) : null;
 
     useEffect(() => {
         const procurar = async () => {
-            await api.get("/planejamento/").then((response) => {
+            setMessage("Carregando...")
+            await api.get(`/planejamento/busca-gastos-categoria/${id}`).then((response) => {
                 setListaDados(response.data);
                 console.log(response.data);
+                setMessage(null)
+
+                if(listaDados.length === 0){
+                    setMessage("Não há planejamentos cadastrados!")
+                }
             }).catch((error) => {
                 console.log("Erro ao buscar planejamentos")
+                setMessage("Não foi possível trazer os planejamentos!")
                 console.log(error);
             }
             );
+
+            let total;
+            
+            for(let i = 0; i < listaDados.length; i++){
+                total += listaDados[i].totalGasto
+                console.log(listaDados[i].totalGasto)
+            }
+
+            if(isNaN(total)){
+                total = 0;
+            }
+
+            sessionStorage.setItem("totalGasto", total.toFixed(2))
         };
 
         procurar();
@@ -342,24 +343,6 @@ function Tabela() {
             <LocalTabela>
                 <TabelaMensal>
                     <MesPlano>
-                        <div className="Mes">
-                            <span
-
-                                onClick={() => changeMonth(-1)}
-                            ><svg width="59" height="23" viewBox="0 0 59 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.2812 2L2 11.2812L11.2812 20.5625" stroke="#08632D" strokeWidth="3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M56.9932 11.2813L2.25977 11.2812" stroke="#08632D" strokeWidth="3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </span>
-                            <p id="textoMes">{currentMonth}</p>
-
-                            <span onClick={() => changeMonth(1)} id="svg2">
-                                <svg width="59" height="23" viewBox="0 0 59 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M47.712 20.5625L56.9932 11.2813L47.712 2" stroke="#08632D" strokeWidth="3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M2 11.2813L56.7334 11.2812" stroke="#08632D" strokeWidth="3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </span>
-                        </div>
 
                         <div className="Plano" >      
                             <div className="cardPlano" onClick={() => openModal('criar')}>
@@ -387,7 +370,7 @@ function Tabela() {
                                     Valor Planejado
                                 </div>
                                 <div className="data">
-                                    Data Final
+                                    Total Gasto
                                 </div>
                                 <div className="conta">
                                     Progresso
@@ -403,7 +386,7 @@ function Tabela() {
                             </div>
 
                         </div>
-                        ): (<p>Nenhum plano cadastrado</p>)}
+                        ): (<p>{message}</p>)}
                     </Lista>
 
                 </TabelaMensal>

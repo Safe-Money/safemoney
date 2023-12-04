@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 import { Icon } from "../../visaoGeral/funcoes/icons";
+import api from "../../../api";
 
 const LocalCard = styled.div`
 display:flex;
@@ -54,6 +56,22 @@ img{
 
 
 function Cards() {
+    const id = sessionStorage.getItem("id")
+    const [valorPlanejado, setValorPlanejado] = useState("")
+
+    useEffect(() => {
+        const fetchValores = async () => {
+            await api.get(`/planejamento/totalPlanejado/${id}`)
+                .then((response) => {
+                    setValorPlanejado(response.data)
+                    console.log(response.data)
+                }).catch((erro) => {
+                    console.log("Houve um erro ao trazer as informações: " + erro)
+                })
+        }
+
+        fetchValores()
+    })
 
     return (
         <>
@@ -74,7 +92,7 @@ function Cards() {
                             Valor planejado no mês
                         </div>
                         <div className="numero">
-                            R$ 10.000,00
+                            R$ {valorPlanejado}
                         </div>
                     </div>
                 </Card>
@@ -91,10 +109,10 @@ function Cards() {
 
                         </div>
                         <div className="texto">
-                            Valor planejado no mês
+                            Total gasto no mês
                         </div>
                         <div className="numero">
-                            R$ 10.000,00
+                            R$ {sessionStorage.getItem("totalGasto")}
                         </div>
                     </div>
                 </Card>
@@ -102,7 +120,7 @@ function Cards() {
                     <div className="logo-texto-numero">
                         <div className="logo">
 
-                        <img src={Icon('sacoDeDolarIcon')}  />
+                            <img src={Icon('sacoDeDolarIcon')} />
 
 
                         </div>

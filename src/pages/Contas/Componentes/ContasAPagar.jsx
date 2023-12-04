@@ -232,7 +232,7 @@ function ContasAPagar() {
             });
     }
 
-    const cartoesRenderizadas = cartoes.map((cartao, index) => (
+    const cartoesRenderizadas = cartoes.length > 0 ? cartoes.map((cartao, index) => (
         <CartaoContainer 
           key={index} 
           nome={cartao.nome}
@@ -242,7 +242,7 @@ function ContasAPagar() {
           vencimento={cartao.vencimento} 
           
         />
-      ));
+      )) : null;
 
     return (
         <>

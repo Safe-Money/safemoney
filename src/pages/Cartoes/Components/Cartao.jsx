@@ -3,7 +3,7 @@ import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
 import styled from "styled-components";
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import Swal from 'sweetalert2';
-import api from '../../../API';
+import api from '../../../api';
 import ModalFatura from "../Components/ModalFatura";
 import poupancaImg from '../../../assets/poupanca.png';
 import saudeImg from '../../../assets/medico.png';

@@ -115,7 +115,6 @@ cursor:pointer;
 function Conta(props) {
     const contaAtual = props.conta
 
-
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const navigate = useNavigate();

@@ -95,8 +95,7 @@ function ModalEditar(props) {
   const planejamento = props.planejamento
   const [categorias, setCategorias] = useState([]);
   const [saldo, setSaldo] = useState(planejamento.valorPlanejado);
-  const [data, setData] = useState(planejamento.data);
-  const [selectedCategoria, setCategoria] = useState(planejamento.categoria.id);
+  const [selectedCategoria, setCategoria] = useState(planejamento.idCategoria);
   const idUser = sessionStorage.getItem("id");
 
 
@@ -121,13 +120,13 @@ function ModalEditar(props) {
   const handleSalvar = async (id) => {
 
     console.log("Saldo: ", saldo)
-    console.log("Data: ", data)
+    console.log("Data: ", planejamento.data)
     console.log("Categoria: ", selectedCategoria)
     console.log("Usuario: ", idUser)
 
     await api.put(`/planejamento/${id}`, {
       valorPlanejado: saldo,
-      data: data,
+      data: planejamento.data,
       categoria: {
         id: selectedCategoria,
       },
@@ -213,23 +212,6 @@ function ModalEditar(props) {
 
         </LocalElementos>
 
-        <LocalElementos>
-
-          <LabelInput>
-            <div className="label">Data Final:</div>
-            <input
-              id="select_data"
-              type="date"
-              className="input-field"
-              name="data"
-              value={data}
-              onChange={(e) => {
-                setData(e.target.value);
-              }}
-            />
-          </LabelInput>
-
-        </LocalElementos>
       </LocalConteudo>
     </Modal>
   )

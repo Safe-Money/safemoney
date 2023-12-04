@@ -1,27 +1,25 @@
 import { useState, useEffect } from "react";
 import { Icon } from "../../visaoGeral/funcoes/icons";
+import "../styles/progressBar.css"
 
-const createContainer = ({ id, categoria, valor, data, progresso, excluirConta, sweetEditar }) => {
+const createContainer = ({ id, categoria, valor, totalGasto, progresso, excluirConta, sweetEditar }) => {
 
     const [containerIds, setContainerIds] = useState([]);
+    const [alerta, setAlerta] = useState(false);
 
     useEffect(() => {
         const newContainerId = `container-lista-${containerIds.length + 1}`;
         setContainerIds((prevIds) => [...prevIds, newContainerId]);
+
+        if(progresso > 80){
+            setAlerta(true);
+        }
     }, []);
 
-    const progressoFloat = parseFloat(progresso?.replace('%', '')) || 0;
-    const teste = isNaN(progressoFloat) || !isFinite(progressoFloat) ? 0.1 : progressoFloat;
 
-    const progressoStyle2 = {
-        width: `${teste}%`,
-        backgroundColor: teste > 100 ? 'red' : 'rgba(152, 211, 137, 1)',
-    };
+
     const [selectedModal, setSelectedModal] = useState(null);
 
-    const openModal = (modalType) => {
-        setSelectedModal(modalType);
-    };
 
     const closeModal = () => {
         setSelectedModal(null);
@@ -33,12 +31,12 @@ const createContainer = ({ id, categoria, valor, data, progresso, excluirConta, 
                 <img src={Icon(`${categoria}`)} alt={`${categoria} Icon`} />
             </span>
             <span className="valor-lista">{valor}</span>
-            <span className="data-lista">{data}</span>
+            <span className="data-lista">{totalGasto}</span>
             <span className="conta-lista">
                 <span className="barra">
-                    <span className="progressoBarra" style={progressoStyle2}></span>
+                    <progress className={alerta ? "progressAlert" : "progressBar"} value={progresso} max="100"></progress>
                 </span>
-                {progresso}
+                {progresso}%
             </span>
             <span className="acoes-lista">
                 <img src={Icon('editar1Icon')} alt="Editar" onClick={() => sweetEditar()} />

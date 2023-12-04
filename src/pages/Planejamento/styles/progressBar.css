@@ -1,0 +1,34 @@
+.progressBar {
+    background-color: white;
+    height: 10px; /* Altura desejada em pixels */
+    width: 17vw;
+    margin-right: 20px;
+    
+  }
+  
+  .progressBar::-webkit-progress-value {
+    background-color: #98D389;
+  }
+  
+  .progressBar::-webkit-progress-bar {
+    background-color: #E2E8F0;
+    border-radius: 30px;
+  }
+
+  .progressAlert {
+    background-color: white;
+    height: 10px; /* Altura desejada em pixels */
+    width: 20vw;
+    margin-right: 50px;
+    
+  }
+
+  .progressAlert::-webkit-progress-value {
+    background-color: #D0112B;
+  }
+
+  .progressAlert::-webkit-progress-bar {
+    background-color: #E2E8F0;
+    border-radius: 30px;
+  }
+  
