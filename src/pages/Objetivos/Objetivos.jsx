@@ -377,8 +377,14 @@ const Meta = styled.div`
         font-weight: 600;
     }
     `
+const Concluido = styled.span`
+    font-size: 12px;
+    font-weight: 600;
+    color: #08632D;
+    margin-top: 5px;
+`
 
-function Objetivos(props) {
+function Objetivos() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editar, setEditar] = useState(false);
     const [depositar, setDepositar] = useState(false);
@@ -386,19 +392,20 @@ function Objetivos(props) {
     const [objetivoProximo, setObjetivoProximo] = useState({});
     const [listaObjetivos, setListaObjetivos] = useState([]);
     const [saldoTotal, setSaldoTotal] = useState(0);
+    const [iniciados, setIniciados] = useState(0);
     const id = sessionStorage.getItem("id");
     const icones = [
         {
             img: edit,
             alt: "Editar",
             link: "editar",
-            click: (objetivo) => {setEditar(true), setObjetivoAtual(objetivo)}
+            click: (objetivo) => { setEditar(true), setObjetivoAtual(objetivo) }
         },
         {
             img: money,
             alt: "Depositar",
             link: "depositar",
-            click: (objetivo) => {setDepositar(true), setObjetivoAtual(objetivo)}
+            click: (objetivo) => { setDepositar(true), setObjetivoAtual(objetivo) }
         },
         {
             img: trash,
@@ -413,25 +420,24 @@ function Objetivos(props) {
             setEditar(false);
         }
 
-        if(isModalOpen){
+        if (isModalOpen) {
             setIsModalOpen(false);
         }
 
-        if(depositar){
+        if (depositar) {
             setDepositar(false);
         }
     };
 
     const formatarMoeda = (saldo) => {
         const saldoNumero = parseFloat(saldo);
-    
-    if (isNaN(saldoNumero)) {
-        // Tratar o caso em que saldo não é um número
-        return 'Erro: saldo não é um número válido';
-    }
 
-    const formatado = saldoNumero.toFixed(2);
-    return formatado;
+        if (isNaN(saldoNumero)) {
+            return (0).toFixed(2);
+        }
+
+        const formatado = saldoNumero.toFixed(2);
+        return formatado;
     };
 
 
@@ -450,7 +456,7 @@ function Objetivos(props) {
     const excluirObjetivo = (id) => {
         Swal.fire({
             title: "Você tem certeza?",
-            text: "Você não poderá recuperar essa conta!",
+            text: "Excluir objetivo",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -466,8 +472,8 @@ function Objetivos(props) {
                             title: "Excluído!",
                             text: "Objetivo excluído com êxito!",
                             icon: "success"
-                        }).then((result) =>{
-                            if(result.isConfirmed){
+                        }).then((result) => {
+                            if (result.isConfirmed) {
                                 window.location.reload();
                             }
                         });
@@ -484,6 +490,23 @@ function Objetivos(props) {
         })
 
     }
+
+    const taxaProgressoMedia = () => {
+        if (listaObjetivos.length === 0) {
+            return 0;
+        }
+
+        const objetivosIniciados = listaObjetivos.filter((objetivo) => objetivo.valorInvestido > 0);
+
+        if (objetivosIniciados.length === 0) {
+            return 0;
+        }
+
+        const somaTaxasProgresso = objetivosIniciados.reduce((soma, objetivo) => soma + retornarProgresso(objetivo), 0);
+        const mediaTaxasProgresso = somaTaxasProgresso / objetivosIniciados.length;
+
+        return mediaTaxasProgresso.toFixed(2);
+    };
 
     useEffect(() => {
         const fetchContas = async () => {
@@ -511,6 +534,15 @@ function Objetivos(props) {
                 console.log("Erro ao listar saldo total");
                 console.log(error);
             })
+
+            await api.get(`/objetivos/iniciados/${id}`).then(response => {
+                setIniciados(response.data);
+                console.log(`Iniciados: ${response.data}`)
+            }).catch(error => {
+                console.log("Erro ao listar iniciados");
+                console.log(error);
+            })
+
         };
 
         fetchContas();
@@ -536,12 +568,12 @@ function Objetivos(props) {
                                 <TitleCard>Objetivo mais próximo:</TitleCard>
 
                                 <div className="info-texto">
-                                    <span>{objetivoProximo.nome}</span>
+                                    <span>{listaObjetivos.length > 0 ? objetivoProximo.nome : "Não há"}</span>
                                 </div>
                             </Info>
 
                             <div className="imagem">
-                                <img class="status" src={up} alt="up" />
+                                <img class="status" src={listaObjetivos.length > 0 ? up : down} alt="up" />
                             </div>
                         </Card>
 
@@ -551,14 +583,14 @@ function Objetivos(props) {
                                     <img src={contas} alt="aaa" />
                                 </div>
 
-                                <TitleCard>Ultimo Depósito:</TitleCard>
+                                <TitleCard>Taxa de Progresso Média:</TitleCard>
 
                                 <div className="info-texto" id="card-2">
-                                    <span>{props.data}</span>
+                                    <span>{taxaProgressoMedia()}%</span>
                                 </div>
                             </Info>
                             <div className="imagem">
-                                <img class="status" src={down} alt="down" />
+                                <img class="status" src={taxaProgressoMedia() >= 30 ? up : down} alt="down" />
                             </div>
                         </Card>
 
@@ -568,14 +600,14 @@ function Objetivos(props) {
                                     <img src={obj} alt="aaa" />
                                 </div>
 
-                                <TitleCard>Objetivos acima de:</TitleCard>
+                                <TitleCard>Objetivos investidos:</TitleCard>
 
                                 <div className="info-texto" id="card-2">
-                                    <span>50%</span>
+                                    <span>{iniciados === 0 ? "Nenhum" : iniciados}</span>
                                 </div>
                             </Info>
                             <div className="imagem">
-                                <img class="status" src={up} alt="up" />
+                                <img class="status" src={iniciados > 0 ? up : down} alt="up" />
                             </div>
 
                         </Card>
@@ -593,7 +625,7 @@ function Objetivos(props) {
                                 </div>
                             </Info>
                             <div className="imagem">
-                                <img class="status" src={up} alt="up" />
+                                <img class="status" src={saldoTotal > 100 ? up : down} alt="up" />
                             </div>
 
                         </Card>
@@ -629,15 +661,20 @@ function Objetivos(props) {
                                                     <span>{retornarDataFormatada(objetivo.dataTermino)}</span>
                                                 </div>
                                             </Datas>
+
+                                            {retornarProgresso(objetivo) === 100 ? <Concluido>Objetivo concluído!</Concluido> : null}
                                         </SubInfo>
                                     </InfoObj>
 
                                     <Icons>
-                                        {icones.map((icone) => (
+                                        {retornarProgresso(objetivo) != 100 ? icones.map((icone) => (
                                             <div className="border">
-                                                <img src={icone.img} alt={icone.alt} onClick={() => icone.click(objetivo)}/>
+                                                <img src={icone.img} alt={icone.alt} onClick={() => icone.click(objetivo)} />
                                             </div>
-                                        ))}
+                                        )) : <div className="border">
+                                                <img src={trash} alt="Excluir" onClick={() => excluirObjetivo(objetivo.id)} />
+                                             </div>}
+                                             
                                     </Icons>
 
                                 </CardObj>
@@ -659,8 +696,8 @@ function Objetivos(props) {
                     </div>
 
                     {isModalOpen && <Adiciona onClose={closeModal} />}
-                    {editar && <Edita onClose={closeModal} objetivo={objetivoAtual}/>}
-                    {depositar && <Depositar onClose={closeModal} objetivo={objetivoAtual}/>}
+                    {editar && <Edita onClose={closeModal} objetivo={objetivoAtual} />}
+                    {depositar && <Depositar onClose={closeModal} objetivo={objetivoAtual} />}
 
                 </Social>
                 <FloatingButton />

@@ -81,7 +81,7 @@ function Depositar(props) {
         setValor(valorFormatado);
     };
 
-    const mostrarValor = (saldo) =>{
+    const mostrarValor = (saldo) => {
         return saldo.toFixed(2);
     }
 
@@ -93,8 +93,8 @@ function Depositar(props) {
     const depositar = () => {
         if (!valor) {
             setCampoTocado(true);
-        return;
-    }
+            return;
+        }
 
         api.put(`/objetivos/${objetivo.id}/${valor}/${idUser}`)
             .then(() => {
