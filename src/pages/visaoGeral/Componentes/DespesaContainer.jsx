@@ -6,7 +6,6 @@ function DespesaContainer(props) {
 
     return (
         <>
-            <div className="container-lista">
                 <span className="icone-lista">
                    <img src={Icon(props.categoria)} />
                 </span>
@@ -15,7 +14,7 @@ function DespesaContainer(props) {
                 <span className="data-lista">{props.data}</span>
                 <span className="parcelas-lista">{props.parcelaAtual}/{props.parcelas}</span>
                 <span className="conta-lista">{props.conta != null ? props.conta : props.cartao}</span>
-            </div>
+           
         </>
     )
 }

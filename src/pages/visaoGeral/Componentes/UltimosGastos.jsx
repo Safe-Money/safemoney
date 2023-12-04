@@ -196,7 +196,8 @@ function UltimosGastos() {
             });
     }
 
-    let dados = <p>Nenhum cartão cadastrado.</p>;;
+    let dados = <p>Nenhum transação realizada.</p>;
+
     if (gastos.length > 0) {
         dados = gastos?.map((gasto, index) => (
             <DespesaContainer
@@ -212,55 +213,54 @@ function UltimosGastos() {
             />
         ))
 
+    }
 
-        return (
-            <>
-                <ContainerUltimosGastos>
-                    {/* {ouvido.map((conta) =>(
-                    <div>{conta.nome}</div>
-                ))} */}
 
-                    <div className="titulo-icone">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="20" height="20" rx="8" fill="#2FED42" fillOpacity="0.3" />
-                            <path d="M6 7H14" stroke="#08632D" strokeLinecap="round" />
-                            <path d="M6 10H14" stroke="#08632D" strokeLinecap="round" />
-                            <path d="M6 13H14" stroke="#08632D" strokeLinecap="round" />
-                        </svg>
-                        Últimos gastos
-                    </div>
+    return (
+        <>
+            <ContainerUltimosGastos>
+                <div className="titulo-icone">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="20" height="20" rx="8" fill="#2FED42" fillOpacity="0.3" />
+                        <path d="M6 7H14" stroke="#08632D" strokeLinecap="round" />
+                        <path d="M6 10H14" stroke="#08632D" strokeLinecap="round" />
+                        <path d="M6 13H14" stroke="#08632D" strokeLinecap="round" />
+                    </svg>
+                    Últimos gastos
+                </div>
 
-                    <div className="conteudo-lista">
-                        <div className="titulos-categoria">
-                            <div className="categoria">
-                                Categoria
-                            </div>
-                            <div className="descricao">
-                                Descrição
-                            </div>
-                            <div className="valor">
-                                Valor
-                            </div>
-                            <div className="data">
-                                Data
-                            </div>
-                            <div className="parcelas">
-                                Parcelas
-                            </div>
-                            <div className="conta">
-                                Conta
-                            </div>
-
+                <div className="conteudo-lista">
+                    <div className="titulos-categoria">
+                        <div className="categoria">
+                            Categoria
                         </div>
-                        <div className="container-lista-scroll">
+                        <div className="descricao">
+                            Descrição
+                        </div>
+                        <div className="valor">
+                            Valor
+                        </div>
+                        <div className="data">
+                            Data
+                        </div>
+                        <div className="parcelas">
+                            Parcelas
+                        </div>
+                        <div className="conta">
+                            Conta
+                        </div>
+
+                    </div>
+                    <div className="container-lista-scroll">
+                        <div className="container-lista">
                             {dados}
                         </div>
-
                     </div>
-                </ContainerUltimosGastos>
-            </>
-        )
-    }
+
+                </div>
+            </ContainerUltimosGastos>
+        </>
+    )
 }
 
 

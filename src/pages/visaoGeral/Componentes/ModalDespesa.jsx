@@ -1,6 +1,8 @@
 import Modal from "../../../components/Modal2";
 import styled from "styled-components";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import api from "../../../api";
+import Swal from 'sweetalert2';
 
 const LocalConteudo = styled.div`
 display:flex;
@@ -175,7 +177,7 @@ function ModalDespesa(props) {
   };
 
 
-  
+
 
   // Aqui está a lógica de saber se eu selecionei um cartão ou não junto com a aparição do input de parcelas
 
@@ -198,20 +200,67 @@ function ModalDespesa(props) {
     }
   };
 
-    let dadosSalvar = {
-      nome: description,
-      data: date,
-      valor: saldo,
-      categoria: selectedCategoria,
-      origem: idConta != null ? idConta : idCartao, 
-      parcelas: parcelasDisplay,
-      fixo: fixo,
-      despesa: "despesa"
-    };
+  let dadosSalvar = {
+    nome: description,
+    data: date,
+    valor: saldo,
+    categoria: selectedCategoria,
+    origem: idConta != null ? idConta : idCartao,
+    parcelas: parcelasDisplay,
+    fixo: fixo,
+    despesa: "despesa"
+  };
+
+
+  function validarDespesa() {
+    if (dadosSalvar.fixo == true) {
+      console.log("Despesa Fixa");
+    } else if (dadosSalvar.parcelas == "block") {
+      console.log("Despesa no crédito");
+    } else {
+      console.log("Despesa normal");
+      console.log(dadosSalvar)
+
+      const valorLimpo = dadosSalvar.valor.replace(/[^\d.,]/g, '').replace(',', '.');
+      const valorDouble = parseFloat(valorLimpo).toFixed(1);
+      console.log(valorDouble);
+
+      const corpo = {
+        nome: dadosSalvar.nome,
+        data: dadosSalvar.data,
+        valor: valorDouble,
+        conta: {
+          id: dadosSalvar.origem
+        },
+        categoria: {
+          id: dadosSalvar.categoria
+        },
+        tipo: {
+          id: 1
+        }
+      }
+      console.log(corpo);
+      api.post(`transacoes/despesa`, corpo)
+        .then((respostaObtida) => {
+          props.onClose();
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Despesa adicionada!',
+            text: 'Sua despesa foi adicionada com sucesso!!.',
+          });
+
+
+        })
+        .catch((erroOcorrido) => {
+          console.log(erroOcorrido);
+        });
+    }
+  }
 
 
   return (
-    <Modal title="Adicionar Despesa" cancelar={props.onClose} dados={dadosSalvar}>
+    <Modal title="Adicionar Despesa" cancelar={props.onClose} salvar={() => validarDespesa()}>
       <LocalConteudo>
         <LocalElementos>
           <LabelInput>
@@ -246,14 +295,17 @@ function ModalDespesa(props) {
             >
               <option value="0">-- Selecione --</option>
               {/* Opções de contas */}
-              {props.contas.map(conta => (
-                <option key={conta.id} value={`conta-${conta.id}`}>{conta.banco}</option>
-              ))}
-
+              {props.contas.length > 0 &&
+                props.contas.map(conta => (
+                  <option key={conta.id} value={`conta-${conta.id}`}>{conta.banco}</option>
+                ))
+              }
               {/* Opções de cartões */}
-              {props.cartoes.map(cartao => (
-                <option key={cartao.id} value={`cartao-${cartao.id}`}>{cartao.nome}</option>
-              ))}
+              {props.cartoes.length > 0 &&
+                props.cartoes.map(cartao => (
+                  <option key={cartao.id} value={`cartao-${cartao.id}`}>{cartao.nome}</option>
+                ))
+              }
 
             </BancoSelect>
 
