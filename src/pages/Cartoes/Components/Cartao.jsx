@@ -604,6 +604,8 @@ const CartoesGeral = () => {
     setCartaoSelecionado(cartao.id);
   };
 
+  const [cartaoOrigem, setCartaoOrigem] = useState("")
+
 
   return (
     <>
@@ -647,7 +649,8 @@ const CartoesGeral = () => {
                     <CardLogo src={getCardIcon(cartao.bandeira)} />
                     <CardTitle>{cartao.nome}</CardTitle>
                     <CardSub>{cartao.bandeira}</CardSub>
-                    <CardButton onClick={() => setIsModalOpen(true)}>
+                    <CardButton onClick={() => {setIsModalOpen(true) 
+                    setCartaoOrigem(cartao)}}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
                         <path d="M4.21289 5.5H7.78828" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                         <path d="M6 7.28755V3.71216" stroke="#FDFDFD" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -738,7 +741,7 @@ const CartoesGeral = () => {
                 </Table>
               </TableContainer>
             </CardCategoria>
-            {isModalOpen && <ModalFatura onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && <ModalFatura cartaoOrigem={cartaoOrigem} onClose={() => setIsModalOpen(false)} />}
           </Wrapper>
 
 

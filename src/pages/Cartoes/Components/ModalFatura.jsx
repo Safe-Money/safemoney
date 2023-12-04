@@ -143,7 +143,7 @@ function ModalFatura(props) {
     const [selectedBanco, setContaSelecionada] = useState(null);
     const [saldo, setSaldo] = useState("");
     const [selectedCategoria, setCategoria] = useState(null);
-    const [date, setDate] = useState(""); 
+    const [date, setDate] = useState("");
     const [nome, setDescription] = useState("");
     const [parcelasDisplay, setParcelasDisplay] = useState('none');
     const [desativadoDisplay, setDesativadoDisplay] = useState('block');
@@ -154,23 +154,23 @@ function ModalFatura(props) {
     const [categorias, setCategorias] = useState([]);
     const [selectedParcelas, setParcelas] = useState(1);
 
-    const [selectedCartao, setSelectedCartao] = useState(null);
-    const [selectedCartaoId, setCartaoSelecionado] = useState(null);
+    const [selectedCartao, setSelectedCartao] = useState(props.cartaoOrigem);
+    const [selectedCartaoId, setCartaoSelecionado] = useState(props.cartaoOrigem.id);
 
-   
 
- 
+
+
     useEffect(() => {
         api.get("/categoria/")
-          .then(response => {
-            console.log('Categorias obtidas com sucesso:', response.data);
-           
-            setCategorias(response.data);
-          })
-          .catch(error => {
-            console.error('Erro ao obter categorias:', error);
-          });
-      }, []);
+            .then(response => {
+                console.log('Categorias obtidas com sucesso:', response.data);
+
+                setCategorias(response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao obter categorias:', error);
+            });
+    }, []);
 
 
     useEffect(() => {
@@ -192,18 +192,17 @@ function ModalFatura(props) {
 
     const handleSalvar = () => {
         const valorNumerico = parseFloat(saldo.replace('R$', '').replace(',', '.'));
-        const data = new Date(date);
 
         const dadosASalvar = {
             nome: nome,
-            data: data,
+            data: date,
             valor: valorNumerico,
             parcelas: parseInt(selectedParcelas),
             categoria: {
-                id: parseInt(selectedCategoriaId), 
+                id: parseInt(selectedCategoriaId),
             },
             tipo: {
-                id: 3, 
+                id: 3,
             },
             cartao: {
                 id: parseInt(selectedCartaoId),
@@ -212,14 +211,13 @@ function ModalFatura(props) {
         api.post("/transacoes/despesa-credito", dadosASalvar)
             .then(response => {
                 console.log('Fatura cadastrada com sucesso:', response.data);
-            window.location.reload();
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Fatura cadastrada com sucesso",
-                showConfirmButton: false,
-                timer: 1500
-              });
+                window.location.reload();
+                Swal.fire({
+                    icon: "success",
+                    title: "Fatura cadastrada com sucesso",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             })
             .catch(error => {
                 console.error('Erro ao cadastrar a fatura:', error);
@@ -233,10 +231,10 @@ function ModalFatura(props) {
                     console.error('Erro durante a configuração da solicitação:', error.message);
                 }
             });
-    
+
         props.onClose();
     };
-    
+
 
 
     const handleValorChange = (e) => {
@@ -275,38 +273,42 @@ function ModalFatura(props) {
 
                     <LabelInput>
                         <div className="label">Categoria</div>
-                      <BancoSelect
-    id="select_categoria"
-    value={selectedCategoriaId}
-    onChange={(e) => {
-        setCategoriaSelecionadaId(Number(e.target.value));
-        setCategoriaSelecionada(e.target.value);
-    }}
->
-    <option value="">Selecione uma categoria</option>
-    {categorias && categorias.map((categoria) => (
-        <option key={categoria.id} value={categoria.id}>
-            
-            {categoria.nome}
-        </option>
-    ))}
-</BancoSelect>
+                        <BancoSelect
+                            id="select_categoria"
+                            value={selectedCategoriaId}
+                            onChange={(e) => {
+                                setCategoriaSelecionadaId(Number(e.target.value));
+                                setCategoriaSelecionada(e.target.value);
+                            }}
+                        >
+                            <option value="">Categoria</option>
+                            {categorias && categorias.map((categoria) => (
+                                <option key={categoria.id} value={categoria.id}>
+
+                                    {categoria.nome}
+                                </option>
+                            ))}
+                        </BancoSelect>
                     </LabelInput>
 
                     <LabelInput>
                         <div className="label" id="label_origem">Origem</div>
                         <BancoSelect
-  id="select_origem"
-  value={selectedCartao ? selectedCartao.id : ''}
-  onChange={(e) => setCartaoSelecionado(e.target.value)}
->
-  <option value="">Selecione um cartão</option>
-  {cartoesUsuario.map((cartao) => (
-    <option key={cartao.id} value={cartao.id}>
-      {cartao.nome} - {cartao.bandeira}
-    </option>
-  ))}
-</BancoSelect>
+                            id="select_origem"
+                    value={selectedCartao?.id}
+                            onChange={(e) => {
+                                setCartaoSelecionado(e.target.value);
+                                const cartaoSelecionado = cartoesUsuario.find(cartao => cartao.id === e.target.value);
+                                setSelectedCartao(cartaoSelecionado);
+                            }}
+                        >
+                            <option value="">Selecione</option>
+                            {cartoesUsuario.map((cartao) => (
+                                <option key={cartao.id} value={cartao.id}>
+                                    {cartao.nome} - {cartao.bandeira}
+                                </option>
+                            ))}
+                        </BancoSelect>
                     </LabelInput>
 
                 </LocalElementos>
@@ -327,16 +329,16 @@ function ModalFatura(props) {
                     </LabelInput>
 
                     <LabelInput>
-        <div className="label" id="label_date">Data</div>
-        <input
-            id="input_date"
-            type="date"
-            className="input-date"
-            name="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-        />
-    </LabelInput>
+                        <div className="label" id="label_date">Data</div>
+                        <input
+                            id="input_date"
+                            type="date"
+                            className="input-date"
+                            name="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                        />
+                    </LabelInput>
                 </LocalElementos>
 
                 <LocalElementos>
@@ -405,10 +407,14 @@ function ModalFatura(props) {
                     <LabelInput>
                         <div className="label" id="label_parcelas">Parcelas</div>
                         <BancoSelect id="select_parcelas" value={selectedParcelas} onChange={(e) => setParcelas(e.target.value)}>
-  <option value="1">1 vez</option>
-  <option value="2">2 vezes</option>
-  <option value="3">3 vezes</option>
-</BancoSelect>
+                            <option value="1">1 vez</option>
+                            <option value="2">2 vezes</option>
+                            <option value="3">3 vezes</option>
+                            <option value="4">4 vezes</option>
+                            <option value="5">5 vezes</option>
+                            <option value="6">6 vezes</option>
+                            <option value="7">7 vezes</option>
+                        </BancoSelect>
                     </LabelInput>
 
                 </LocalElementos>
@@ -416,15 +422,15 @@ function ModalFatura(props) {
                 <LabelInput>
                     <div className="label_description">Nome</div>
                     <DescricaoInput>
-    <input
-        id="input_description"
-        type="text"
-        className="input-description"
-        name="nome"
-        value={nome}
-        onChange={(e) => setDescription(e.target.value)}
-    />
-</DescricaoInput>
+                        <input
+                            id="input_description"
+                            type="text"
+                            className="input-description"
+                            name="nome"
+                            value={nome}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </DescricaoInput>
                 </LabelInput>
             </LocalConteudo>
         </Modal>
