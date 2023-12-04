@@ -107,9 +107,10 @@ const SideDiv = styled.div`
   }
 
   .info {
-    position: relative;
-    left: 13%;
+    position: absolute;
+    right: 0;
     top: 20%;
+    margin-right:5%;
   }
 
   .info-box {

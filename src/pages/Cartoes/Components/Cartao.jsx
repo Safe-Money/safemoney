@@ -146,7 +146,8 @@ const CardGeralCard = styled.div`
   height: 82vh;
   flex-direction: column;
   overflow: auto;
-  width: 40vw;
+  width: 100%;
+  justify-content:space-between;
   max-width: 600px;
   margin-right: 20px;
 
@@ -191,10 +192,9 @@ cursor: pointer;
   background-color: #fff;
   margin-bottom:-10px;
   margin-right:3px;
-
-
-
 `;
+
+
 const CardInfo = styled.div`
   display: flex;
   align-items: center;
@@ -326,6 +326,9 @@ const CardCategoria = styled.div`
   margin-left: 10px;
   margin-top: 20px;
   padding: 30px;
+  // position:absolute;
+  // right:0;
+  margin-right:5%;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -381,7 +384,9 @@ const TableContainer = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  position: relative;
+  width:100%;
+  justify-content: space-between;
+  // position: relative;
 
   @media (max-width: 1200px) {
     flex-direction: column;
