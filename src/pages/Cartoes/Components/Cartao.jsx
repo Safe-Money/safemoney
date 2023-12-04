@@ -201,9 +201,9 @@ const CardInfo = styled.div`
 `;
 
 const CardTitle = styled.span`
-  position: absolute;
+  position: relative;
   font-family: Montserrat;
-  left: 79px;
+  right: 20px;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -213,7 +213,7 @@ const CardTitle = styled.span`
 const CardSub = styled.span`
   position: relative;
   top: 20px;
-  right: 17px;
+  right: 92px;
   font-family: Montserrat;
   font-size: 12px;
   font-style: normal;
@@ -252,7 +252,7 @@ const CardFatura = styled(CardDetail)`
 `;
 
 const CardLimite = styled(CardDetail)`
-  margin-right: 201px;  
+  margin-right: 215px;  
 `;
 
 const ProgressBarWrapper = styled.div`
@@ -269,7 +269,7 @@ const CardDates = styled.div`
   }
 
   .fechamento{
-    margin-left:32px;
+    margin-left:59px;
   }
   
 `;
@@ -521,7 +521,7 @@ const CartoesGeral = () => {
             .then(response => {
               console.log('Cartão removido com sucesso:', response.data);
               setCartoes(prevCartoes => prevCartoes.filter(cartao => cartao.id !== cartaoSelecionado));
-              
+              window.location.reload();
             })
             .catch(error => {
               console.error('Erro ao remover cartão:', error);

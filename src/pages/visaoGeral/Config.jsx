@@ -132,6 +132,7 @@ const Config = () => {
           setTimeout(() => {
             window.location.href = "/Login";
           }, 1000);
+          sessionStorage.clear();
         } else {
           handleApiError(response.data);
         }
