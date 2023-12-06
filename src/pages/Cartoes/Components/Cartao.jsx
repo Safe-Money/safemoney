@@ -198,22 +198,27 @@ cursor: pointer;
 const CardInfo = styled.div`
   display: flex;
   align-items: center;
+
+  div{
+    display: flex;
+    flex-direction: column;
+    margin-top:10px;
+   
+  }
+
+
+  }
 `;
 
-const CardTitle = styled.span`
-  position: relative;
+const CardTitle = styled.span`  
   font-family: Montserrat;
-  right: 20px;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 `;
 
-const CardSub = styled.span`
-  position: relative;
-  top: 20px;
-  right: 92px;
+const CardSub = styled.span`  
   font-family: Montserrat;
   font-size: 12px;
   font-style: normal;
@@ -224,7 +229,7 @@ const CardSub = styled.span`
 const CardLogo = styled.img`
   width: 37px; 
   height: 37px;
-  margin-right: 25px;
+  margin-right: 15px;
   
 `;
 
@@ -233,6 +238,13 @@ const CardDetails = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  .div1{
+    display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 120px;
+  }
 `;
 
 const CardDetail = styled.span`
@@ -244,6 +256,8 @@ const CardDetail = styled.span`
     margin: 0; 
   }
 
+
+  
  
 `;
 
@@ -260,17 +274,16 @@ const ProgressBarWrapper = styled.div`
 `;
 
 const CardDates = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: flex; 
   margin-top: 25px; 
+  gap:10px;
 
   .negri{
     font-weight:900;
   }
 
-  .fechamento{
-    margin-left:59px;
-  }
+  
+  
   
 `;
 
@@ -494,7 +507,7 @@ const CartoesGeral = () => {
   const [dadosTabela, setDadosTabela] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cartaoSelecionado, setCartaoSelecionado] = useState(null);
-  const [mesAtualIndex, setMesAtualIndex] = useState(10);
+  const [mesAtualIndex, setMesAtualIndex] = useState(11);
   const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("Nenhuma");
   const [isBotaoSuperiorHabilitado, setIsBotaoSuperiorHabilitado] = useState(false);
@@ -521,7 +534,12 @@ const CartoesGeral = () => {
             .then(response => {
               console.log('Cartão removido com sucesso:', response.data);
               setCartoes(prevCartoes => prevCartoes.filter(cartao => cartao.id !== cartaoSelecionado));
-              window.location.reload();
+              Swal.fire({
+                title: "Excluído!",
+                text: "Cartão excluído com êxito!",
+                icon: "success"
+            })
+              
             })
             .catch(error => {
               console.error('Erro ao remover cartão:', error);
@@ -647,8 +665,10 @@ const CartoesGeral = () => {
            >
                <CardInfo>
                     <CardLogo src={getCardIcon(cartao.bandeira)} />
+                    <div>
                     <CardTitle>{cartao.nome}</CardTitle>
                     <CardSub>{cartao.bandeira}</CardSub>
+                    </div>
                     <CardButton onClick={() => {setIsModalOpen(true) 
                     setCartaoOrigem(cartao)}}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
@@ -659,20 +679,24 @@ const CartoesGeral = () => {
                       Adicionar fatura
                     </CardButton>
                   </CardInfo>
+                  
                   <CardDetails>
+                    <div className='div1'>
                     <CardFatura>Fatura R$: {cartao.faturaValor.toFixed(2)}</CardFatura>
                     <CardLimite>Limite R$: {cartao.limite.toFixed(2)}</CardLimite>
+                    </div>
                   </CardDetails>
                   <ProgressBarWrapper>
                     <ProgressBar>
                       <ProgressFill style={{ width: `${(cartao.faturaValor / cartao.limite) * 100}%` }} />
                     </ProgressBar>
                   </ProgressBarWrapper>
-                  <CardDates>
+                  
+                    <CardDates>                    
                   <CardDetail >Fechamento: <span className='negri'>{cartao.fechamento}</span></CardDetail>
                     <CardDetail className='fechamento'>Vencimento: <span className='negri'>{cartao.vencimento}</span></CardDetail>
-                    
-                  </CardDates>
+                   </CardDates>
+                  
                 </CardContainer>
               ))}
             </CardGeralCard>
