@@ -60,7 +60,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 .titulos-categoria .Fatura{
     display:flex;
     width:30%;
-    justify-content:start;
+    justify-content: flex-end;
     font-weight:500;
     font-size:14px;
 }
@@ -151,6 +151,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     height:45px;
     width:100%;
     align-items:center;
+    justify-content: space-between;
     border-bottom: solid 1px rgba(119, 119, 119, 0.3);
 }
 
@@ -202,6 +203,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     height:70px;
     width:30%;
     align-items:center;
+    justify-content: flex-end;
     font-size:14px;
 
 }

@@ -13,6 +13,7 @@ import alimentacaoImg from '../../../assets/restaurante.png';
 import carroImg from '../../../assets/transporte.png';
 import gymImg from '../../../assets/gym.png';
 import viagemImg from '../../../assets/viagem.png';
+import lazerImg from '../../../assets/lazer.png';
 
 
 const Container = styled.div`
@@ -603,13 +604,13 @@ const CartoesGeral = () => {
 
   const getCardIcon = (bandeira) => {
     switch (bandeira) {
-      case 'visa':
+      case 'Visa':
         return Icon('visaIcon');
-      case 'master':
+      case 'Master':
         return Icon('masterIcon');
-      case 'elo':
+      case 'Elo':
         return Icon('eloIcon');
-      case 'bradesco':
+      case 'Bradesco':
         return Icon('bradescoIcon');
       default:
         return Icon('defaultIcon');
@@ -728,26 +729,29 @@ const CartoesGeral = () => {
                       return (
                         <TableRow key={index}>
                           <TableCell>
-                            {item.categoria.nome === 'Economia' && (
+                            {item.categoria.nome === 'economia' && (
                               <img src={poupancaImg} alt="Economia" />
                             )}
-                            {item.categoria.nome === 'Transporte' && (
+                            {item.categoria.nome === 'transporte' && (
                               <img src={carroImg} alt='Transporte' />
                             )}
-                            {item.categoria.nome === 'Vestuario' && (
+                            {item.categoria.nome === 'vestuario' && (
                               <img src={vesteImg} alt='Vestuario' />
                             )}
-                             {item.categoria.nome === 'Alimentação' && (
+                             {item.categoria.nome === 'alimentacao' && (
                               <img src={alimentacaoImg} alt='Alimento' />
                             )}
-                             {item.categoria.nome === 'Saúde' && (
+                             {item.categoria.nome === 'saude' && (
                               <img src={saudeImg} alt='Saúde' />
                             )} 
-                            {item.categoria.nome === 'Gym' && (
+                            {item.categoria.nome === 'gym' && (
                               <img src={gymImg} alt='Gym' />
                             )}
-                             {item.categoria.nome === 'Pet' && (
+                             {item.categoria.nome === 'pet' && (
                               <img src={petImg} alt='PEt' />
+                            )}
+                            {item.categoria.nome === 'lazer' && (
+                              <img src={lazerImg} alt='Lazer' />
                             )}
 
 

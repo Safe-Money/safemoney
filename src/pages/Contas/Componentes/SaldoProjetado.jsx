@@ -38,6 +38,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     width:100%;
     height:90%;
     flex-direction:column;
+    justify-content: space-evenly;
 }
 
 .titulos-categoria{
@@ -84,7 +85,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 .container-lista-scroll{
     display:flex;
     width:100%;
-    height:100%;
+    height:70%;
     overflow-x:hidden;
     flex-direction:column;
 
@@ -176,7 +177,7 @@ function SaldoProjetado() {
   return (
     <>
       <ContainerSaldoProjetado>
-        <div className="titulo-icone">
+        <div className="title-icon">
           <div className="imagem-titulo">
             <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="28" height="27" rx="8" fill="#2FED42" fill-opacity="0.3" />

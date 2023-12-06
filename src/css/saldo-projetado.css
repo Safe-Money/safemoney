@@ -1,6 +1,12 @@
-.titulo-icone {
+.title-icon {
     display: flex;
     justify-content: space-between;
+}
+
+.title-icon p{
+    text-align: center;
+    width: 220px;
+    font-weight: 900;
 }
 
 
@@ -14,6 +20,20 @@
     width: 120px;
 }
 
-.botao-desfazer button{
+.botao-desfazer button {
     width: 100px;
+    height: 30px;
+    background-color: #08632D;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.botao-desfazer button:hover {
+    background-color: #0b8055; /* Mudança de cor no hover */
+    cursor: pointer;
+}
+
+.botao-desfazer button:active {
+    background-color: #064021; /* Mudança de cor no clique */
 }

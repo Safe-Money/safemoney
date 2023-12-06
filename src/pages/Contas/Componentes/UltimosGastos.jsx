@@ -86,7 +86,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 .container-lista-scroll{
     display:flex;
     width:100%;
-    height:100%;
+    height:220px;
     overflow-x:hidden;
     flex-direction:column;
 
@@ -108,17 +108,17 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 
-.container-lista{
+.container-lista-gastos{
     display:flex;
     width:95%;
-    height:40%;
-    justify-content:center;
+    height:50%;
+    justify-content:space-evenly;
     align-items:center;
-    font-size:12px;
+    font-size:15px;
     border-bottom: solid 1px #D4D4D4;
 }
 
-.container-lista .icone-lista{
+.container-lista-gastos .icone-lista{
     width:10%;
     display:flex;
     justify-content:center;
@@ -129,20 +129,29 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     width:45%;
 }
 
-.container-lista .valor-lista{
-    width:30%;
+.container-lista-gastos .descricao-lista{
+    width:20%;
+    height: 50px;
     display:flex;
     justify-content:center;
     align-items:center;
 }
-.container-lista .data-lista{
+
+.container-lista-gastos .valor-lista{
+    width:20%;
+    height: 50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.container-lista-gastos .data-lista{
     width:30%;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-.container-lista .conta-lista{
+.container-lista-gastos .conta-lista{
     width:30%;
     display:flex;
     justify-content:center;
@@ -166,7 +175,7 @@ function UltimosGastos() {
     function listarGastos() {
         api.get(`transacoes/listar-gastos-conta/${id}/12`)
             .then((respostaObtida) => {
-                console.log(respostaObtida.data);
+                console.log("dados::::",respostaObtida.data);
                 setGastos(respostaObtida.data);
             })
             .catch((erroOcorrido) => {
@@ -186,6 +195,7 @@ function UltimosGastos() {
                 parcelaAtual={gasto.conta == null ? gasto.parcelaAtual : 0}
                 cartao={gasto.conta == null ? gasto.fatura.fkCartao.nome : gasto.conta.banco}
                 id={gasto.id}
+                categoria={gasto.categoria.nome}
             />
         ))
     }
@@ -236,10 +246,17 @@ function UltimosGastos() {
                             </div>
 
                             <div className="valor">
+                                Descrição
+                            </div>
+
+                            <div className="valor">
                                 Valor
                             </div>
                             <div className="data">
                                 Data
+                            </div>
+                            <div className="data">
+                                Parcelas
                             </div>
                             <div className="conta">
                                 Conta

@@ -50,6 +50,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     height:15%;
     font-size:12px;
     font-weight:500;
+    justify-content: space-evenly;
 }
 .titulos-categoria .categoria{
     display:flex;
@@ -58,7 +59,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 }
 .titulos-categoria .descricao{
     display:flex;
-    width:30%;
+    width:20%;
     justify-content:center;
 }
 .titulos-categoria .valor{
@@ -113,21 +114,21 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
 
-.container-lista{
+.container-lista-gastos{
     display:flex;
-    width:95.5%;
-    height:45px; 
-    justify-content:center;
+    width:95%;
+    height:25%;
+    justify-content:space-evenly;
     align-items:center;
-    font-size:13px;
-    border-bottom: solid 1px rgba(119, 119, 119, 0.3);
+    font-size:15px;
+    border-bottom: solid 1px #D4D4D4;
 }
 
 .container-lista:hover{
     background-color:rgb(214, 214, 214);
 }
 
-.container-lista .icone-lista{
+.container-lista-gastos .icone-lista{
     width:10%;
     display:flex;
     align-items:center;
@@ -136,40 +137,37 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     width:50%;
     margin-left:14px;
 }
-.container-lista .descricao-lista{
-    width:30%;
+.container-lista-gastos .descricao-lista{
+    width:20%;
+    height: 50px;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:10px;
 }
-.container-lista .valor-lista{
+.container-lista-gastos .valor-lista{
     width:20%;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:10px;
 }
-.container-lista .data-lista{
-    width:10%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:10px;
-}
-.container-lista .parcelas-lista{
+.container-lista-gastos .data-lista{
     width:20%;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:10px;
 }
-.container-lista .conta-lista{
+.container-lista-gastos .parcelas-lista{
     width:10%;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:10px;
+}
+.container-lista-gastos .conta-lista{
+    width:10%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align: center;
 }
 `
 

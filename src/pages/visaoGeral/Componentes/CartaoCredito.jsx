@@ -35,7 +35,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 .titulos-categoria .Vencimento{
     display:flex;
-    width:30%;
+    width:55%;
     justify-content:center;
     font-weight:500;
     font-size:14px;
@@ -43,8 +43,8 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 .titulos-categoria .Fatura{
     display:flex;
-    width:30%;
-    justify-content:start;
+    width:20%;
+    justify-content:center;
     font-weight:500;
     font-size:14px;
 }
@@ -53,7 +53,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     overflow:scroll;
     overflow-x:hidden;
     height:130%;
-    width:100%;
+    width:95%;
 
 }
 
@@ -143,6 +143,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     height:70px;
     width:30%;
     align-items:center;
+    justify-content:flex-end;
     font-size:14px;
 
 }
