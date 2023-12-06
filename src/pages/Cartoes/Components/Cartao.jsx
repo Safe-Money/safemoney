@@ -147,7 +147,6 @@ const CardGeralCard = styled.div`
   flex-direction: column;
   overflow: auto;
   width: 100%;
-  justify-content:space-between;
   max-width: 600px;
   margin-right: 20px;
 
