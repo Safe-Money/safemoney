@@ -604,13 +604,13 @@ const CartoesGeral = () => {
 
   const getCardIcon = (bandeira) => {
     switch (bandeira) {
-      case 'Visa':
+      case 'visa':
         return Icon('visaIcon');
-      case 'Master':
+      case 'master':
         return Icon('masterIcon');
-      case 'Elo':
+      case 'elo':
         return Icon('eloIcon');
-      case 'Bradesco':
+      case 'bradesco':
         return Icon('bradescoIcon');
       default:
         return Icon('defaultIcon');
