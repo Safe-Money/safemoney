@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Icon } from "../funcoes/icons";
+import api from "../../../api";
 
 
 const ModalWrapper = styled.div`
@@ -132,7 +133,6 @@ height:30%;
 justify-content: space-between;
 `
 
-
 const LabelInput = styled.div`
 display:flex;
 flex-direction:column;
@@ -179,6 +179,29 @@ input, section{
 `;
 
 const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
+  const idUser = sessionStorage.getItem('id');
+
+  const [contas, setContas] = useState([]);
+
+  useEffect(() => {
+    listarContas();
+  }, []);
+
+  function listarContas() {
+    api.get(`/contas/listar-contas/${idUser}`)
+      .then((respostaObtida) => {
+        console.log("Dados do gráfico de pizza: ", respostaObtida.data);
+        setContas(respostaObtida.data);
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
+
+
+
+
+
   // const [categoria, setCategoria] = useState('');
   const [valor, setValor] = useState('');
   const [apelido, setApelido] = useState('');
@@ -237,10 +260,12 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
     }
 
 
+    console.log('apelido:', apelido);
     console.log('selectedCategoria:', selectedCategoria);
     console.log('selectedOrigem:', selectedOrigem);
     console.log('valor:', valor);
     console.log('selectedBandeira:', selectedBandeira);
+    console.log('fechamento:', fechamento);
     console.log('vencimento:', vencimento);
 
 
@@ -254,18 +279,57 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
     console.log('valor no modal:', valor);
 
 
-    const valorNumerico = parseFloat(valor.replace(/[^\d,.-]/g, '').replace(',', '.'));
-    const novaConta = {
+    const valorLimpo = valor.replace(/[^\d.,]/g, ''); // Remove todos os caracteres não numéricos
+    const valorSemPontoMilhar = valorLimpo.replace('.', ''); // Remove o ponto separador de milhar, se houver
+    const valorDouble = parseFloat(valorSemPontoMilhar.replace(',', '.')).toFixed(1); // Converte para número de ponto flutuante com uma casa decimal
+    console.log(valorDouble);
+
+    const novoCartao = {
       // categoria: selectedCategoria,
-      origem: selectedOrigem,
-      valor: parseFloat(valorNumerico),
+      conta: {
+        id: selectedOrigem
+      },
+      limite: valorDouble,
       bandeira: selectedBandeira,
-      vencimento: vencimento, // Adicione o campo de vencimento ao objeto novaConta
-      fechamento: fechamento, // Adicione o campo de vencimento ao objeto novaConta
-      apelido: apelido // Adicione o campo de vencimento ao objeto novaConta
+      dataVencimento: vencimento, // Adicione o campo de vencimento ao objeto novaConta
+      dataFechamento: fechamento, // Adicione o campo de vencimento ao objeto novaConta
+      nome: apelido // Adicione o campo de vencimento ao objeto novaConta
     };
+
+
     console.log('valor no modal:', valor);
-    onSave(novaConta);
+
+    api.post(`/cartao-credito/`, novoCartao)
+      .then((respostaObtida) => {
+        onClose();
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Cartão adicionado com sucesso',
+          text: 'Sua despesa foi adicionada com sucesso!!.',
+        });
+
+        setValor('');
+        setSelectedOrigem('');
+        // setSelectedCategoria('');
+        setSelectedBandeira('');
+        setVencimento(''); // Limpe o estado de vencimento
+        setFechamento('');
+        setApelido('');
+        resetarCampos();
+        onClose();
+
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+        resetarCampos();
+        onClose();
+      });
+
+
+
+
+
     setValor('');
     setSelectedOrigem('');
     // setSelectedCategoria('');
@@ -273,8 +337,8 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
     setVencimento(''); // Limpe o estado de vencimento
     setFechamento('');
     setApelido('');
-    onClose();
     resetarCampos();
+    onClose();
   };
 
   //Resetar campos ao adicionar conta ou cancelar
@@ -352,8 +416,8 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
     }
   };
 
-
   if (!isOpen) return null;
+
 
   return (
     <ModalWrapper className="ModalWrap" onClick={handleCancelarClick2}>
@@ -365,7 +429,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
           <div>Novo Cartão</div>
         </LogoNome>
 
-       
+
         <LocalElementos>
           <LabelInput>
             <div className="label" id='label_apelido'>Apelido</div>
@@ -376,6 +440,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
                 setCamposTocados({ ...camposTocados, apelido: true });
                 setApelido(e.target.value);
               }}
+              placeholder="Cartao do bradesco"
             />
           </LabelInput>
           <LabelInput>
@@ -388,10 +453,12 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
               }}
               style={{ borderColor: camposTocados.origem && !selectedOrigem ? 'red' : '' }}
             >
-              <option value="">Selecione um banco</option>
-              <option value="bradesco">Bradesco</option>
-              <option value="itau">Itaú</option>
-              <option value="santander">Santander</option>
+              <option value="">-- Banco --</option>
+              {contas.length > 0 &&
+                contas.map(conta => (
+                  <option key={conta.id} value={`${conta.id}`}>{conta.banco}</option>
+                ))
+              }
             </OrigemSelect>
           </LabelInput>
         </LocalElementos>
@@ -401,10 +468,9 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
             <input type="text" class="input-field"
               name='valor'
               // value={valor}
-              value={formatarMoeda(valorAmortizar)}
+              value={valor}
               onChange={(e) => {
-                handleValorChange(e); // Chame a função handleVencimentoChange com o evento como argumento
-                setCamposTocados({ ...camposTocados, valor: true });
+                handleValorChange(e);
               }}
               style={{ borderColor: camposTocados.valor && !valor ? 'red' : '' }}
             />
@@ -419,7 +485,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
               }}
               style={{ borderColor: camposTocados.bandeira && !selectedBandeira ? 'red' : '' }}
             >
-              <option value="">Selecione um banco</option>
+              <option value="">-- Bandeira --</option>
               <option value="visa">Visa</option>
               <option value="master">Mastercard</option>
               <option value="elo">Elo</option>
@@ -427,27 +493,27 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
           </LabelInput>
         </LocalElementos>
         <LocalElementos>
-        <LabelInput>
+          <LabelInput>
             <div class="label" id="label_fechamento">Fechamento</div>
-            <input type="date"  class="input-field"
-              placeholder="MM/AAAA"
-              // onChange={(e) => {
-                // handleVencimentoChange(e); // Chame a função handleVencimentoChange com o evento como argumento
-                // setCamposTocados({ ...camposTocados, vencimento: true });
-              // }}
-              // style={{ borderColor: camposTocados.vencimento && !vencimento ? 'red' : '' }}
+            <input type="date" class="input-field"
+              placeholder="DD/MM/YYYY"
+              onChange={(e) => {
+                setFechamento(e.target.value);
+                setCamposTocados({ ...camposTocados, fechamento: true });
+              }}
+              style={{ borderColor: camposTocados.fechamento && !fechamento ? 'red' : '' }}
             />
           </LabelInput>
-         
+
           <LabelInput>
             <div class="label" id="label_vencimento">Vencimento</div>
-            <input type="date"  class="input-field"
-              placeholder="MM/AAAA"
-              // onChange={(e) => {
-                // handleVencimentoChange(e); // Chame a função handleVencimentoChange com o evento como argumento
-                // setCamposTocados({ ...camposTocados, vencimento: true });
-              // }}
-              // style={{ borderColor: camposTocados.vencimento && !vencimento ? 'red' : '' }}
+            <input type="date" class="input-field"
+              placeholder="DD/MM/YYYY"
+              onChange={(e) => {
+                setVencimento(e.target.value);
+                setCamposTocados({ ...camposTocados, vencimento: true });
+              }}
+              style={{ borderColor: camposTocados.vencimento && !vencimento ? 'red' : '' }}
             />
           </LabelInput>
         </LocalElementos>

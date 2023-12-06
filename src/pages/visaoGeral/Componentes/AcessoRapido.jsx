@@ -122,7 +122,7 @@ function AcessoRapido() {
 
   useEffect(() => {
     listarContas();
-    listarCartoes()
+    listarCartoes();
   }, []);
 
 

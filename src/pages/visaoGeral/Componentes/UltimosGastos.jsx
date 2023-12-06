@@ -186,9 +186,7 @@ function UltimosGastos() {
         api
             .get(`transacoes/listar-gastos/${idUser}`)
             .then((respostaObtida) => {
-                console.log(respostaObtida);
-                console.log(respostaObtida.status);
-                console.log(respostaObtida.data);
+                console.log("Últimos gastos", respostaObtida.data);
                 setGastos(respostaObtida.data);
             })
             .catch((erroOcorrido) => {
@@ -252,9 +250,9 @@ function UltimosGastos() {
 
                     </div>
                     <div className="container-lista-scroll">
-                        <div className="container-lista">
+                        
                             {dados}
-                        </div>
+                        
                     </div>
 
                 </div>

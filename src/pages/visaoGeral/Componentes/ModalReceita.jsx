@@ -1,6 +1,7 @@
 import Modal from "../../../components/Modal2";
 import styled from "styled-components";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import api from "../../../api";
 
 const LocalConteudo = styled.div`
 display:flex;
@@ -143,8 +144,10 @@ function ModalReceita(props) {
   const [date, setDate] = useState(""); // Adicionei o estado para a data
   const [description, setDescription] = useState(""); // Adicionei o estado para a descrição
   const [parcelasDisplay, setParcelasDisplay] = useState('none');
+  const [parcelas, setParcelas] = useState("");
   const [desativadoDisplay, setDesativadoDisplay] = useState('block');
   const [ativarDisplay, setAtivarDisplay] = useState('none');
+  const [fixo, setFixo] = useState(false);
 
 
   const handleValorChange = (e) => {
@@ -172,32 +175,121 @@ function ModalReceita(props) {
   const toggleSVG = () => {
     setDesativadoDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
     setAtivarDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
-
+    if (fixo == false) {
+      setFixo(true);
+    } else {
+      setFixo(false);
+    }
   };
 
-  const handleSalvar = () => {
-    // Aqui você pode fazer o que quiser com os dados, como enviá-los para o servidor ou atualizar o estado no componente pai.
-    const dadosASalvar = {
-      categoria: selectedCategoria,
-      origem: selectedBanco,
-      valor: saldo,
-      date: date,
-      description: description,
-    };
+  useEffect(() => {
+    console.log(fixo); // Aqui o valor de fixo estará atualizado sempre que mudar
+  }, [fixo]);
 
-    // Exemplo: enviando os dados para uma função de salvamento fornecida como propriedade
-    props.salvarDados(dadosASalvar);
 
-    // Fechar o modal após salvar
-    props.onClose();
+  let dadosSalvar = {
+    nome: description,
+    data: date,
+    valor: saldo,
+    categoria: selectedCategoria,
+    origem: selectedBanco,
+    fixo: fixo,
+    despesa: "despesa"
   };
+
+
+  function validarReceita() {
+    if (dadosSalvar.fixo == true) {
+      console.log("Receita Fixa");
+
+      console.log(dadosSalvar)
+
+      const valorLimpo = dadosSalvar.valor.replace(/[^\d.,]/g, ''); // Remove todos os caracteres não numéricos
+      const valorSemPontoMilhar = valorLimpo.replace('.', ''); // Remove o ponto separador de milhar, se houver
+      const valorDouble = parseFloat(valorSemPontoMilhar.replace(',', '.')).toFixed(1); // Converte para número de ponto flutuante com uma casa decimal
+
+      console.log(valorDouble); // Saída: 1000.0
+
+      const corpo = {
+        nome: dadosSalvar.nome,
+        data: dadosSalvar.data,
+        valor: valorDouble,
+        fkConta: {
+          id: dadosSalvar.origem
+        },
+        fkCategoria: {
+          id: dadosSalvar.categoria
+        },
+        fkTipoTransacao: {
+          id: 5
+        }
+      }
+      console.log(corpo);
+      api.post(`lancamento-fixo/cadastrar`, corpo)
+        .then((respostaObtida) => {
+          props.onClose();
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Despesa fixa foi adicionada!',
+            text: 'Sua despesa foi adicionada com sucesso!!.',
+          });
+
+
+        })
+        .catch((erroOcorrido) => {
+          console.log(erroOcorrido);
+        });
+
+    } else {
+      console.log("Receita normal");
+      console.log(dadosSalvar)
+
+      const valorLimpo = dadosSalvar.valor.replace(/[^\d.,]/g, ''); // Remove todos os caracteres não numéricos
+      const valorSemPontoMilhar = valorLimpo.replace('.', ''); // Remove o ponto separador de milhar, se houver
+      const valorDouble = parseFloat(valorSemPontoMilhar.replace(',', '.')).toFixed(1); // Converte para número de ponto flutuante com uma casa decimal
+      console.log(valorDouble);
+
+      const corpo = {
+        nome: dadosSalvar.nome,
+        data: dadosSalvar.data,
+        valor: valorDouble,
+        conta: {
+          id: dadosSalvar.origem
+        },
+        categoria: {
+          id: dadosSalvar.categoria
+        },
+        tipo: {
+          id: 4
+        }
+      }
+      console.log(corpo);
+      api.post(`transacoes/receita`, corpo)
+        .then((respostaObtida) => {
+          props.onClose();
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Despesa adicionada!',
+            text: 'Sua despesa foi adicionada com sucesso!!.',
+          });
+
+
+        })
+        .catch((erroOcorrido) => {
+          console.log(erroOcorrido);
+        });
+    }
+  }
 
   return (
-    <Modal title="Adicionar Despesa" cancelar={props.onClose} salvar={props.handleSalvar}>
+    <Modal title="Adicionar Receita" cancelar={props.onClose} salvar={() => validarReceita()}>
       <LocalConteudo>
         <LocalElementos>
 
           <LabelInput>
+
             <div className="label">Categoria</div>
             <BancoSelect
               id="select_categoria"
@@ -206,11 +298,13 @@ function ModalReceita(props) {
                 setCategoria(e.target.value);
               }}
             >
-              <option value="bradesco">Lazer</option>
-              <option value="itau">Comida</option>
-              <option value="santander">Saúde</option>
-              <option value="santander">Viagem</option>
+              <option value="0">-- Selecione --</option>
+              <option value="1">Lazer</option>
+              <option value="2">Alimentação</option>
+              <option value="3">Saúde</option>
+              <option value="4">Estudos</option>
             </BancoSelect>
+            
           </LabelInput>
 
           <LabelInput>
@@ -220,13 +314,16 @@ function ModalReceita(props) {
               value={selectedBanco}
               onChange={(e) => {
                 setContaSelecionada(e.target.value);
-                const isCartao = e.target.value === 'credito';
-                setParcelasDisplay(isCartao ? 'block' : 'none');
               }}
             >
-              <option value="origem">Origem</option>
-              <option value="banco">Banco</option>
-              <option value="credito">Cartão de Crédito</option>
+              <option value="0">-- Selecione --</option>
+              {/* Opções de contas */}
+              {props.contas.length > 0 &&
+                props.contas.map(conta => (
+                  <option key={conta.id} value={`${conta.id}`}>{conta.banco}</option>
+                ))
+              }
+
             </BancoSelect>
           </LabelInput>
 
@@ -255,7 +352,9 @@ function ModalReceita(props) {
               type="date"
               className="input-date"
               name="description"
-
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
             />
           </LabelInput>
 
@@ -324,20 +423,32 @@ function ModalReceita(props) {
             </LabelInput>
           </LabelInput>
 
-          <LabelInput 
-           onChange={(e) => {
-            setContaSelecionada(e.target.value);
-          }}
-          style={{ display: parcelasDisplay }}>
+          <LabelInput
+            onChange={(e) => {
+              setContaSelecionada(e.target.value);
+            }}
+            style={{ display: parcelasDisplay }}>
             <div className="label" id="label_parcelas">Parcelas</div>
             <BancoSelect
               id="select_parcelas"
               value={selectedBanco}
-             
+              onChange={(e) => {
+                setParcelas(e.target.value);
+              }}
             >
-              <option value="one">1 vez</option>
-              <option value="two">2 vezes</option>
-              <option value="three">3 vezes</option>
+              <option value="0">-- Selecione --</option>
+              <option value="1">1 vez</option>
+              <option value="2">2 vezes</option>
+              <option value="3">3 vezes</option>
+              <option value="4">4 vezes</option>
+              <option value="5">5 vezes</option>
+              <option value="6">6 vezes</option>
+              <option value="7">7 vezes</option>
+              <option value="8">8 vezes</option>
+              <option value="9">8 vezes</option>
+              <option value="10">10 vezes</option>
+              <option value="11">11 vezes</option>
+              <option value="12">12 vezes</option>
             </BancoSelect>
           </LabelInput>
 
@@ -351,7 +462,9 @@ function ModalReceita(props) {
               type="text"
               className="input-description"
               name="description"
-
+              onChange={(e) => {
+                setDescription(e.target.value)
+              }}
             />
           </DescricaoInput>
         </LabelInput>

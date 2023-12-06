@@ -164,7 +164,7 @@ function UltimosGastos() {
     }, []);
 
     function listarGastos() {
-        api.get(`transacoes/listar-gastos-conta/${id}/11`)
+        api.get(`transacoes/listar-gastos-conta/${id}/12`)
             .then((respostaObtida) => {
                 console.log(respostaObtida.data);
                 setGastos(respostaObtida.data);

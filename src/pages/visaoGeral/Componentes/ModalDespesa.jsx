@@ -145,15 +145,24 @@ function ModalDespesa(props) {
   const [date, setDate] = useState(""); // Adicionei o estado para a data
   const [description, setDescription] = useState(""); // Adicionei o estado para a descrição
   const [parcelasDisplay, setParcelasDisplay] = useState('none');
+  const [parcelas, setParcelas] = useState("");
   const [desativadoDisplay, setDesativadoDisplay] = useState('block');
   const [ativarDisplay, setAtivarDisplay] = useState('none');
-  const [fixo, setFixo] = useState('false');
+  const [fixo, setFixo] = useState(false);
 
   const toggleSVG = () => {
     setDesativadoDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
     setAtivarDisplay((prevState) => (prevState === 'block' ? 'none' : 'block'));
-    setFixo(fixo == true ? setFixo(false) : setFixo(true));
+    if (fixo == false) {
+      setFixo(true);
+    } else {
+      setFixo(false);
+    }
   };
+
+  useEffect(() => {
+    console.log(fixo); // Aqui o valor de fixo estará atualizado sempre que mudar
+  }, [fixo]);
 
   const handleValorChange = (e) => {
     const valorDigitado = e.target.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
@@ -206,7 +215,7 @@ function ModalDespesa(props) {
     valor: saldo,
     categoria: selectedCategoria,
     origem: idConta != null ? idConta : idCartao,
-    parcelas: parcelasDisplay,
+    parcelas: parcelas,
     fixo: fixo,
     despesa: "despesa"
   };
@@ -215,14 +224,95 @@ function ModalDespesa(props) {
   function validarDespesa() {
     if (dadosSalvar.fixo == true) {
       console.log("Despesa Fixa");
-    } else if (dadosSalvar.parcelas == "block") {
+
+      console.log(dadosSalvar)
+
+      const valorLimpo = dadosSalvar.valor.replace(/[^\d.,]/g, ''); // Remove todos os caracteres não numéricos
+      const valorSemPontoMilhar = valorLimpo.replace('.', ''); // Remove o ponto separador de milhar, se houver
+      const valorDouble = parseFloat(valorSemPontoMilhar.replace(',', '.')).toFixed(1); // Converte para número de ponto flutuante com uma casa decimal
+
+      console.log(valorDouble); // Saída: 1000.0
+
+      const corpo = {
+        nome: dadosSalvar.nome,
+        data: dadosSalvar.data,
+        valor: valorDouble,
+        fkConta: {
+          id: dadosSalvar.origem
+        },
+        fkCategoria: {
+          id: dadosSalvar.categoria
+        },
+        fkTipoTransacao: {
+          id: 2
+        }
+      }
+      console.log(corpo);
+      api.post(`lancamento-fixo/cadastrar`, corpo)
+        .then((respostaObtida) => {
+          props.onClose();
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Despesa fixa foi adicionada!',
+            text: 'Sua despesa foi adicionada com sucesso!!.',
+          });
+
+
+        })
+        .catch((erroOcorrido) => {
+          console.log(erroOcorrido);
+        });
+
+    } else if (dadosSalvar.parcelas != "") {
       console.log("Despesa no crédito");
+
+
+      const valorLimpo = dadosSalvar.valor.replace(/[^\d.,]/g, ''); // Remove todos os caracteres não numéricos
+      const valorSemPontoMilhar = valorLimpo.replace('.', ''); // Remove o ponto separador de milhar, se houver
+      const valorDouble = parseFloat(valorSemPontoMilhar.replace(',', '.')).toFixed(1); // Converte para número de ponto flutuante com uma casa decimal
+
+      console.log(valorDouble); // Saída: 1000.0
+
+      const corpo = {
+        nome: dadosSalvar.nome,
+        data: dadosSalvar.data,
+        valor: valorDouble,
+        parcelas: dadosSalvar.parcelas,
+        cartao: {
+          id: dadosSalvar.origem
+        },
+        categoria: {
+          id: dadosSalvar.categoria
+        },
+        tipo: {
+          id: 3
+        }
+      }
+
+      console.log(corpo);
+      api.post(`transacoes/despesa-credito`, corpo)
+        .then((respostaObtida) => {
+          props.onClose();
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Despesa no crédito foi adicionada!',
+            text: 'Sua despesa no crédito foi adicionada com sucesso!!.',
+          });
+
+
+        })
+        .catch((erroOcorrido) => {
+          console.log(erroOcorrido);
+        });
     } else {
       console.log("Despesa normal");
       console.log(dadosSalvar)
 
-      const valorLimpo = dadosSalvar.valor.replace(/[^\d.,]/g, '').replace(',', '.');
-      const valorDouble = parseFloat(valorLimpo).toFixed(1);
+      const valorLimpo = dadosSalvar.valor.replace(/[^\d.,]/g, ''); // Remove todos os caracteres não numéricos
+      const valorSemPontoMilhar = valorLimpo.replace('.', ''); // Remove o ponto separador de milhar, se houver
+      const valorDouble = parseFloat(valorSemPontoMilhar.replace(',', '.')).toFixed(1); // Converte para número de ponto flutuante com uma casa decimal
       console.log(valorDouble);
 
       const corpo = {
@@ -418,12 +508,23 @@ function ModalDespesa(props) {
             <BancoSelect
               id="select_parcelas"
               value={selectedBanco}
-
+              onChange={(e) => {
+                setParcelas(e.target.value);
+              }}
             >
               <option value="0">-- Selecione --</option>
               <option value="1">1 vez</option>
               <option value="2">2 vezes</option>
               <option value="3">3 vezes</option>
+              <option value="4">4 vezes</option>
+              <option value="5">5 vezes</option>
+              <option value="6">6 vezes</option>
+              <option value="7">7 vezes</option>
+              <option value="8">8 vezes</option>
+              <option value="9">8 vezes</option>
+              <option value="10">10 vezes</option>
+              <option value="11">11 vezes</option>
+              <option value="12">12 vezes</option>
             </BancoSelect>
           </LabelInput>
 
