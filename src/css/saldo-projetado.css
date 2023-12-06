@@ -1,0 +1,19 @@
+.titulo-icone {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.imagem-titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.botao-desfazer {
+    width: 120px;
+}
+
+.botao-desfazer button{
+    width: 100px;
+}

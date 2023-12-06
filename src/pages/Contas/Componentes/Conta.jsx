@@ -29,7 +29,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
   }
   
-.titulo-icone {
+.titulo-icone-2 {
     display: flex;
     align-items: center;
     font-weight: 700;
@@ -39,7 +39,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
   }
 
-  .titulo-icone img {
+  .titulo-icone-2 img {
     margin-right: 10px;
     width:3%;
   }
@@ -176,7 +176,7 @@ function Conta(props) {
 
         <ContainerConta>
             <div className="titulo-removerConta">
-                <div className="titulo-icone">
+                <div className="titulo-icone-2">
                     <img src={Icon(nomeIcone)} alt="Account Icon" />
 
                     {contaAtual.nome}

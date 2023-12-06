@@ -19,7 +19,7 @@ margin:0 1% 0 0;
 box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 
-.titulo-icone{
+.titulo-icone-3{
     display:flex;
     align-items:center;
     font-weight:700;
@@ -29,7 +29,7 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     font-size:15px;
 
 }
-.titulo-icone svg{
+.titulo-icone-3 svg{
     margin-right:10px;
 
 }
@@ -247,7 +247,7 @@ function ContasAPagar() {
     return (
         <>
             <ContainerContasAPagar>
-                <div className="titulo-icone">
+                <div className="titulo-icone-3">
                     <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="28" height="27" rx="8" fill="#2FED42" fill-opacity="0.3" />
                         <path d="M20.4767 21H8.61628C7.17209 21 6 19.8279 6 18.3837V6.52326C6 6.23721 6.23721 6 6.52326 6C6.8093 6 7.04651 6.23721 7.04651 6.52326V18.3837C7.04651 19.2488 7.75116 19.9535 8.61628 19.9535H20.4767C20.7628 19.9535 21 20.1907 21 20.4767C21 20.7628 20.7628 21 20.4767 21Z" fill="#08632D" />
