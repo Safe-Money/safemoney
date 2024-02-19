@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Icon } from "../funcoes/icons";
 import DespesaContainer from "./DespesaContainer";
 import React, { useEffect, useState } from 'react';
 import api from "../../../api";
@@ -192,10 +191,10 @@ function UltimosGastos() {
             });
     }
 
-    let dados = <p>Nenhum transação realizada.</p>;
+    let dados = <p>Nenhuma transação realizada.</p>;
 
     if (gastos.length > 0) {
-        dados = gastos?.map((gasto, index) => (
+        dados = gastos?.map((gasto) => (
             <DespesaContainer
                 key={gasto.id}
                 nome={gasto.nome}
@@ -226,7 +225,7 @@ function UltimosGastos() {
                 </div>
 
                 <div className="conteudo-lista">
-                    <div className="titulos-categoria">
+                    {dados > 0 && <div className="titulos-categoria">
                         <div className="categoria">
                             Categoria
                         </div>
@@ -246,10 +245,10 @@ function UltimosGastos() {
                             Conta
                         </div>
 
-                    </div>
+                    </div>}
                     <div className="container-lista-scroll">
                         
-                            {dados}
+                        {dados}
                         
                     </div>
 

@@ -98,7 +98,6 @@ function ModalEditar(props) {
   const [selectedCategoria, setCategoria] = useState(planejamento.idCategoria);
   const idUser = sessionStorage.getItem("id");
 
-
   const handleValorChange = (e) => {
     const valorDigitado = e.target.value.replace(/\D/g, '');
     formatarValorNoInput(valorDigitado);
@@ -172,7 +171,7 @@ function ModalEditar(props) {
   }, []);
 
   return (
-    <Modal title="Adicionar Planejamento" cancelar={props.onClose} salvar={() => handleSalvar(planejamento.id)}>
+    <Modal title="Adicionar Planejamento" cancelar={props.onClose} salvar={() => handleSalvar(planejamento.idPlanejamento)}>
       <LocalConteudo>
         <LocalElementos>
 

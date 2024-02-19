@@ -1,14 +1,20 @@
-import ReactApexChart from 'react-apexcharts';
-import GraficoLinha from './GraficoLinha';
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { Icon } from '../../visaoGeral/funcoes/icons';
-import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
-import { ApexChart, ApexAxis, ApexDataLabels, ApexPlotOptions, ApexTitleSubtitle } from 'react-apexcharts';
-import api from '../../../api';
-import { ca } from 'date-fns/locale';
-import GraficoPizzaApex from './GraficoPizza';
-import { set } from 'date-fns';
+import ReactApexChart from "react-apexcharts";
+import GraficoLinha from "./GraficoLinha";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Icon } from "../../visaoGeral/funcoes/icons";
+import LateralHeader from "../../visaoGeral/Componentes/LateralHeader";
+import {
+  ApexChart,
+  ApexAxis,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexTitleSubtitle,
+} from "react-apexcharts";
+import api from "../../../api";
+import { ca } from "date-fns/locale";
+import GraficoPizzaApex from "./GraficoPizza";
+import { set } from "date-fns";
 
 const PieChartContainer = styled.div`
   width: 100%;
@@ -36,13 +42,13 @@ const MainContent = styled.div`
 `;
 
 const DivsChartsContainer = styled.div`
- display: flex;
- flex-direction: column;
- justify-content:flex-start;
- margin-left:80px;
- width:40vw;
- height:88vh; 
- margin-top: -20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 80px;
+  width: 40vw;
+  height: 88vh;
+  margin-top: -20px;
 `;
 
 const SideDiv = styled.div`
@@ -181,7 +187,6 @@ const Image = styled.img`
 `;
 
 const TableContainer = styled.div`
-
   margin-top: 40px;
   width: 40vw;
   overflow-x: none;
@@ -189,7 +194,7 @@ const TableContainer = styled.div`
   align-items: center;
   flex-grow: 1;
   position: relative;
-  left:20px;
+  left: 20px;
 `;
 
 const StyledTable = styled.table`
@@ -201,17 +206,12 @@ const StyledTable = styled.table`
   .categoria-valor-data {
     width: 150px; // Ajuste conforme necessário
   }
-
 `;
 
 const TableHeader = styled.thead`
   th {
     padding: 0.5rem;
   }
-
- 
-
-  
 `;
 
 const TableRow = styled.tr`
@@ -230,15 +230,13 @@ const TableRow = styled.tr`
   .tdEspacoConta {
     padding-left: 8.5rem; // Ajuste o valor conforme necessário
   }
-
-  
 `;
 
 const TableFooter = styled.div`
   width: 47%;
   display: flex;
   justify-content: flex-end;
-  background: white; 
+  background: white;
   margin-top: -35px;
   margin-left: -1px;
 `;
@@ -276,37 +274,35 @@ const SelecionarOrdenacao = styled.select`
   cursor: pointer;
   background-color: transparent;
   color: #000;
-  width: 50%; 
-  
-  
+  width: 50%;
 `;
 
 const AllContainers = styled.div`
   display: flex;
-  height:100vh;
-  overflow-y:none;
-  justify-content:center;
-  align-items:center;
-  background-color: #DBE7E0;
+  height: 100vh;
+  overflow-y: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #dbe7e0;
 
-  .container{
+  .container {
     width: 80vw;
   }
 
-  *{
+  * {
     box-sizing: border-box;
   }
 
-  .footer{
-    display:flex;
-    justify-content:space-between;
+  .footer {
+    display: flex;
+    justify-content: space-between;
     margin: auto;
     width: 23vw;
   }
-`
+`;
 const TableIcon = styled.img`
   height: 40px;
-  margin-left:10px;
+  margin-left: 10px;
   margin: 0;
   vertical-align: middle;
 `;
@@ -315,25 +311,21 @@ const FiltroContainer = styled.div`
   cursor: pointer;
 `;
 
-
-
-
 const lineChartData = [
-  { data: 'Jan', valor: 100 },
-  { data: 'Fev', valor: 10 },
-  { data: 'Mar', valor: 120 },
-  { data: 'Abr', valor: 10 },
-  { data: 'Mai', valor: 200 },
-  { data: 'Jun', valor: 20 },
-
+  { data: "Jan", valor: 100 },
+  { data: "Fev", valor: 10 },
+  { data: "Mar", valor: 120 },
+  { data: "Abr", valor: 10 },
+  { data: "Mai", valor: 200 },
+  { data: "Jun", valor: 20 },
 ];
 const itensPorPagina = 8;
 
 function ContainerGeral() {
-  const idUser = sessionStorage.getItem('id');
+  const idUser = sessionStorage.getItem("id");
 
   const [paginaAtual, setPaginaAtual] = useState(1);
-  const [opcaoSelecionada, setOpcaoSelecionada] = useState('Valor');
+  const [opcaoSelecionada, setOpcaoSelecionada] = useState("Valor");
   const [dadosTabela, setDadosTabela] = useState([]);
 
   const totalItens = dadosTabela.length;
@@ -361,7 +353,7 @@ function ContainerGeral() {
   };
 
   useEffect(() => {
-    listar()
+    listar();
   }, []);
 
   function listar() {
@@ -376,7 +368,6 @@ function ContainerGeral() {
       });
   }
 
-
   const [dataPizza, setDataPizza] = useState([]);
   const [dataLine, setDataLine] = useState([]);
 
@@ -385,7 +376,6 @@ function ContainerGeral() {
     listarDadosGraficoLine();
     listarGraficoLinhaKpi();
   }, []);
-
 
   function listarGraficoPizza() {
     api
@@ -399,10 +389,9 @@ function ContainerGeral() {
       });
   }
 
-
-
   function listarDadosGraficoLine() {
-    api.get(`graficos/grafico-linha-geral/${idUser}`)
+    api
+      .get(`graficos/grafico-linha-geral/${idUser}`)
       .then((respostaObtida) => {
         console.log("Dados do gráfico de linha: ", respostaObtida.data);
         setDataLine(respostaObtida.data);
@@ -417,7 +406,8 @@ function ContainerGeral() {
   const [variacaoPercentual, setVariacaoPercentual] = useState([]);
 
   function listarGraficoLinhaKpi() {
-    api.get(`graficos/grafico-linha-kpi/${idUser}`)
+    api
+      .get(`graficos/grafico-linha-kpi/${idUser}`)
       .then((respostaObtida) => {
         console.log("Dados da KPI do grafico de linha ", respostaObtida.data);
 
@@ -431,12 +421,12 @@ function ContainerGeral() {
   }
 
   const styleCss = {
-    position: 'absolute',
-    padding: '30px 20px 20px 20px',
+    position: "absolute",
+    padding: "30px 20px 20px 20px",
     left: 0,
     top: 10,
-    width: '70%',
-    height: '70%',
+    width: "70%",
+    height: "70%",
   };
 
   return (
@@ -445,12 +435,11 @@ function ContainerGeral() {
 
       <Container>
         <Content>
-
-          <Image src={Icon('maisIcon')} />
+          <Image src={Icon("maisIcon")} />
           <Text>Lançamentos</Text>
 
           <Text className="filtro">
-            <FiltroContainer onClick={() => console.log('Clicou no filtro')}>
+            <FiltroContainer style={{Cursor: dadosExibidos.length > 0 ? "block" : "not-allowed"}}>
               Ordenar por:{" "}
               <SelecionarOrdenacao
                 value={opcaoSelecionada}
@@ -462,56 +451,65 @@ function ContainerGeral() {
               </SelecionarOrdenacao>
             </FiltroContainer>
           </Text>
-
         </Content>
 
         <MainContent>
           <TableContainer>
-
             <StyledTable id="machineTable">
-              <TableHeader>
-                <TableRow>
-                  <th>Categoria</th>
-                  <th>Valor</th>
-                  <th>Data</th>
-                  <th className='tdEspacoConta'>Conta</th>
-                </TableRow>
-              </TableHeader>
-              <tbody>
-                {dadosExibidos.map((item, index) => (
-                  <TableRow key={index}>
-                    <td class>
-                      <TableIcon src={Icon(item.categoria.nome)} alt="Ícone" />
-                    </td>
+              {dadosExibidos.length > 0 ? (
+                <>
+                  <TableHeader>
+                    <TableRow>
+                      <th>Categoria</th>
+                      <th>Valor</th>
+                      <th>Data</th>
+                      <th className="tdEspacoConta">Conta</th>
+                    </TableRow>
+                  </TableHeader>
+                  <tbody>
+                    {dadosExibidos.map((item, index) => (
+                      <TableRow key={index}>
+                        <td class>
+                          <TableIcon
+                            src={Icon(item.categoria.nome)}
+                            alt="Ícone"
+                          />
+                        </td>
 
-                    <td>{item.valor}</td>
-                    <td >{item.data}</td>
-                    <td className='tdEspacoConta'>{item.conta != null ? item.conta.banco : item.fatura.fkCartao.nome}</td>
-                  </TableRow>
-                ))}
-              </tbody>
+                        <td>{item.valor}</td>
+                        <td>{item.data}</td>
+                        <td className="tdEspacoConta">
+                          {item.conta != null
+                            ? item.conta.banco
+                            : item.fatura.fkCartao.nome}
+                        </td>
+                      </TableRow>
+                    ))}
+                  </tbody>
+                </>
+              ) : (
+                <p>Nada a mostrar</p>
+              )}
             </StyledTable>
-
           </TableContainer>
 
           <DivsChartsContainer>
             <SideDiv>
               {/* Cabeçalho */}
-              <div className='cabeçalho'>
-                <Image src={Icon('iconChart1')} />
-                <Text className='textSide'>Gastos por categoria</Text>
+              <div className="cabeçalho">
+                <Image src={Icon("iconChart1")} />
+                <Text className="textSide">Gastos por categoria</Text>
               </div>
               <PieChartContainer>
-
                 {/* Gráfico de Pizza (não é GPT, sou eu msm comentando)*/}
-                <GraficoPizzaApex dados={dataPizza} />
-
-
+                {dataPizza.length > 0 && <GraficoPizzaApex dados={dataPizza} />}
               </PieChartContainer>
               <table>
                 <thead>
                   <tr>
-                    <th colSpan="2" style={{ textAlign: "center" }}>TOP 5 Gastos</th>
+                    <th colSpan="2" style={{ textAlign: "center", display: dataPizza.length > 0 ? "block" : "none" }}>
+                      Top 5 Gastos
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -519,35 +517,42 @@ function ContainerGeral() {
                     dataPizza.map((item, index) => (
                       <tr key={index}>
                         <td>{item.categoria}</td>
-                        <td className='valor'>{item.valor}</td>
+                        <td className="valor">{"R$"+ (item.valor)}</td>
                       </tr>
-                    ))
-                  }
+                    ))}
                 </tbody>
               </table>
+
             </SideDiv>
 
             <SideDiv>
-              <Image src={Icon('iconChart1')} />
-              <Text className='textSide'>Gastos com débito ao longo do tempo</Text>
+              <Image src={Icon("iconChart1")} />
+              <Text className="textSide">
+                Gastos com débito ao longo do tempo
+              </Text>
 
               <GraficoLinha style={styleCss} dados={dataLine} />
 
               <div className="info">
                 <div className="info-box">
-                  <p className='p'>Maior gasto:<span className='limite'>{maiorValor}</span></p>
+                  <p className="p">
+                    Maior gasto:<span className="limite">{maiorValor}</span>
+                  </p>
                 </div>
                 <div className="info-box">
-                  <p className='p' >Menor gasto: <span className='gasto'>{menorValor}</span></p>
+                  <p className="p">
+                    Menor gasto: <span className="gasto">{menorValor}</span>
+                  </p>
                 </div>
                 <div className="info-box">
-                  <p className='p'>Variação percentual: <span className='livre'>{variacaoPercentual}%</span></p>
+                  <p className="p">
+                    Variação percentual:{" "}
+                    <span className="livre">{variacaoPercentual}%</span>
+                  </p>
                 </div>
               </div>
             </SideDiv>
-
           </DivsChartsContainer>
-
         </MainContent>
 
         <TableFooter>
@@ -560,9 +565,9 @@ function ContainerGeral() {
                 key={index}
                 onClick={() => mudarPagina(numeroPagina)}
                 style={{
-                  backgroundColor: ePaginaAtual ? '#08632D' : 'transparent',
-                  color: ePaginaAtual ? 'white' : 'black',
-                  borderRadius: '4px',
+                  backgroundColor: ePaginaAtual ? "#08632D" : "transparent",
+                  color: ePaginaAtual ? "white" : "black",
+                  borderRadius: "4px",
                 }}
               >
                 {numeroPagina}

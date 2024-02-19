@@ -92,7 +92,7 @@ function Cards() {
                             Valor planejado no mês
                         </div>
                         <div className="numero">
-                            R$ {valorPlanejado}
+                            {valorPlanejado > 0 ? `R$ ${valorPlanejado.toFixed(2)}` : "R$ 0,00"}
                         </div>
                     </div>
                 </Card>

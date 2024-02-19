@@ -146,6 +146,7 @@ const CardGeralCard = styled.div`
   display: flex;
   height: 82vh;
   flex-direction: column;
+  text-align: center;
   overflow: auto;
   width: 100%;
   max-width: 600px;
@@ -176,6 +177,11 @@ const CardGeralCard = styled.div`
 
   @media (max-width: 768px) {
     width: 80vw;
+  }
+
+  span{
+    padding: 50px;
+  
   }
 `;
 
@@ -656,7 +662,7 @@ const CartoesGeral = () => {
 
           <Wrapper>
             <CardGeralCard>
-              {cartoes.map((cartao, index) => (
+              {cartoes.length > 0 ? cartoes.map((cartao, index) => (
              <CardContainer
              key={index}
              onClick={() => handleCartaoClick(cartao.id, index)}
@@ -698,7 +704,7 @@ const CartoesGeral = () => {
                    </CardDates>
                   
                 </CardContainer>
-              ))}
+              )) : <span>Nenhum cartão cadastrado. Vá até o Início no menu Cartão de Crédito e em Novo Cartão para realizar o cadastro.</span>}
             </CardGeralCard>
 
             <CardCategoria>
