@@ -4,13 +4,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Icon } from "../../visaoGeral/funcoes/icons";
 import LateralHeader from "../../visaoGeral/Componentes/LateralHeader";
-import {
-  ApexChart,
-  ApexAxis,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexTitleSubtitle,
-} from "react-apexcharts";
 import api from "../../../api";
 import { ca } from "date-fns/locale";
 import GraficoPizzaApex from "./GraficoPizza";
@@ -488,12 +481,15 @@ function ContainerGeral() {
                   </tbody>
                 </>
               ) : (
-                <p>Nada a mostrar</p>
+                <p>
+                  Nenhum lançamento a mostrar. 
+                  Realize uma operação de despesa para obter maiores detalhes.
+                </p>
               )}
             </StyledTable>
           </TableContainer>
 
-          <DivsChartsContainer>
+          {dataPizza.length > 0 && dataLine.length > 0 && <DivsChartsContainer>
             <SideDiv>
               {/* Cabeçalho */}
               <div className="cabeçalho">
@@ -504,17 +500,18 @@ function ContainerGeral() {
                 {/* Gráfico de Pizza (não é GPT, sou eu msm comentando)*/}
                 {dataPizza.length > 0 && <GraficoPizzaApex dados={dataPizza} />}
               </PieChartContainer>
+
+              {dataPizza.length > 0 &&
               <table>
                 <thead>
                   <tr>
-                    <th colSpan="2" style={{ textAlign: "center", display: dataPizza.length > 0 ? "block" : "none" }}>
+                    <th colSpan="2">
                       Top 5 Gastos
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {dataPizza.length > 0 &&
-                    dataPizza.map((item, index) => (
+                    {dataPizza.map((item, index) => (
                       <tr key={index}>
                         <td>{item.categoria}</td>
                         <td className="valor">{"R$"+ (item.valor)}</td>
@@ -522,7 +519,7 @@ function ContainerGeral() {
                     ))}
                 </tbody>
               </table>
-
+              }
             </SideDiv>
 
             <SideDiv>
@@ -552,11 +549,11 @@ function ContainerGeral() {
                 </div>
               </div>
             </SideDiv>
-          </DivsChartsContainer>
+          </DivsChartsContainer>}
         </MainContent>
 
         <TableFooter>
-          <BotaoAnterior onClick={irParaPaginaAnterior}>&lt; </BotaoAnterior>
+          {dataPizza.length > 0 && <BotaoAnterior onClick={irParaPaginaAnterior}>&lt; </BotaoAnterior>}
           {Array.from({ length: totalPaginas }, (_, index) => {
             const numeroPagina = index + 1;
             const ePaginaAtual = paginaAtual === numeroPagina;
@@ -574,7 +571,7 @@ function ContainerGeral() {
               </Button>
             );
           })}
-          <BotaoAnterior onClick={irParaProximaPagina}> &gt;</BotaoAnterior>
+          {dataPizza.length > 0 && <BotaoAnterior onClick={irParaProximaPagina}> &gt;</BotaoAnterior>}
         </TableFooter>
       </Container>
     </AllContainers>
