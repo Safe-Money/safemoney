@@ -1,7 +1,7 @@
 import Modal from "../../../components/Modal2";
 import styled from "styled-components";
 import React, { useState, useEffect } from 'react';
-import api from "../../../api";
+import api from "../../../API";
 
 const LocalConteudo = styled.div`
 display:flex;

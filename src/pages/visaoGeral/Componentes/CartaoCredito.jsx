@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import { Icon } from "../funcoes/icons";
 import React, { useEffect, useState } from 'react';
 import ModalCartao from "./ModalCartao";
 import CartaoContainer from "./CartaoContainer";
-import ContainerCartaoBradesco from '../../Contas/Componentes/ContainerCartaoBanco';
-import api from "../../../api";
+import api from "../../../API";
 
 const ContainerCartaoCredito = styled.div`
 display:flex;

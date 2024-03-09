@@ -156,7 +156,7 @@ function Previsao() {
         </div>
         <div className="conteudo">
           <div className="grafico-container">
-            <ResponsiveContainer width="100%" height="200%" position="absolute" marginLeft="100px">
+            { receita.length > 0 || despesa.length > 0 && <ResponsiveContainer width="100%" height="200%" position="absolute" marginLeft="100px">
               <BarChart data={dadosGrafico} margin={{ top: 20, right: 180, bottom: 20, left: 0 }} barCategoryGap={30}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
@@ -172,13 +172,15 @@ function Previsao() {
                   ))}
                 </Bar>
               </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer>}
+
           </div>
-          <TextoBox>
+          {receita.length > 0 || despesa.length > 0 && <TextoBox>
             <div className="receitaBox"><span>Receita:</span> R$ {receita}</div>
             <div className="despesaBox"><span>Despesa:</span> R$ {despesa}</div>
             <div className="saldoBox"><span>Saldo:</span> R$ {saldo}</div>
-          </TextoBox>
+          </TextoBox>}
+
         </div>
       </ContainerPrevisao>
     </>

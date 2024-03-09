@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import DespesaContainer from "./DespesaContainer";
 import React, { useEffect, useState } from 'react';
-import api from "../../../api";
+import api from "../../../API";
 
 const ContainerUltimosGastos = styled.div`
 display:flex;
@@ -202,7 +202,7 @@ function UltimosGastos() {
                 data={gasto.data}
                 parcelas={gasto.conta == null ? gasto.parcelas : 0}
                 parcelaAtual={gasto.conta == null ? gasto.parcelaAtual : 0}
-                cartao={gasto.conta == null ? gasto.fatura.fkCartao.nome : gasto.conta.banco}
+                cartao={gasto.conta == null ? gasto.fatura.fkCartao.nome : gasto.conta.nome}
                 id={gasto.id}
                 categoria={gasto.categoria.nome}
             />
@@ -225,7 +225,7 @@ function UltimosGastos() {
                 </div>
 
                 <div className="conteudo-lista">
-                    {dados > 0 && <div className="titulos-categoria">
+                    {dados.length > 0 && <div className="titulos-categoria">
                         <div className="categoria">
                             Categoria
                         </div>

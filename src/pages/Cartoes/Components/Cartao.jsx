@@ -14,6 +14,7 @@ import carroImg from '../../../assets/transporte.png';
 import gymImg from '../../../assets/gym.png';
 import viagemImg from '../../../assets/viagem.png';
 import lazerImg from '../../../assets/lazer.png';
+import { set } from 'date-fns';
 
 
 const Container = styled.div`
@@ -146,7 +147,6 @@ const CardGeralCard = styled.div`
   display: flex;
   height: 82vh;
   flex-direction: column;
-  text-align: center;
   overflow: auto;
   width: 100%;
   max-width: 600px;
@@ -177,11 +177,6 @@ const CardGeralCard = styled.div`
 
   @media (max-width: 768px) {
     width: 80vw;
-  }
-
-  span{
-    padding: 50px;
-  
   }
 `;
 
@@ -545,6 +540,8 @@ const CartoesGeral = () => {
                 text: "Cartão excluído com êxito!",
                 icon: "success"
             })
+
+            setIsBotaoSuperiorHabilitado(false);
               
             })
             .catch(error => {
@@ -662,7 +659,7 @@ const CartoesGeral = () => {
 
           <Wrapper>
             <CardGeralCard>
-              {cartoes.length > 0 ? cartoes.map((cartao, index) => (
+              {cartoes.length > 0 && cartoes.map((cartao, index) => (
              <CardContainer
              key={index}
              onClick={() => handleCartaoClick(cartao.id, index)}
@@ -704,7 +701,18 @@ const CartoesGeral = () => {
                    </CardDates>
                   
                 </CardContainer>
-              )) : <span>Nenhum cartão cadastrado. Vá até o Início no menu Cartão de Crédito e em Novo Cartão para realizar o cadastro.</span>}
+              ))}
+
+              {cartoes.length === 0 && (
+                <CardContainer>
+                  <CardInfo>
+                    <div>
+                      <CardTitle>Nenhum cartão cadastrado</CardTitle>
+                      <CardSub>Adicione um cartão para visualizar as faturas</CardSub>
+                    </div>
+                  </CardInfo>
+                </CardContainer>
+              )}
             </CardGeralCard>
 
             <CardCategoria>
