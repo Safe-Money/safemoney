@@ -25,7 +25,7 @@ import lancamentosAtiva from '../../../assets/lancamentos-active.png';
 import objetivosAtiva from '../../../assets/objetivos-active.png';
 import configAtiva from '../../../assets/configuracoes-active.svg';
 import maisIcon from '../../../assets/Mais.png'
-import iconPrato from '../../../assets/iconPrato.png'
+import iconPrato from '../../../assets/IconPrato.png'
 import seta1 from '../../../assets/seta.png'
 import iconChart1 from '../../../assets/graficIcon.png'
 import cardIcon from '../../../assets/cardIcon.png'
