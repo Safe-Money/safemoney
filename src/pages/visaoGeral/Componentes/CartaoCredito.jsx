@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useEffect, useState } from 'react';
 import ModalCartao from "./ModalCartao";
 import CartaoContainer from "./CartaoContainer";
-import api from "../../../API";
+import api from "../../../api";
 
 const ContainerCartaoCredito = styled.div`
 display:flex;

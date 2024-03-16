@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import DespesaContainer from "./DespesaContainer";
 import React, { useEffect, useState } from 'react';
-import api from "../../../API";
+import api from "../../../api";
 
 const ContainerUltimosGastos = styled.div`
 display:flex;

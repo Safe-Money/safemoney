@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
 import Swal from "sweetalert2";
-import api from "../../../API";
+import api from "../../../api";
 
 const ModalWrapper = styled.div`
   position: fixed;

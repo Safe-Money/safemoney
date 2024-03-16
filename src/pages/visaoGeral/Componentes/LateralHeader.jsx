@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "../funcoes/icons";
 import { useState, useEffect } from "react";
-import api from '../../../API';
+import api from '../../../api';
 
 const Header = styled.div`
 width: 165px;

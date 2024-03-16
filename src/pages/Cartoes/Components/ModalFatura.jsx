@@ -1,7 +1,7 @@
 import Modal from "../../../components/Modal2";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import api from '../../../API';
+import api from '../../../api';
 import Swal from "sweetalert2";
 
 const LocalConteudo = styled.div`

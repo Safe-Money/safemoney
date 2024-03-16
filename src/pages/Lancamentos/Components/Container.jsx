@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Icon } from '../../visaoGeral/funcoes/icons';
 import LateralHeader from '../../visaoGeral/Componentes/LateralHeader';
-import api from '../../../API';
+import api from '../../../api';
 import GraficoPizzaApex from './GraficoPizza';
 
 const PieChartContainer = styled.div`
