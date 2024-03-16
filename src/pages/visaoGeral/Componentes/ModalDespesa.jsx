@@ -256,6 +256,8 @@ function ModalDespesa(props) {
             icon: 'success',
             title: 'Despesa fixa foi adicionada!',
             text: 'Sua despesa foi adicionada com sucesso!!.',
+          }).then(() => {
+            window.location.reload(); 
           });
 
 
@@ -299,6 +301,8 @@ function ModalDespesa(props) {
             icon: 'success',
             title: 'Despesa no crédito foi adicionada!',
             text: 'Sua despesa no crédito foi adicionada com sucesso!!.',
+          }).then(() => {
+            window.location.reload(); 
           });
 
 
@@ -338,6 +342,8 @@ function ModalDespesa(props) {
             icon: 'success',
             title: 'Despesa adicionada!',
             text: 'Sua despesa foi adicionada com sucesso!!.',
+          }).then(() => {
+            window.location.reload(); 
           });
 
 

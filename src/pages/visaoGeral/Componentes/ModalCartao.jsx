@@ -194,7 +194,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
     api
       .get(`/contas/listar-contas/${idUser}`)
       .then((respostaObtida) => {
-        console.log("Dados do gráfico de pizza: ", respostaObtida.data);
+        console.log("Dados das contas: ", respostaObtida.data);
         setContas(respostaObtida.data);
       })
       .catch((erroOcorrido) => {
@@ -223,7 +223,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
   });
 
   // Salvar os dados
-  const handleSalvar = () => {
+  const handleSalvar = async () => {
     const camposNaoTocados = {
       // categoria: !camposTocados.categoria,
       origem: !camposTocados.origem,
@@ -308,9 +308,9 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
 
     console.log("valor no modal:", valor);
 
-    api
-      .post(`/cartao-credito/`, novoCartao)
+    await api.post(`/cartao-credito/`, novoCartao)
       .then(() => {
+
         Swal.fire({
           icon: "success",
           title: "Cartão adicionado com sucesso!",
@@ -323,9 +323,11 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
           setFechamento("");
           setApelido("");
           resetarCampos();
+          window.location.reload();
         });
+
       })
-      .catch((erroOcorrido) => {
+        .catch((erroOcorrido) => {
         console.log(erroOcorrido);
         resetarCampos();
         onClose();
@@ -340,6 +342,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
     setApelido("");
     resetarCampos();
     onClose();
+    
   };
 
   //Resetar campos ao adicionar conta ou cancelar
@@ -442,7 +445,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
               style={{
                 borderColor: camposTocados.apelido && !apelido ? "red" : ""
               }}
-              placeholder="Cartão VISA"
+              placeholder="Cartão Visa"
             />
             {camposTocados.apelido && !apelido && <Obrig>Campo Obrigatório</Obrig>}
           </LabelInput>

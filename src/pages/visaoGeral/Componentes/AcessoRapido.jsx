@@ -129,7 +129,7 @@ function AcessoRapido() {
   function listarContas() {
     api.get(`/contas/listar-contas/${idUser}`)
       .then((respostaObtida) => {
-        console.log("Dados do gráfico de pizza: ", respostaObtida.data);
+        console.log("Dados das contas: ", respostaObtida.data);
         setContas(respostaObtida.data);
       })
       .catch((erroOcorrido) => {
@@ -140,7 +140,7 @@ function AcessoRapido() {
   function listarCartoes() {
     api.get(`/cartao-credito/listar-cartoes/${idUser}`)
       .then((respostaObtida) => {
-        console.log("Dados do gráfico de pizza: ", respostaObtida.data);
+        console.log("Dados dos cartões: ", respostaObtida.data);
         setCartoes(respostaObtida.data);
       })
       .catch((erroOcorrido) => {

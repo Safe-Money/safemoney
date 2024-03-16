@@ -96,7 +96,7 @@ function Depositar(props) {
             return;
         }
 
-        api.put(`/objetivos/${objetivo.id}/${valor}/${idUser}`)
+        api.put(`/objetivos/adicionar/${objetivo.id}/${valor}/${idUser}`)
             .then(() => {
                 props.onClose();
                 Swal.fire({

@@ -259,14 +259,16 @@ const ModalWrapper = ({ isOpen, onClose }) => {
       console.log(response);
       onClose();
       resetarCampos();
+      
 
       Swal.fire({
         icon: 'success',
         title: 'Conta adicionada!',
         text: 'Sua conta foi adicionada com sucesso!!.',
-      });
-
-      navigate('/visao-geral');
+      }).then(() => {
+        window.location.reload();
+      })
+      
 
     }).catch((error) => {
       const errorMessage = 'Não foi possível adicionar a conta. Tente novamente.';

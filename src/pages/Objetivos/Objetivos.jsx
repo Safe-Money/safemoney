@@ -472,10 +472,10 @@ function Objetivos() {
                             title: "Excluído!",
                             text: "Objetivo excluído com êxito!",
                             icon: "success"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.reload();
-                            }
+                        }).then(() => {
+                           
+                            window.location.reload();
+                            
                         });
                     }).catch(error => {
                         Swal.fire({
