@@ -11,9 +11,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
-  },
-  plugins: [react()],
-  server: {
     cors: true,
   },
+  plugins: [react()],
 });
