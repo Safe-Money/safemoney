@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Icon } from "../funcoes/icons";
 import Notification from "./Notification";
 import Swal from 'sweetalert2';
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from "../../../api";
 import ModalDespesa from './ModalDespesa';
 import ModalReceita from './ModalReceita';
@@ -122,7 +122,6 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 }
 `
 
-// const UpdateContext = createContext();
 
 function AcessoRapido() {
     const idUser = sessionStorage.getItem('id');
@@ -203,16 +202,14 @@ function AcessoRapido() {
                             </span>
                         </div>
                     </div>
-
-                    
-                    
+      
                     {selectedModal === 'despesa' && <ModalDespesa onClose={closeModal} contas={contas} cartoes={cartoes} />}
                     {selectedModal === 'receita' && <ModalReceita onClose={closeModal} contas={contas} cartoes={cartoes}/>}
                     {selectedModal === 'transferencia' && <ModalTransferencia onClose={closeModal} contas={contas}/>}
 
                 </div>
             </ContainerAcessoRapido>
-            
+        
         </>
     )
 }

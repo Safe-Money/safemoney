@@ -186,6 +186,8 @@ function ModalDespesa(props) {
   };
 
 
+
+
   // Aqui está a lógica de saber se eu selecionei um cartão ou não junto com a aparição do input de parcelas
 
   const [idConta, setIdConta] = useState(null);
@@ -369,9 +371,14 @@ function ModalDespesa(props) {
             >
               <option value="0">-- Selecione --</option>
               <option value="1">Lazer</option>
-              <option value="2">Alimentação</option>
-              <option value="3">Saúde</option>
-              <option value="4">Estudos</option>
+              <option value="2">Saúde</option>
+              <option value="3">Alimentação</option>
+              <option value="4">Transporte</option>
+              <option value="5">Moradia</option>
+              <option value="6">Educação</option>
+              <option value="7">Vestuário</option>
+              <option value="8">Academia</option>
+              <option value="9">Viagem</option>
             </BancoSelect>
 
           </LabelInput>

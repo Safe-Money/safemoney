@@ -128,7 +128,7 @@ function Cards() {
                             Categorias sem Alerta
                         </div>
                         <div className="numero">
-                            2
+                            0
                         </div>
                     </div>
                 </Card>
@@ -145,7 +145,7 @@ function Cards() {
                             Categoria com +2 alertas
                         </div>
                         <div className="numero">
-                            R$ 10.000,00
+                            0
                         </div>
                     </div>
                 </Card>

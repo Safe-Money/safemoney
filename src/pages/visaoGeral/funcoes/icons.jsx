@@ -39,7 +39,7 @@ import cartoesAtiva from '../../../assets/cartoesAtiva.png';
 import Logo2 from '../../../assets/logo2.png';
 import moneyRecive from '../../../assets/money_recive.svg';
 import lazer from '../../../assets/lazer.png';
-import gym from '../../../assets/gym.png';
+import academia from '../../../assets/academia.png';
 import pet from '../../../assets/pet.png';
 import saude from '../../../assets/remedio.png';
 import alimentacao from '../../../assets/restaurante.png';
@@ -89,7 +89,7 @@ const icons = {
     Logo2,
     moneyRecive,
     lazer,
-    gym,
+    academia,
     pet,
     saude,
     alimentacao, 

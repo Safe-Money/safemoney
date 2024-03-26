@@ -1,4 +1,4 @@
-import Modal from "../../../components/Modal";
+import Modal from "../../../components/Modal3";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -126,7 +126,7 @@ function ModalCriar(props) {
 
     await api.post(`/planejamento/`, {
       valorPlanejado: saldo,
-      data: data,
+      data: "2024-03-25",
       categoria: {
         id: selectedCategoria,
       },
@@ -185,6 +185,7 @@ function ModalCriar(props) {
                 setCategoria(e.target.value);
               }}
             >
+              <option value="0">-- Selecione --</option>
              {categorias.length > 0 ? categorias.map((categoria) => (
                 <option key={categoria.id} value={categoria.id}>
                   {categoria.nome}
@@ -212,23 +213,6 @@ function ModalCriar(props) {
 
         </LocalElementos>
 
-        <LocalElementos>
-
-          <LabelInput>
-            <div className="label">Data Final:</div>
-            <input
-              id="select_data"
-              type="date"
-              className="input-field"
-              name="data"
-              value={data}
-              onChange={(e) => {
-                setData(e.target.value);
-              }}
-            />
-          </LabelInput>
-
-        </LocalElementos>
       </LocalConteudo>
     </Modal>
   )
