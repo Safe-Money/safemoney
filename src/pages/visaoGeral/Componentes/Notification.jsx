@@ -10,11 +10,11 @@ const Notifica = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 15vh;
+  height: 10vh;
   width: 100px;
-  font-size: 11px;
+  font-size: 13px;
   cursor: pointer;
-  justify-content: center;
+  justify-content: space-evenly;
 
 `;
 
@@ -58,7 +58,7 @@ function Notification() {
   return (
     <NotificacaoWrapper>
       <Notifica onClick={handleNotificacaoClick}>
-        <img src={Icon("notificacaoIcon")} alt="Ícone de notificação" />
+        <img className="imgNotificacao" src={Icon("notificacaoIcon")} alt="Ícone de notificação" />
         <p>Notificações</p>
       </Notifica>
       <ListaNotificacoes visible={mostrarNotificacoes}>

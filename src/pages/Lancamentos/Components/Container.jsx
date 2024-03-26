@@ -435,6 +435,13 @@ function ContainerGeral() {
     height: '70%',
   };
 
+  function removerAcentos(str) {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  }
+
   return (
     <AllContainers>
       <LateralHeader selecionado="lancamentos" />
@@ -477,7 +484,7 @@ function ContainerGeral() {
                 {dadosExibidos.map((item, index) => (
                   <TableRow key={index}>
                     <td class>
-                      <TableIcon src={Icon(item.categoria.nome)} alt="Ícone" />
+                      <TableIcon src={Icon(removerAcentos(item.categoria.nome))} alt="Ícone" />
                     </td>
 
                     <td>{item.valor}</td>

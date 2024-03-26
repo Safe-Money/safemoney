@@ -11,7 +11,7 @@ import vesteImg from '../../../assets/vestuario.png';
 import petImg from '../../../assets/pet.png';
 import alimentacaoImg from '../../../assets/restaurante.png';
 import carroImg from '../../../assets/transporte.png';
-import gymImg from '../../../assets/gym.png';
+import academiaImg from '../../../assets/academia.png';
 import viagemImg from '../../../assets/viagem.png';
 import lazerImg from '../../../assets/lazer.png';
 import { set } from 'date-fns';
@@ -743,30 +743,35 @@ const CartoesGeral = () => {
                       return (
                         <TableRow key={index}>
                           <TableCell>
-                            {item.categoria.nome === 'economia' && (
-                              <img src={poupancaImg} alt="Economia" />
-                            )}
-                            {item.categoria.nome === 'transporte' && (
-                              <img src={carroImg} alt='Transporte' />
-                            )}
-                            {item.categoria.nome === 'vestuario' && (
-                              <img src={vesteImg} alt='Vestuario' />
-                            )}
-                             {item.categoria.nome === 'alimentacao' && (
-                              <img src={alimentacaoImg} alt='Alimento' />
-                            )}
-                             {item.categoria.nome === 'saude' && (
-                              <img src={saudeImg} alt='Saúde' />
-                            )} 
-                            {item.categoria.nome === 'gym' && (
-                              <img src={gymImg} alt='Gym' />
-                            )}
-                             {item.categoria.nome === 'pet' && (
-                              <img src={petImg} alt='PEt' />
-                            )}
-                            {item.categoria.nome === 'lazer' && (
+                            {item.categoria.nome === 'Lazer' && (
                               <img src={lazerImg} alt='Lazer' />
                             )}
+                              {item.categoria.nome === 'Saúde' && (
+                              <img src={saudeImg} alt='Saúde' />
+                            )} 
+                            {item.categoria.nome === 'Alimentação' && (
+                              <img src={alimentacaoImg} alt='Alimentação' />
+                            )}
+                            {item.categoria.nome === 'Transporte' && (
+                              <img src={carroImg} alt='Transporte' />
+                            )}
+                            {item.categoria.nome === 'Moradia' && (
+                              <img src={academiaImg} alt='Moradia' />
+                            )}
+                            {item.categoria.nome === 'Educação' && (
+                              <img src={academiaImg} alt='Educação' />
+                            )}
+                            {item.categoria.nome === 'Vestuário' && (
+                              <img src={vesteImg} alt='Vestuario' />
+                            )}
+                            {item.categoria.nome === 'Academia' && (
+                              <img src={academiaImg} alt='Academia' />
+                            )}
+                            {item.categoria.nome === 'Viagem' && (
+                              <img src={academiaImg} alt='Viagem' />
+                            )}
+                          
+                            
 
 
                             

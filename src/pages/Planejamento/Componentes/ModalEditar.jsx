@@ -1,4 +1,4 @@
-import Modal from "../../../components/Modal";
+import Modal3 from "../../../components/Modal3";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -170,8 +170,9 @@ function ModalEditar(props) {
     fetchData();
   }, []);
 
+  
   return (
-    <Modal title="Adicionar Planejamento" cancelar={props.onClose} salvar={() => handleSalvar(planejamento.idPlanejamento)}>
+    <Modal3 title="Adicionar Planejamento" cancelar={props.onClose} salvar={() => handleSalvar(planejamento.idPlanejamento)}>
       <LocalConteudo>
         <LocalElementos>
 
@@ -212,7 +213,7 @@ function ModalEditar(props) {
         </LocalElementos>
 
       </LocalConteudo>
-    </Modal>
+    </Modal3>
   )
 }
 

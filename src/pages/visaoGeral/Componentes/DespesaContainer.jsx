@@ -4,11 +4,19 @@ import { Icon } from "../funcoes/icons";
 
 function DespesaContainer(props) {
 
-    return (
+    function removerAcentos(str) {
+        return str
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase();
+      }
+
+
+    return (    
         <>
             <div className="container-lista-gastos">
                 <span className="icone-lista">
-                    <img src={Icon(props.categoria)} />
+                    <img src={Icon(removerAcentos(props.categoria))} />
                 </span>
                 <span className="descricao-lista">{props.nome}</span>
                 <span className="valor-lista">{props.valor}</span>
@@ -16,9 +24,9 @@ function DespesaContainer(props) {
                 <span className="parcelas-lista">{props.parcelaAtual}/{props.parcelas}</span>
                 <span className="conta-lista">{props.conta != null ? props.conta : props.cartao}</span>
             </div>
-
         </>
     )
+
 }
 
 export default DespesaContainer;

@@ -40,13 +40,13 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 
 .area-conteudo{
     display:flex;
+    justify-content: center;
     height:90%;
 }
 
 .area-conteudo .conteudoBloco1{
     display:flex;
-    flex-direction:column;
-    width:95%;
+    width:100%;
     height:100%;
     justify-content:space-between;
 }
@@ -55,7 +55,9 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: row; 
     justify-content: space-evenly;
-    height:40%;
+    height:100%;
+    width:100%;
+    align-items: center;
 }
 
 .conteudoBloco1 .box-tree .box{
@@ -63,17 +65,24 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
     flex-direction:column;
     justify-content:space-around;
     align-items:center;
-    margin:5% 0;
-    padding:3%;
-    width:70vw;
-    height:100%;
+    height:10vh;
     font-size:13px;
     cursor:pointer;
     font-weight:500;
 }
 
 .box img{
-    width:30%;
+    width:50%;
+    margin: 8px 0;
+}
+
+.box .imgTransferencia{
+    width:70%;
+    margin: 8px 0;
+}
+
+.box .imgNotificacao{
+    width:45%;
     margin: 8px 0;
 }
 
@@ -184,7 +193,7 @@ function AcessoRapido() {
                                 <span className="action">Nova receita</span>
                             </span>
                             <span className="box" onClick={() => openModal('transferencia')}>
-                                <img src={Icon('transferenciaIcon')} />
+                                <img className="imgTransferencia" src={Icon('transferenciaIcon')} />
                                 <span className="action">Transferir</span>
                             </span>
 
@@ -200,6 +209,7 @@ function AcessoRapido() {
 
                 </div>
             </ContainerAcessoRapido>
+        
         </>
     )
 }
