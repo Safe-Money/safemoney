@@ -210,3 +210,7 @@
 .localAdicionaConta .containers {
     cursor: pointer;
 }
+
+.containerBancoScroll .containerBanco .nao-encontrado {
+    margin: 10% 0 10% 30%;
+}

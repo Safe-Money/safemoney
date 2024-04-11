@@ -11,19 +11,17 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
 
-    const navigate = useNavigate();
-
     MinhasContas();
+
+
+
+    const navigate = useNavigate();
 
     const navigateClicked = (conta) => {
         console.log(conta);;
         const contaClicada = conta;
         navigate(`/conta/${contaClicada.id}`)
     };
-
-    const NaoEncontrado = styled.div`
-    margin: 10% 0 10% 30%;
-`
 
     return (
 
@@ -50,7 +48,7 @@ function Home() {
                                 {contas.length > 0 ? contas.map((conta, index) => (
                                     <ContaContainer key={index} nome={conta.nome} banco={conta.banco} tipoConta={conta.tipo} saldo={conta.saldo} onContainerClick={() => navigateClicked(conta)}
                                     />
-                                )) : <NaoEncontrado>Nenhuma conta cadastrada</NaoEncontrado>}
+                                )) : <div className="nao-encontrado">Nenhuma conta cadastrada</div>}
                             </div>
                         </div>
                         <div className="localAdicionaConta">
