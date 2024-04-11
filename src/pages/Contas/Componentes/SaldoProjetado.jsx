@@ -4,7 +4,7 @@ import LancamentoFixoContainer from "./LancamentoFixoContainer";
 import React, { useEffect, useState } from 'react';
 import api from "../../../api";
 import { useParams } from "react-router-dom";
-import "../../../css/saldo-projetado.css"
+import "../../../assets/css/saldo-projetado.css"
 
 const ContainerSaldoProjetado = styled.div`
 display:flex;
