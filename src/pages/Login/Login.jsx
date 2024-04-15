@@ -31,7 +31,7 @@ function Login() {
       //   text: 'Você foi autenticado com sucesso.',
       // });
   
-      navigate(`/visao-geral/`);
+      navigate(`/home/`);
     } catch (error) {
       const errorMessage = 'Verifique suas credenciais e tente novamente.';
   

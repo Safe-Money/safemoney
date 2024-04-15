@@ -209,7 +209,7 @@ function LateralHeader(props) {
                         className={selecionado === "geral" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("geral")
-                            navigate("/visao-geral")
+                            navigate("/home")
                         }}
                     >
                         <div className="selecoes-icone">

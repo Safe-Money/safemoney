@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Icon } from "../../visaoGeral/funcoes/icons";
+import { Icon } from "../../../pages/visaoGeral/funcoes/icons";
 import LancamentoFixoContainer from "./LancamentoFixoContainer";
 import React, { useEffect, useState } from 'react';
 import api from "../../../api";
@@ -172,7 +172,6 @@ function SaldoProjetado() {
         console.log(erroOcorrido);
       });
   }
-
 
   return (
     <>

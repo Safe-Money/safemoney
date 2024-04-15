@@ -14,9 +14,7 @@ import Edita from "./components/Editar"
 import { useState, useEffect } from "react";
 import Adiciona from "./components/Adiciona"
 import api from "../../api"
-import { Icon } from '../visaoGeral/funcoes/icons';
 import Swal from "sweetalert2"
-import { set } from "date-fns"
 import Depositar from "./components/Depositar"
 
 

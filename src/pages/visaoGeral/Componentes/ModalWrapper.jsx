@@ -165,7 +165,7 @@ const Error = styled.div`
   color: red;
 `
 
-const ModalWrapper = ({ isOpen, onClose }) => {
+const ModalWrapper = ({ isOpen, onClose, listar}) => {
   const [saldo, setSaldo] = useState('');
   const [selectedBanco, setSelectedBanco] = useState('');
   const [tipo, setTipo] = useState('sel');
@@ -266,7 +266,7 @@ const ModalWrapper = ({ isOpen, onClose }) => {
         title: 'Conta adicionada!',
         text: 'Sua conta foi adicionada com sucesso!!.',
       }).then(() => {
-        window.location.reload();
+        listar()
       })
       
 
