@@ -20,7 +20,6 @@ import linkedin from '../../../assets/linkedin.png'
 import twitter from '../../../assets/twitter.png'
 import formas from '../../../assets/Group 3.png'
 import imagemFormas from '../../../assets/Group 5.png'
-import video from '../../../assets/video.mp4'
 
 
 
@@ -47,7 +46,6 @@ const icons = {
     linkedin,
     formas,
     imagemFormas,
-    video
 }
 
 export const Icon = (icon) => {

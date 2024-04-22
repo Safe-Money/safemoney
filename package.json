@@ -15,6 +15,7 @@
     "@grapecity/wijmo.react.chart": "^5.20231.904",
     "@grapecity/wijmo.react.chart.analytics": "^5.20231.904",
     "@keyvaluesystems/react-waterfall-chart": "^0.1.5",
+    "@mercadopago/sdk-react": "^0.0.19",
     "apexcharts": "^3.44.0",
     "axios": "^1.6.2",
     "c3": "^0.7.20",
