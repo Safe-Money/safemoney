@@ -14,7 +14,7 @@
 
 .modal-content-pagamento {
     background-color: #fefefe;
-    height: 60vh;
+    height: 72vh;
     width: 40vw;
     border-radius: 20px;
 }
@@ -75,6 +75,14 @@
     height: 95%;
 }
 
+.modal-qr-pagamento-container .qr-copia-cola {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 9vh;
+}
+
 
 .modal-qr-pagamento-container .expiration-time {
     font-size: 20px;
@@ -87,4 +95,41 @@
 
 .modal-qr-pagamento-container .qr-copia-cola p{
     text-align: center;
+}
+
+.modal-qr-pagamento-container .qr-copia-cola .title-copie{
+    font-weight: 900;
+}
+
+.confirmar-pagamento {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+}
+
+.container-confirmar-pagamento {
+    height: 9vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.botao-confirmar-pagamento {
+    height: 5vh;
+    width: 12vw;
+    border: none;
+    background-color: #08632D;
+    border-radius: 10px;
+    color: #FCFCFC;
+    font-weight: 500;
+}
+
+.botao-confirmar-pagamento:hover {
+    cursor: pointer;
+    background-color: #538a46;
+}
+
+.botao-confirmar-pagamento:active {
+    background-color: #84a17d;
 }

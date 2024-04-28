@@ -4,6 +4,8 @@ import "../../assets/css/pages/pagamento.css"
 import "../../assets/css/pages/pagamento-modal.css"
 import { set } from 'date-fns';
 import api from '../../api';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function Teste() {
     const idUser = sessionStorage.getItem('id');
@@ -60,6 +62,9 @@ function Teste() {
         cpf: "51761473867"
     };
 
+    const [idPix, setIdPix] = useState();
+    const [pagamentoConfirmado, setPagamentoConfirmado] = useState(true);
+
     function criarPagamento() {
         api.post(`/pagamentos/pix/${idUser}`, pagamento)
             .then((respostaObtida) => {
@@ -69,6 +74,34 @@ function Teste() {
                 setCountdown(180);
                 tempo();
                 setModalOpen(true);
+                setIdPix(respostaObtida.data.id)
+            })
+            .catch((erroOcorrido) => {
+                console.log(erroOcorrido);
+            });
+    }
+
+    function confirmarPagamento() {
+        axios.get(`https://api.mercadopago.com/v1/payments/${idPix}`, {
+            headers: {
+                'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_MP}`
+            }
+        })
+            .then((respostaObtida) => {
+                console.log("Dados da confirmação de pagamento:", respostaObtida.data);
+                console.log(respostaObtida.data.status)
+                if (respostaObtida.data.status == "pending") {
+                    setPagamentoConfirmado(false);
+                } else {
+                    setModalOpen(false);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Pagamento confirmado',
+                        text: 'Seu pagamento PIX foi confirmado com sucesso pela SafeMoney!!.',
+                    }).then(() => {
+                        listar()
+                    })
+                }
             })
             .catch((erroOcorrido) => {
                 console.log(erroOcorrido);
@@ -171,10 +204,17 @@ function Teste() {
                                     <img src={`data:image/jpeg;base64,${qr_code_base64}`} alt="QR Code" />
                                 </div>
                                 <div className='qr-copia-cola'>
+                                    <p className='title-copie'>Ou copie e cole o código a seguir:</p>
                                     <p>{qr_code_copia_cola}</p>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div className='confirmar-pagamento'>
+                            <div className='container-confirmar-pagamento'>
+                                <button className='botao-confirmar-pagamento' onClick={confirmarPagamento}>Confirmar pagamento</button>
                                 <div>
-                                    <button>Confirmar pagamento</button>
+                                    {!pagamentoConfirmado && <p>Pagamento não confirmado!</p>}
                                 </div>
                             </div>
                         </div>
