@@ -12,6 +12,12 @@ function Teste() {
     const nomeUser = sessionStorage.getItem('nome');
     const emailUser = sessionStorage.getItem('email');
     //const cpfUser = sessionStorage.getItem('cpf');
+    const planoUser = sessionStorage.getItem('plano');
+
+    var planoState = planoUser == 1 ? true : false;
+
+    const [plano, setPlano] = useState(planoState);
+
 
     const [countdown, setCountdown] = useState(0); // 3 minutos em segundos
 
@@ -81,6 +87,18 @@ function Teste() {
             });
     }
 
+    function alterarPlano() {
+        api.post(`/pagamentos/alterar-plano/${idUser}`)
+            .then((respostaObtida) => {
+                console.log("Plano alterado com sucesso!", respostaObtida)
+                sessionStorage.setItem('plano', 1);
+                setPlano(true)
+            })
+            .catch((erroOcorrido) => {
+                console.log("Erro ao alterar plano:", erroOcorrido)
+            })
+    }
+
     function confirmarPagamento() {
         axios.get(`https://api.mercadopago.com/v1/payments/${idPix}`, {
             headers: {
@@ -99,7 +117,7 @@ function Teste() {
                         title: 'Pagamento confirmado',
                         text: 'Seu pagamento PIX foi confirmado com sucesso pela SafeMoney!!.',
                     }).then(() => {
-                        listar()
+                        alterarPlano();
                     })
                 }
             })
@@ -140,7 +158,7 @@ function Teste() {
                                         </div>
 
                                         <div className='button-free-div'>
-                                            <button className='button-free'>Atual</button>
+
                                         </div>
 
 
@@ -169,7 +187,13 @@ function Teste() {
                                         </div>
 
                                         <div className='button-premium-div'>
-                                            <button onClick={handleOpenModal} className='button-premium'>Adquirir</button>
+                                            {plano == false ? (
+                                                <button onClick={criarPagamento} className='button-premium'>
+                                                    Adquirir
+                                                </button>
+                                            ) : (
+                                                <button className='button-atual'>Atual</button>
+                                            )}
                                         </div>
 
                                     </div>

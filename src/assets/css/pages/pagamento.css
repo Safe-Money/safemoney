@@ -198,3 +198,13 @@
 .container-card-free .button-premium-div .button-premium:active {
     background-color: #84a17d;
 }
+
+.button-premium-div .button-atual {
+    height: 5vh;
+    width: 7vw;
+    border: none;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 20px;
+}
