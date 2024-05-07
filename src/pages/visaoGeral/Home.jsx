@@ -16,10 +16,12 @@ import DespesaContainer from "./Componentes/DespesaContainer";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer, CartesianGrid } from "recharts";
+import Swal from "sweetalert2";
 
 
 function Home() {
     const idUser = sessionStorage.getItem('id');
+    const planoUser = sessionStorage.getItem('plano');
 
     useEffect(() => {
         listarContas();
@@ -42,8 +44,18 @@ function Home() {
         tipoConta: '',
         saldo: ''
     })
+
     const openModal = () => {
-        setIsModalOpen(true);
+        if (planoUser == 0 && contas.length == 2) {
+            Swal.fire({
+                icon: "error",
+                title: "Upgrade para Premium",
+                text: "Apenas usuários premium podem adicionar mais de 2 contas",
+              })
+        } else {
+            setIsModalOpen(true);
+        }
+       
     };
 
 
