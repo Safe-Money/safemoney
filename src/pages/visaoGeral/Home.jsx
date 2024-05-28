@@ -13,8 +13,6 @@ import ModalDespesa from "./Componentes/ModalDespesa";
 import ModalReceita from "./Componentes/ModalReceita";
 import ModalTransferencia from "./Componentes/ModalTransferencia";
 import DespesaContainer from "./Componentes/DespesaContainer";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer, CartesianGrid } from "recharts";
 import Swal from "sweetalert2";
 
