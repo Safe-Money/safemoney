@@ -46,6 +46,8 @@ import alimentacao from '../../../assets/restaurante.png';
 import vestuario from '../../../assets/vestuario.png';
 import transporte from '../../../assets/transporte.png';
 import economia from '../../../assets/poupanca.png';
+import premium from '../../../assets/premium.svg';
+import premiumAtiva from '../../../assets/premiumAtiva.svg';
 
 
 const icons = {
@@ -95,7 +97,9 @@ const icons = {
     alimentacao, 
     vestuario,
     transporte,
-    economia
+    economia,
+    premium,
+    premiumAtiva
 }
 
 export const Icon = (icon) => {

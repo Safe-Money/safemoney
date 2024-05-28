@@ -209,7 +209,7 @@ function LateralHeader(props) {
                         className={selecionado === "geral" ? "selecionado" : "selecoes-texto"}
                         onClick={() => {
                             handleClick("geral")
-                            navigate("/visao-geral")
+                            navigate("/home")
                         }}
                     >
                         <div className="selecoes-icone">
@@ -288,6 +288,20 @@ function LateralHeader(props) {
                             {selecionado === "config" ? <img src={Icon("configAtiva")} /> : <img src={Icon("configuracoesIcon")} />}
                         </div>
                         <div className="selecoes-texto">Configurações</div>
+                    </Selecao>
+
+
+                    <Selecao
+                        className={selecionado === "pagamento" ? "selecionado" : "selecoes-texto"}
+                        onClick={() => {
+                            handleClick("pagamento");
+                            navigate("/pagamento")
+                        }}
+                    >
+                        <div className="selecoes-icone">
+                            {selecionado === "pagamento" ? <img src={Icon("premiumAtiva")} /> : <img src={Icon("premium")} />}
+                        </div>
+                        <div className="selecoes-texto">Premium</div>
                     </Selecao>
 
                 </NavbarLateral>

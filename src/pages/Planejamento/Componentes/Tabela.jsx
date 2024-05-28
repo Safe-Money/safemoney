@@ -293,57 +293,56 @@ function Tabela() {
   const contasRenderizadas =
     listaDados.length > 0
       ? listaDados.map((conta, index) => (
-          <Container
-            key={index}
-            id={`someContainerId${index}`}
-            categoria={removerAcentos(conta.nomeCategoria)}
-            valor={"R$ " + conta.valorPlanejado.toFixed(2)}
-            totalGasto={"R$ " + conta.totalGasto.toFixed(2)}
-            progresso={retornarProgresso(conta)}
-            excluirConta={() => excluirConta(conta.idPlanejamento)}
-            sweetEditar={() => openModal("editar", conta)}
-          />
-        ))
+        <Container
+          key={index}
+          id={`someContainerId${index}`}
+          categoria={removerAcentos(conta.nomeCategoria)}
+          valor={"R$ " + conta.valorPlanejado.toFixed(2)}
+          totalGasto={"R$ " + conta.totalGasto.toFixed(2)}
+          progresso={retornarProgresso(conta)}
+          excluirConta={() => excluirConta(conta.idPlanejamento)}
+          sweetEditar={() => openModal("editar", conta)}
+        />
+      ))
       : null;
 
   useEffect(() => {
-    const procurar = async () => {
-      setMessage("Carregando...");
-      await api
-        .get(`/planejamento/busca-gastos-categoria/${id}`)
-        .then((response) => {
-          setListaDados(response.data);
-          console.log(response.data);
-          setMessage(null);
 
-          if (listaDados.length === 0) {
-            setMessage("Não há planejamentos cadastrados!");
-          }
-        })
-        .catch((error) => {
-          console.log("Erro ao buscar planejamentos");
-          setMessage("Não foi possível trazer os planejamentos!");
-          console.log(error);
-        });
-    };
 
-    procurar();
+    listarPlanejamento();
   }, []);
+
+
+  function listarPlanejamento() {
+    api.get(`/planejamento/busca-gastos-categoria/${id}`)
+      .then((respostaObtida) => {
+        setListaDados(respostaObtida.data);
+        console.log(respostaObtida.data);
+        setMessage(null);
+
+        if (listaDados.length === 0) {
+          setMessage("Não há planejamentos cadastrados!");
+        }
+      })
+      .catch((erroOcorrido) => {
+        console.log(erroOcorrido);
+      });
+  }
 
   var total = 0;
 
-      for (let i = 0; i < listaDados.length; i++) {
-        total += listaDados[i].totalGasto;
-        console.log(total);
-      }
+  for (let i = 0; i < listaDados.length; i++) {
+    total += listaDados[i].totalGasto;
+    console.log(total);
+  }
 
-      if (isNaN(total)) {
-        total = 0;
-      }
+  if (isNaN(total)) {
+    total = 0;
+  }
 
-      console.log(total);
+  console.log(total);
 
-      sessionStorage.setItem("totalGasto", total.toFixed(2));
+  sessionStorage.setItem("totalGasto", total.toFixed(2));
 
   return (
     <>
@@ -385,7 +384,7 @@ function Tabela() {
               </div>
             </div>
           </MesPlano>
-          {selectedModal === "criar" && <ModalCriar onClose={closeModal} />}
+          {selectedModal === "criar" && <ModalCriar onClose={closeModal} listar={listarPlanejamento} />}
           {selectedModal === "editar" && (
             <ModalEditar onClose={closeModal} planejamento={selectedItem} />
           )}

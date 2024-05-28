@@ -2,12 +2,12 @@ import styled from "styled-components";
 import Conta from "./Componentes/Conta"
 import UltimosGastos from "./Componentes/UltimosGastos"
 import Balanco from "./Componentes/Balanco"
-import ContasAPagar from "./Componentes/ContasAPagar"
 import SaldoProjetado from "./Componentes/SaldoProjetado"
 import LateralHeader from "../visaoGeral/Componentes/LateralHeader";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../api";
+import ContasAPagar from "./Componentes/ContasAPagar";
 
 const AllContainers = styled.div`
   display: flex;

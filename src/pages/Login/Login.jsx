@@ -24,6 +24,7 @@ function Login() {
       sessionStorage.setItem('nome', response.data.nome);
       sessionStorage.setItem('email', response.data.email);
       sessionStorage.setItem('id', response.data.id);
+      sessionStorage.setItem('plano', response.data.plano);
   
       // Swal.fire({
       //   icon: 'success',
@@ -31,7 +32,7 @@ function Login() {
       //   text: 'Você foi autenticado com sucesso.',
       // });
   
-      navigate(`/visao-geral/`);
+      navigate(`/home/`);
     } catch (error) {
       const errorMessage = 'Verifique suas credenciais e tente novamente.';
   
