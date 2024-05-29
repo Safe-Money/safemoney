@@ -2,6 +2,7 @@ import Modal from "../../../components/Modal2";
 import styled from "styled-components";
 import React, { useState, useEffect } from 'react';
 import api from "../../../api";
+import Swal from 'sweetalert2';
 
 const LocalConteudo = styled.div`
 display:flex;
@@ -231,11 +232,11 @@ function ModalReceita(props) {
 
           Swal.fire({
             icon: 'success',
-            title: 'Despesa fixa foi adicionada!',
-            text: 'Sua despesa foi adicionada com sucesso!!.',
+            title: 'Receita fixa foi adicionada!',
+            text: 'Sua receita fixa foi adicionada com sucesso!!.',
           }).then(() => {
-            listar(); 
-            listarGrafico(); 
+            props.listar(); 
+            props.listarGrafico(); 
           });
 
 
@@ -267,17 +268,20 @@ function ModalReceita(props) {
           id: 4
         }
       }
+
       console.log(corpo);
       api.post(`transacoes/receita`, corpo)
         .then((respostaObtida) => {
+          console.log("Receita adicionada", respostaObtida.data)
           props.onClose();
 
           Swal.fire({
             icon: 'success',
-            title: 'Despesa adicionada!',
-            text: 'Sua despesa foi adicionada com sucesso!!.',
+            title: 'Receita adicionada!',
+            text: 'Sua receita foi adicionada com sucesso!!.',
           }).then(() => {
-            listar();
+            props.listar();
+            props.listarGrafico();
           });
 
 

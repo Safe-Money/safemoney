@@ -247,6 +247,7 @@ function ModalDespesa(props) {
           id: 2
         }
       }
+
       console.log(corpo);
       api.post(`lancamento-fixo/cadastrar`, corpo)
         .then((respostaObtida) => {
@@ -257,8 +258,8 @@ function ModalDespesa(props) {
             title: 'Despesa fixa foi adicionada!',
             text: 'Sua despesa foi adicionada com sucesso!!.',
           }).then(() => {
-            listar(); 
-            listarGrafico();
+            props.listar(); 
+            props.listarGrafico();
           });
 
 
@@ -303,7 +304,8 @@ function ModalDespesa(props) {
             title: 'Despesa no crédito foi adicionada!',
             text: 'Sua despesa no crédito foi adicionada com sucesso!!.',
           }).then(() => {
-            window.location.reload(); 
+            props.listar(); 
+            props.listarGrafico(); 
           });
 
 
