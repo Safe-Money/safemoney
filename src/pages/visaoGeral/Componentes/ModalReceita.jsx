@@ -234,7 +234,8 @@ function ModalReceita(props) {
             title: 'Despesa fixa foi adicionada!',
             text: 'Sua despesa foi adicionada com sucesso!!.',
           }).then(() => {
-            window.location.reload(); 
+            listar(); 
+            listarGrafico(); 
           });
 
 
@@ -276,7 +277,7 @@ function ModalReceita(props) {
             title: 'Despesa adicionada!',
             text: 'Sua despesa foi adicionada com sucesso!!.',
           }).then(() => {
-            window.location.reload(); 
+            listar();
           });
 
 

@@ -1,5 +1,5 @@
 import Rotas from "./router/routes";
-import "./index.css";
+import "./assets/css/reset.css";
 
 function App() {
 

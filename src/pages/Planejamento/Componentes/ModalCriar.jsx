@@ -143,7 +143,7 @@ function ModalCriar(props) {
         title: 'Sucesso!',
         text: 'Planejamento criado com sucesso!',
       }).then(() => {
-        window.location.reload();
+        props.listar()
       })
     }).catch((error) => {
       props.onClose()

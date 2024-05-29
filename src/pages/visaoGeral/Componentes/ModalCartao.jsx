@@ -181,7 +181,7 @@ const Obrig = styled.span`
   margin-top: 5px;
 `;
 
-const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
+const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange, listar }) => {
   const idUser = sessionStorage.getItem("id");
 
   const [contas, setContas] = useState([]);
@@ -323,7 +323,7 @@ const ModalCartao = ({ isOpen, onClose, onSave, formData, onChange }) => {
           setFechamento("");
           setApelido("");
           resetarCampos();
-          window.location.reload();
+          listar();
         });
 
       })

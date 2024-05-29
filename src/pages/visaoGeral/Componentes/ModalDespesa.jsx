@@ -257,7 +257,8 @@ function ModalDespesa(props) {
             title: 'Despesa fixa foi adicionada!',
             text: 'Sua despesa foi adicionada com sucesso!!.',
           }).then(() => {
-            window.location.reload(); 
+            listar(); 
+            listarGrafico();
           });
 
 

@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { Icon } from "../../visaoGeral/funcoes/icons";
-import ContainerCartaoBanco from "./ContainerCartaoBanco";
-import Cartoes from "../../visaoGeral/Componentes/CartaoCredito"
 import CartaoContainer from "../../visaoGeral/Componentes/CartaoContainer";
 import api  from "../../../api";
 import React, { useEffect, useState } from 'react';
