@@ -130,7 +130,7 @@ function Conta(props) {
         }).then((result) => {
             if (result.isConfirmed) {
                 api.delete(`/contas/${contaAtual.id}`).then(() => {
-                    navigate("/visao-geral")
+                    navigate("/home/")
 
                     Swal.fire({
                         title: "Deletado!",

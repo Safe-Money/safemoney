@@ -10,6 +10,7 @@ import Card from "../pages/Cartoes/Funcoes/CardGeral.jsx";
 import Contas from "../pages/Contas/Contas.jsx";
 import Cartoes from "../pages/Cartoes/Funcoes/CardGeral.jsx";
 import Pagamento from "../pages/Pagamento/Pagamento.jsx";
+import Lgpd from "../pages/Login/Lgpd.jsx";
 
 import NotFound from "../pages/NotFound/NotFound";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -32,6 +33,7 @@ function Rotas() {
           <Route path="*" element={<NotFound/>} />
           <Route path="/cartoes" element={<Cartoes/>} />
           <Route path="/pagamento" element={<Pagamento/>} />
+          <Route path="/lgpd" element={<Lgpd/>} />
         </Routes>
       </Router>
     </>

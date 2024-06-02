@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../api';
 import Swal from 'sweetalert2';
 import Input from './components/Input';
 import { Button } from '../../components/Button';
 import { Icon } from '../visaoGeral/funcoes/icons';
+import '../../assets/css/pages/cadastro.css'
 
 const Image = styled.div`
   display: flex;
@@ -82,6 +83,7 @@ const Cadastro = () => {
         <Input type="text" name="email" id="email" label="E-mail" value={email} change={(e) => setEmail(e.target.value)} />
         <Input type="date" name="dataNascimento" id="dataNascimento" label="" value={dtNascimento} change={(e) => setDataNascimento(e.target.value)} />
         <Input type="password" name="senha" id="senha" label="Senha" value={senha} change={(e) => setSenha(e.target.value)} />
+
         <Button type="submit" bg="#08632D" color="white" width="100%">
           Cadastre-se
         </Button>
@@ -90,7 +92,13 @@ const Cadastro = () => {
           <p>Já tem uma conta?</p>
           <a onClick={() => navigate("/login")}>Clique aqui</a>
         </div>
+
+        <div className="terms">
+          <p>Ao se cadastrar, você aceita nossos <a href="/lgpd" target="_blank" rel="noopener noreferrer">Termos de Uso e Política de Privacidade</a>.</p>
+        </div>
+
       </form>
+      
     </div>
   );
 };
