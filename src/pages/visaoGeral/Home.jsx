@@ -505,7 +505,7 @@ function Home() {
                                 <path d="M6 10H14" stroke="#08632D" strokeLinecap="round" />
                                 <path d="M6 13H14" stroke="#08632D" strokeLinecap="round" />
                             </svg>
-                            Resumo - Saldo Projetado
+                            Despesas/Receitas fixas
                         </div>
                         <div className="conteudo">
                             <div className="grafico-container">
