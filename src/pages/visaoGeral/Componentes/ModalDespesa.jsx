@@ -200,11 +200,15 @@ function ModalDespesa(props) {
 
     if (isCartao) {
       const cartaoId = selectedValue.replace('cartao-', '');
-      console.log('Selecionou um cartão com ID:', setIdCartao(cartaoId));
+      console.log('Selecionou um cartão com ID:' + cartaoId);
+      setIdConta(null)
+      setIdCartao(cartaoId)
       // Lógica para cartão selecionado (por exemplo, chamar um endpoint para cartões)
     } else {
       const contaId = selectedValue.replace('conta-', '');
-      console.log('Selecionou uma conta com ID:', setIdConta(contaId));
+      console.log('Selecionou uma conta com ID:' + contaId);
+      setIdCartao(null)
+      setIdConta(contaId);
       // Lógica para conta selecionada (por exemplo, chamar um endpoint para contas)
     }
   };
